@@ -9,7 +9,7 @@ To run, first install docker and Visual Studio Code. Add the docker plugin to vi
 7. npm install
 8. copy the ormconfig.json.example to ormconfig.json and modify the file to match your setup, primarily make sure username and password are correct for the database connection. 
 9. npm run serve
-10. In another terminal navigate to the webapp2 directory
+10. In another terminal navigate to the boobo directory
 11. npm install
 12. npm run dev
 13. Navigate to url displayed in the terminal to see if the application is running. 

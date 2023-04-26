@@ -3,8 +3,10 @@
   import { reactive } from 'vue';
   import HelloWorld from './components/HelloWorld.vue'
   import { useUserStore } from '@/stores/user';
-  
+  import { storeToRefs } from 'pinia';
+
   const store = useUserStore();
+  const { hasError } = storeToRefs(store);
   
   const state = reactive({
     dialog: false,
@@ -14,10 +16,13 @@
   
   function login() {
     const { email, password } = state;
-    store.login({email, password}).then(() => {
-      state.dialog = false;
+    store.login({email, password}).then((error) => {
+      if (!error) {
+        state.dialog = false;
+      }
     });
   }
+
 </script>
 
 <template>
@@ -36,6 +41,13 @@
             activator="parent"
             width="400">
             <v-card>
+              <v-alert
+                  density="compact"
+                  type="warning"
+                  icon="$warning"
+                  title="There was an issue logging in."
+                  v-if="store.hasError"
+                >{{ store.error }}</v-alert>
               <v-card-text>
                 <v-form>
                   <v-text-field
