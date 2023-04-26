@@ -1,11 +1,11 @@
 // we import passport packages required for authentication
 import PassportLocal from 'passport-local';
 import passport from 'passport';
+import { DataSource } from 'typeorm';
 
-import { getRepository } from 'typeorm';
 import User from '../entities/user';
 
-const init = () => {
+const init = (DataSource) => {
   // Telling passport we want to use a Local Strategy. In other words,
   // we want login with a username/email and password
   passport.use(new PassportLocal.Strategy(
@@ -14,7 +14,7 @@ const init = () => {
       usernameField: 'email',
     },
     (email, password, done) => {
-      const repo = getRepository(User);
+      const repo = DataSource.getRepository(User);
       return repo.findOneOrFail({ where: { email } }).then(
         (dbUser) => {
           if (dbUser.password !== password) {

@@ -1,11 +1,13 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cookieSession from 'cookie-session';
-import { createConnection } from 'typeorm';
+import { DataSource } from 'typeorm';
 import passport from 'passport';
 import config from './config/passport';
 
 import login from './routes/login';
+
+const dbConfig = require('./ormconfig.json');
 
 // Setting up port
 const PORT = process.env.PORT || 3000;
@@ -20,7 +22,10 @@ app.use(cookieSession({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-config();
+
+const AppDataSource = new DataSource(dbConfig);
+
+config(AppDataSource);
 
 // wire up all the routes
 app.use(login(passport));
@@ -30,6 +35,6 @@ app.get('/', (_req, res) => {
   res.send('hello world');
 });
 
-createConnection().then(() => {
+AppDataSource.initialize().then(() => {
   app.listen(PORT, () => console.log('Example app listening on port 3000!'));
 });

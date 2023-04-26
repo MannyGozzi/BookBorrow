@@ -8,7 +8,7 @@ export default (passport) => {
         return next(err);
       }
       if (!user) {
-        return res.status('400').send({ user, msg: 'Cannot log in', info });
+        return res.status(400).send({ user, msg: 'Cannot log in', info });
       }
       return req.login(user, () => res.send({ success: true }));
     })(req, res, next);
