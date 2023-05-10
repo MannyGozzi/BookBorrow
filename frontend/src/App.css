@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+
+:root {
+  box-sizing: content-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.theme-header {
+  font-family: "Pacifico", cursive;
+  font-size: 2rem;
+  font-weight: bolder;
+}
+
+.page-content-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.page-content {
+  min-width: 75%;
+}
