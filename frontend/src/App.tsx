@@ -1,21 +1,17 @@
 import React from 'react';
 import Nav from './components/Nav';
+import Login from './components/Login';
 
 import './App.css';
 
 function App() {
+
   return (
     <>
-      <section className='page-content-wrapper'>
-        <Nav />
-      </section>
-      <section className='page-content-wrapper'>
-        <div className='page-content'>
-          <h1>Welcome to Boobo</h1>
-        </div>
-      </section>
+      <Nav />
+      <Login />
     </>
   );
 }
 
-export default App;
+export default App
