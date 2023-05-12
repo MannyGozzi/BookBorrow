@@ -1,6 +1,7 @@
 import React from 'react'
 import logo from '../assets/BooBo_logo.png'
 import icon_user_account from '../assets/icon_user_account.png'
+
 const Nav = () => {
   return (
     <nav className='flex justify-between h-20 w-3/4 content-center items-center mb-4'>
