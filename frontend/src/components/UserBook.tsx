@@ -6,27 +6,25 @@ import {
   Stack,
   Avatar,
   useColorModeValue,
-  Image
+  Image,
+  HStack,
+  Button,
+  ButtonGroup
 } from '@chakra-ui/react';
 
-export type UserBookType = {
-  title: string,
-  author: string, 
-  isbn: string,
-  description: string,
-  image: string
-}
+import {StarIcon} from '@chakra-ui/icons';
+import { UserBookType } from '../types';
 
-function UserBook({title, author, isbn, description, image}: UserBookType) {
+function UserBook({title, author, isbn, description, image, rating}: UserBookType) {
   return (
-    <Center py={6}>
+    <Center >
       <Box
         maxW={'445px'}
         h={'full'}
         w={'full'}
         bg={useColorModeValue('white', 'gray.900')}
-        boxShadow={'2xl'}
-        rounded={'md'}
+        boxShadow={'xl'}
+        rounded={'xl'}
         p={6}
         overflow={'hidden'}>
         <Box
@@ -36,33 +34,58 @@ function UserBook({title, author, isbn, description, image}: UserBookType) {
           mx={-6}
           mb={6}
           pos={'relative'}>
+          <Center position={'relative'}>
+            <Button
+              className='absolute top-0 right-0'
+              variant={'solid'}
+              position={'absolute'}
+              colorScheme={'teal'}
+              size={'lg'}
+              m={4}>
+              View
+            </Button>
+          </Center>
           <Image
             src={image}
             boxSize={'full'}
             objectFit='cover'
-            alt='Book Image'
-          />
+            alt='Book Image'/>
         </Box>
         <Stack>
-          <Text
-            color={'green.500'}
-            textTransform={'uppercase'}
-            fontWeight={800}
-            fontSize={'sm'}
-            letterSpacing={1.1}>
-            {author} | {isbn}
-          </Text>
           <Heading
             color={useColorModeValue('gray.700', 'white')}
             fontSize={'2xl'}
-            fontFamily={'body'}>
+            fontFamily={'body'}
+            m={0}>
             {title}
           </Heading>
-          <Text color={'gray.500'}>
+          <HStack className='content-center'>
+            <Text
+              color={'red.300'}
+              textTransform={'uppercase'}
+              fontWeight={800}
+              fontSize={'sm'}
+              letterSpacing={1.1}>
+              {author}
+            </Text>
+            <Text
+              textTransform={'uppercase'}
+              fontWeight={400}
+              fontSize={'xs'}
+              letterSpacing={1.1}>
+              | {isbn}
+            </Text>
+          </HStack>
+          <HStack>
+            {[...Array(Math.floor(rating))].map(star => <StarIcon color={'red.300'}/>)}
+            {[...Array(5-Math.floor(rating))].map(star => <StarIcon color={'gray.300'}/>)}
+          </HStack>
+          <Text 
+          color={'gray.500'}
+          fontFamily={'body'}>
             {description}
           </Text>
         </Stack>
-        
       </Box>
     </Center>
   );
