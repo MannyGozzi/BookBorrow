@@ -4,6 +4,8 @@
 :root {
   box-sizing: content-box;
   font-family: 'Poppins', sans-serif;
+  --btn-primary: #ffb8b8;
+  --btn-secondary: #ff9999;
 }
 
 .App-link {
@@ -12,7 +14,6 @@
 
 .theme-header {
   font-family: "Pacifico", cursive;
-  font-size: 2rem;
   font-weight: bolder;
 }
 
@@ -23,4 +24,16 @@
 
 .page-content {
   min-width: 75%;
+}
+
+.btn {
+  border-radius: 0.5rem;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: var(--btn-primary);
+  border: 0.2rem solid var(--btn-secondary);
+  margin: 0.5rem;
 }
