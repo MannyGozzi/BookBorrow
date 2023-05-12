@@ -3,6 +3,7 @@ import Nav from './components/Nav';
 import Login from './components/Login';
 
 import './App.css';
+import Profile from './pages/Profile';
 
 function App() {
 
@@ -10,6 +11,7 @@ function App() {
     <>
       <Nav />
       <Login />
+      <Profile />
     </>
   );
 }
