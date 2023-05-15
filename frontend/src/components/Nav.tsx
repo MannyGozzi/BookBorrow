@@ -92,7 +92,8 @@ import BooBo_logo from '../assets/BooBo_logo.png';
                                 <Button
                                     variant={'solid'}
                                     colorScheme={'messenger'}
-                                    size={'sm'}
+                                    size={'md'}
+                                    rounded={'xl'}
                                     mr={4}>
                                     Sign Up
                                 </Button>
@@ -101,7 +102,8 @@ import BooBo_logo from '../assets/BooBo_logo.png';
                                 <Button
                                     variant={'solid'}
                                     colorScheme={'purple'}
-                                    size={'sm'}
+                                    size={'md'}
+                                    rounded={'xl'}
                                     mr={4}
                                     onClick={login}>
                                     Login
@@ -121,13 +123,12 @@ import BooBo_logo from '../assets/BooBo_logo.png';
                             size={'sm'}
                         />
                         </MenuButton>
-                        
-                        <MenuList>
+                        <MenuList rounded={'2xl'}>
                             <Link href='/profile'>
-                                <MenuItem>My Profile</MenuItem>
+                                <MenuItem padding={4}>My Profile</MenuItem>
                             </Link>
-                        <MenuItem>Messages</MenuItem>
-                        <MenuItem>Settings</MenuItem>
+                        <MenuItem padding={4}>Messages</MenuItem>
+                        <MenuItem padding={4}>Settings</MenuItem>
                         </MenuList>
                     </Menu>
                 </Flex>
