@@ -14,7 +14,7 @@ import {
     Image, 
     Center
   } from '@chakra-ui/react'
-  import { OAuthButtonGroup } from './OAuthButtonGroup'
+  // import { OAuthButtonGroup } from './OAuthButtonGroup'
   import { PasswordField } from './PasswordField'
   import BooBo_logo from '../assets/BooBo_logo.png'
   
@@ -25,7 +25,7 @@ import {
         <Stack spacing="6">
           <Center></Center>
           <Stack spacing={{ base: '2', md: '3' }} textAlign="center">
-            <Heading size={{ base: 'lg', md: 'lg' }}><span className='theme-header'>Login :D</span></Heading>
+            <Heading size={{ base: 'lg', md: 'lg' }}><span className='theme-header'>Login</span></Heading>
             <HStack spacing="1" justify="center">
               <Text color="muted" >Don't have an account?</Text>
               <Button variant="link" colorScheme="blue" className='theme-header'>
@@ -59,12 +59,12 @@ import {
               <Button variant="primary">Sign in</Button>
               <HStack>
                 <Divider />
-                <Text fontSize="sm" whiteSpace="nowrap" color="muted">
+                {/* <Text fontSize="sm" whiteSpace="nowrap" color="muted">
                   or continue with
-                </Text>
+                </Text> */}
                 <Divider />
               </HStack>
-              <OAuthButtonGroup />
+              {/* <OAuthButtonGroup /> */}
             </Stack>
           </Stack>
         </Box>

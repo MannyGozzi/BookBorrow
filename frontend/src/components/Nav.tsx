@@ -41,7 +41,6 @@ import BooBo_logo from '../assets/BooBo_logo.png';
 //   );
   
   export default function Nav() {
-    //const { isOpen, onOpen, onClose } = useDisclosure();
     const { colorMode, toggleColorMode } = useColorMode();
     const [loggedIn, setLoggedIn] = useState(false);
 
@@ -50,28 +49,11 @@ import BooBo_logo from '../assets/BooBo_logo.png';
         <Center>
             <Box w='70%' px={4}>
             <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-                {/*<IconButton
-                size={'md'}
-                icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-                aria-label={'Open Menu'}
-                display={{ md: 'none' }}
-                onClick={isOpen ? onClose : onOpen}
-                />
-                    */}
                 <HStack spacing={8} alignItems={'center'}>
                 <HStack>
                     <Image className='h-16' src={BooBo_logo} alt="BooBo Logo"></Image>
                     <Text fontSize={'2xl'} className='theme-header'>BooBo</Text>
                 </HStack>
-                {/*<HStack
-                    as={'nav'}
-                    spacing={4}
-                    display={{ base: 'none', md: 'flex' }}>
-                    {Links.map((link) => (
-                    <NavLink key={link}>{link}</NavLink>
-                    ))}
-                </HStack>
-                    */}
                 </HStack>
                 <Flex alignItems={'center'}>
                         <Button onClick={toggleColorMode} mr={4}>
@@ -79,7 +61,6 @@ import BooBo_logo from '../assets/BooBo_logo.png';
                         </Button>
                         {!loggedIn &&
                         <>
-                            <Button mr={4}>{<ChatIcon/>}</Button>
                             <Button
                                 variant={'solid'}
                                 colorScheme={'messenger'}
@@ -112,23 +93,11 @@ import BooBo_logo from '../assets/BooBo_logo.png';
                         
                         <MenuList>
                         <MenuItem>My Profile</MenuItem>
-                        <MenuItem>Messages</MenuItem>
                         <MenuItem>Settings</MenuItem>
                         </MenuList>
                     </Menu>
                 </Flex>
             </Flex>
-                    {/*
-            {isOpen ? (
-                <Box pb={4} display={{ md: 'none' }}>
-                <Stack as={'nav'} spacing={4}>
-                    {Links.map((link) => (
-                    <NavLink key={link}>{link}</NavLink>
-                    ))}
-                </Stack>
-                </Box>
-            ) : null}
-                    */}
             </Box>
         </ Center>
       </>
