@@ -3,13 +3,12 @@ import {
   Center,
   Heading,
   Text,
-  Stack,
   Avatar,
   useColorModeValue,
   Image,
   HStack,
   Button,
-  ButtonGroup
+  Flex, Link
 } from '@chakra-ui/react';
 
 import {StarIcon} from '@chakra-ui/icons';
@@ -28,57 +27,33 @@ function BookView({title, author, isbn, description, image, rating, distance}: B
         p={6}
         overflow={'hidden'}>
         <Box
-          h={'210px'}
+          h={'200px'}
           bg={'gray.100'}
           mt={-6}
           mx={-6}
           mb={6}
           pos={'relative'}>
-          <Center position={'relative'}>
-              <Button
-                rounded={'full'}
-                variant={'solid'}
-                position={'absolute'}
-                right={'5px'}
-                top={'5px'}
-                colorScheme={'teal'}
-                size={'lg'}
-                m={4}>
-                View
-              </Button>
-              <Button
-                rounded={'full'}
-                variant={'solid'}
-                position={'absolute'}
-                right={'5px'}
-                top={'65px'}
-                colorScheme={'teal'}
-                size={'lg'}
-                m={4}>
-                Lender
-              </Button>
-          </Center>
           <Image
             src={image}
             boxSize={'full'}
             objectFit='cover'
             alt='Book Image'/>
         </Box>
-        <Stack>
+        <Flex flexDir={'column'}  >
           <Heading
             color={useColorModeValue('gray.700', 'white')}
             fontSize={'2xl'}
             fontFamily={'body'}
-            m={0}>
+            mt={0}
+            mb={2}>
             {title}
           </Heading>
-          <HStack className='content-center'>
+          <HStack className='content-center' mb={2}>
             <Text
               color={'red.300'}
               textTransform={'uppercase'}
               fontWeight={800}
-              fontSize={'sm'}
-              letterSpacing={1.1}>
+              fontSize={'sm'}>
               {author}
             </Text>
             <Text
@@ -89,16 +64,35 @@ function BookView({title, author, isbn, description, image, rating, distance}: B
               | {isbn}
             </Text>
           </HStack>
-          <HStack>
-            {[...Array(Math.floor(rating))].map((star, index) => <StarIcon key={index} color={'red.300'}/>)}
-            {[...Array(5-Math.floor(rating))].map((star, index) => <StarIcon key={index + 5} color={'gray.300'}/>)}
+          <HStack justifyContent={'space-between'} mb={2}>
+            <HStack>
+              {[...Array(Math.floor(rating))].map((star, index) => <StarIcon key={index} color={'red.300'}/>)}
+              {[...Array(5-Math.floor(rating))].map((star, index) => <StarIcon key={index + 5} color={'gray.300'}/>)}
+            </HStack>
+            <Text fontWeight={'bold'}>{distance}mi.</Text>
           </HStack>
           <Text 
           color={'gray.500'}
-          fontFamily={'body'}>
+          fontFamily={'body'}
+          mb={4}>
             {description}
           </Text>
-        </Stack>
+          <HStack gap={3} justifyContent={'space-between'}>
+            <Link href='/'>
+              <HStack>
+              <Avatar size={'sm'} />
+              <Text fontWeight={'bold'}>@lender_name</Text>
+              </HStack>
+            </Link>
+            <Button
+              rounded={'2xl'}
+              variant={'solid'}
+              colorScheme={'gray'}
+              size={'lg'}>
+              View
+            </Button>
+          </HStack>
+        </Flex>
       </Box>
     </Center>
   );

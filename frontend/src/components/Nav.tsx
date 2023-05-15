@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 import {
   Box,
   Flex,
@@ -10,17 +10,19 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  /*
   MenuDivider,
   useDisclosure,
   IconButton,
   useColorModeValue,
   Stack,
+  */
   useColorMode,
   Center,
   Image,
   Text
 } from '@chakra-ui/react';
-import { MoonIcon, SunIcon, HamburgerIcon, CloseIcon, AddIcon, ChatIcon } from '@chakra-ui/icons';
+import { MoonIcon, SunIcon, /*HamburgerIcon, CloseIcon, AddIcon,*/ ChatIcon } from '@chakra-ui/icons';
 import BooBo_logo from '../assets/BooBo_logo.png';
 
 // MIGHT USE THIS STUFF LATER
@@ -44,6 +46,10 @@ import BooBo_logo from '../assets/BooBo_logo.png';
     //const { isOpen, onOpen, onClose } = useDisclosure();
     const { colorMode, toggleColorMode } = useColorMode();
     const [loggedIn, setLoggedIn] = useState(false);
+
+    const login = () => {
+        setLoggedIn(true);
+    }
 
     return (
       <>
@@ -96,7 +102,8 @@ import BooBo_logo from '../assets/BooBo_logo.png';
                                     variant={'solid'}
                                     colorScheme={'purple'}
                                     size={'sm'}
-                                    mr={4}>
+                                    mr={4}
+                                    onClick={login}>
                                     Login
                                 </Button>
                             </Link>
@@ -112,7 +119,6 @@ import BooBo_logo from '../assets/BooBo_logo.png';
                         minW={0}>
                         <Avatar
                             size={'sm'}
-                            src='https://bit.ly/broken-link'
                         />
                         </MenuButton>
                         
