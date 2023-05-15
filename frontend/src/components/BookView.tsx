@@ -13,9 +13,9 @@ import {
 } from '@chakra-ui/react';
 
 import {StarIcon} from '@chakra-ui/icons';
-import { UserBookType } from '../types';
+import { BookViewType } from '../types';
 
-function UserBook({title, author, isbn, description, image, rating}: UserBookType) {
+function BookView({title, author, isbn, description, image, rating, distance}: BookViewType) {
   return (
     <Center >
       <Box
@@ -35,15 +35,28 @@ function UserBook({title, author, isbn, description, image, rating}: UserBookTyp
           mb={6}
           pos={'relative'}>
           <Center position={'relative'}>
-            <Button
-              className='absolute top-0 right-0'
-              variant={'solid'}
-              position={'absolute'}
-              colorScheme={'teal'}
-              size={'lg'}
-              m={4}>
-              View
-            </Button>
+              <Button
+                rounded={'full'}
+                variant={'solid'}
+                position={'absolute'}
+                right={'5px'}
+                top={'5px'}
+                colorScheme={'teal'}
+                size={'lg'}
+                m={4}>
+                View
+              </Button>
+              <Button
+                rounded={'full'}
+                variant={'solid'}
+                position={'absolute'}
+                right={'5px'}
+                top={'65px'}
+                colorScheme={'teal'}
+                size={'lg'}
+                m={4}>
+                Lender
+              </Button>
           </Center>
           <Image
             src={image}
@@ -91,4 +104,4 @@ function UserBook({title, author, isbn, description, image, rating}: UserBookTyp
   );
 }
 
-export default UserBook;
+export default BookView;

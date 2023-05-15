@@ -8,5 +8,15 @@ export type UserBookType = {
     isbn: string,
     description: string,
     image: string,
-    rating: number
-  }
+    rating: number, 
+}
+
+export type BookViewType = {
+    title: string,
+    author: string, 
+    isbn: string,
+    description: string,
+    image: string,
+    rating: number, 
+    distance: number
+}

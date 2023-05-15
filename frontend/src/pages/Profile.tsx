@@ -1,8 +1,8 @@
 import React from 'react'
 import UserBook from '../components/UserBook'
 import { UserBookType } from '../types'
-import StyledHeader from '../components/Header'
-import { Center, Stack } from '@chakra-ui/react'
+import ThemedHeader from '../components/ThemedHeader'
+import { Stack, Box } from '@chakra-ui/react'
 
 // TODO: Replace user books with API call to get the owner's uploaded books
 const userBooks: UserBookType[] = [{
@@ -32,16 +32,16 @@ const userBooks: UserBookType[] = [{
 
 const Profile = () => {
     return (
-        <section className='flex justify-center mb-8'>
-            <Stack className='w-4/5' >
-                <StyledHeader text={'Your Books'}/>
-                <div className='grid md:grid-cols-2 lg:grid-cols-3  sm:grid-cols-1 gap-7'> 
-                    {userBooks.map((book, index) => (
-                        <UserBook key={index} title={book.title} author={book.author} isbn={book.isbn} description={book.description.slice(0, 125) + "..."} image={book.image} rating={book.rating} />
+        <Box className='w-full'>
+            <Stack >
+                <ThemedHeader text={'Your Books'} />
+                <div className='grid md:grid-cols-2 lg:grid-cols-3 sm:grid-cols-1 gap-7'>
+                    {userBooks.map((book) => (
+                        <UserBook key={book.isbn} title={book.title} author={book.author} isbn={book.isbn} description={book.description.slice(0, 125) + "..."} image={book.image} rating={book.rating} />
                     ))}
                 </div>
             </Stack>
-        </section>
+        </Box>
     )
 }
 

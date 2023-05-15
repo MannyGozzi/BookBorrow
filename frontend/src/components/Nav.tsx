@@ -48,7 +48,7 @@ import BooBo_logo from '../assets/BooBo_logo.png';
     return (
       <>
         <Center>
-            <Box w='70%' px={4}>
+            <Box w='75%' px={4}>
             <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
                 {/*<IconButton
                 size={'md'}
@@ -59,10 +59,12 @@ import BooBo_logo from '../assets/BooBo_logo.png';
                 />
                     */}
                 <HStack spacing={8} alignItems={'center'}>
-                <HStack>
-                    <Image className='h-16' src={BooBo_logo} alt="BooBo Logo"></Image>
-                    <Text fontSize={'2xl'} className='theme-header'>BooBo</Text>
-                </HStack>
+                <Link href='/'>
+                    <HStack>
+                        <Image className='h-16' src={BooBo_logo} alt="BooBo Logo"></Image>
+                        <Text fontSize={'2xl'} className='theme-header'>BooBo</Text>
+                    </HStack>
+                </Link>
                 {/*<HStack
                     as={'nav'}
                     spacing={4}
@@ -80,20 +82,24 @@ import BooBo_logo from '../assets/BooBo_logo.png';
                         {!loggedIn &&
                         <>
                             <Button mr={4}>{<ChatIcon/>}</Button>
-                            <Button
-                                variant={'solid'}
-                                colorScheme={'messenger'}
-                                size={'sm'}
-                                mr={4}>
-                                Sign Up
-                            </Button>
-                            <Button
-                                variant={'solid'}
-                                colorScheme={'purple'}
-                                size={'sm'}
-                                mr={4}>
-                                Login
-                            </Button>
+                            <Link href='/signup'>
+                                <Button
+                                    variant={'solid'}
+                                    colorScheme={'messenger'}
+                                    size={'sm'}
+                                    mr={4}>
+                                    Sign Up
+                                </Button>
+                            </Link>
+                            <Link href='/login'>
+                                <Button
+                                    variant={'solid'}
+                                    colorScheme={'purple'}
+                                    size={'sm'}
+                                    mr={4}>
+                                    Login
+                                </Button>
+                            </Link>
                         </>
                         }
                     
@@ -111,7 +117,9 @@ import BooBo_logo from '../assets/BooBo_logo.png';
                         </MenuButton>
                         
                         <MenuList>
-                        <MenuItem>My Profile</MenuItem>
+                            <Link href='/profile'>
+                                <MenuItem>My Profile</MenuItem>
+                            </Link>
                         <MenuItem>Messages</MenuItem>
                         <MenuItem>Settings</MenuItem>
                         </MenuList>
