@@ -8,7 +8,9 @@ import {
   Image,
   HStack,
   Button,
-  Flex, Link
+  Flex, 
+  Spacer,
+  Link
 } from '@chakra-ui/react';
 
 import {StarIcon} from '@chakra-ui/icons';
@@ -39,7 +41,7 @@ function BookView({title, author, isbn, description, image, rating, distance}: B
             objectFit='cover'
             alt='Book Image'/>
         </Box>
-        <Flex flexDir={'column'}  >
+        <Flex flexDir={'column'} height={'54%'} >
           <Heading
             color={useColorModeValue('gray.700', 'white')}
             fontSize={'2xl'}
@@ -77,6 +79,7 @@ function BookView({title, author, isbn, description, image, rating, distance}: B
           mb={4}>
             {description}
           </Text>
+          <Spacer />
           <HStack gap={3} justifyContent={'space-between'}>
             <Link href='/'>
               <HStack>
