@@ -1,10 +1,11 @@
 import React from 'react'
 import ThemedHeader from '../components/ThemedHeader'
+import {Signup as SignupComp} from '../components/Signup'
 
 const Signup = () => {
     return (
         <section>
-            <ThemedHeader text='Signup to start finding books...' />
+            <SignupComp />
         </section>
     )
 }
