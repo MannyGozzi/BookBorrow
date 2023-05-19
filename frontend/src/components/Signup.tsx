@@ -17,7 +17,7 @@ import {
   import { PasswordField, ConfirmPasswordField } from './PasswordField'
   import BooBo_logo from '../assets/BooBo_logo.png'
   
-  export default function SignUp() {
+  export const Signup = () => {
   return (
     <Container maxW="lg" py={{ base: '12', md: '24' }} px={{ base: '0', sm: '8' }}>
       <Stack spacing="8">
