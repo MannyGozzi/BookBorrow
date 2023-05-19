@@ -3,7 +3,7 @@ Add the docker plugin to visual studio code.
 
 DATABASE CONFIGURATION IN DOCKER
 1. Using the docker plugin, right click ont he docker-compose.yml file and perform a "Compose Up".
-2. Then in the docker tab, right click on your contianer and click attach shell. 
+2. Then in the docker tab, right click on your container and click attach shell. 
 3. Optionally download "MongoDB Compass" and connect with the string inside .env.example
 
 INSTALL DEPENDENCIES

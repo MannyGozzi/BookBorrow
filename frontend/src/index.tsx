@@ -4,16 +4,9 @@ import * as ReactDOM from 'react-dom/client'
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { inputTheme } from './chakra_styles/input.js'
 
-const colors = {
-  brand: {
-    900: '#1a365d',
-    800: '#153e75',
-    700: '#2a69ac',
-  },
-}
-
-const theme = extendTheme({ colors })
+const theme = extendTheme({ components: { Input: inputTheme },})
 
 
 const root = ReactDOM.createRoot(
