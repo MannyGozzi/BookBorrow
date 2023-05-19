@@ -41,7 +41,7 @@ function BookView({title, author, isbn, description, image, rating, distance}: B
             objectFit='cover'
             alt='Book Image'/>
         </Box>
-        <Flex flexDir={'column'} height={'54%'} >
+        <Flex flexDir={'column'} height={'54.5%'} >
           <Heading
             color={useColorModeValue('gray.700', 'white')}
             fontSize={'2xl'}
