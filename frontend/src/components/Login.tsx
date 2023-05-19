@@ -18,7 +18,7 @@ import {
   import { PasswordField } from './PasswordField'
   import BooBo_logo from '../assets/BooBo_logo.png'
   
-  export default function Login() {
+  export const Login = () =>  {
   return (
     <Container maxW="lg" py={{ base: '12', md: '24' }} px={{ base: '0', sm: '8' }}>
       <Stack spacing="8">
@@ -27,10 +27,10 @@ import {
           <Stack spacing={{ base: '2', md: '3' }} textAlign="center">
             <Heading size={{ base: 'lg', md: 'lg' }}><span className='theme-header'>Login</span></Heading>
             <HStack spacing="1" justify="center">
-              <Text color="muted" >Don't have an account?</Text>
+              {/* <Text color="muted" >Don't have an account?</Text>
               <Button variant="link" colorScheme="blue" className='theme-header'>
                 Sign up
-              </Button>
+              </Button> */}
             </HStack>
           </Stack>
         </Stack>
@@ -50,10 +50,10 @@ import {
               <PasswordField />
             </Stack>
             <HStack justify="space-between">
-              <Checkbox defaultChecked>Remember me</Checkbox>
-              <Button variant="link" colorScheme="blue" size="sm">
+              {/* <Checkbox defaultChecked>Remember me</Checkbox> */}
+              {/* <Button variant="link" colorScheme="blue" size="sm">
                 Forgot password?
-              </Button>
+              </Button> */}
             </HStack>
             <Stack spacing="6">
               <Button variant="primary">Sign in</Button>
