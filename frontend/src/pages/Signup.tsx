@@ -1,6 +1,6 @@
 import React from 'react'
 import ThemedHeader from '../components/ThemedHeader'
-import {Signup as SignupComp} from '../components/Signup-changed'
+import {Signup as SignupComp} from '../components/Signup'
 
 const Signup = () => {
     return (
