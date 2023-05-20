@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import ThemedHeader from '../components/ThemedHeader'
 import SearchBar from '../components/SearchBar'
 import FilterBar from '../components/FilterBar'
-import { Box, Button } from '@chakra-ui/react'
+import { Box, Button, Center } from '@chakra-ui/react'
 import BookView from '../components/BookView'
 import { BookViewType } from '../types'
 
@@ -65,12 +65,18 @@ const Home = () => {
             ))}
         </div>
     </Box>
-    <Button
-        className="mt-4"
-    //   onClick={}
-    >
-        Load more
-    </Button>
+    <Center>
+        <Button
+            rounded={'2xl'}
+            variant={'solid'}
+            colorScheme={'teal'}
+            color={'white'}
+            size={'lg'}
+            mt = {6}
+            mb = {6}>
+            Load More
+        </Button>
+    </Center>
     </>
   )
 }

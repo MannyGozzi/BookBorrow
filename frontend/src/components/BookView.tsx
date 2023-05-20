@@ -21,7 +21,7 @@ function BookView({title, author, isbn, description, image, rating, distance}: B
     <Center >
       <Box
         maxW={'445px'}
-        h={'full'}
+        h={'480px'}
         w={'full'}
         bg={useColorModeValue('white', 'gray.900')}
         boxShadow={'xl'}
