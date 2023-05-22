@@ -16,7 +16,7 @@ import {
 import {StarIcon} from '@chakra-ui/icons';
 import { BookViewType } from '../types';
 
-function BookView({title, author, isbn, description, image, rating, distance}: BookViewType) {
+function BookView({ title, author, isbn, description, image, rating, distance}: BookViewType) {
   return (
     <Center >
       <Box
@@ -87,13 +87,15 @@ function BookView({title, author, isbn, description, image, rating, distance}: B
               <Text fontWeight={'bold'}>@lender_name</Text>
               </HStack>
             </Link>
-            <Button
-              rounded={'2xl'}
-              variant={'solid'}
-              colorScheme={'gray'}
-              size={'lg'}>
-              View
-            </Button>
+            <Link href='/'>
+              <Button
+                rounded={'2xl'}
+                variant={'solid'}
+                colorScheme={'gray'}
+                size={'lg'}>
+                View
+              </Button>
+            </Link>
           </HStack>
         </Flex>
       </Box>

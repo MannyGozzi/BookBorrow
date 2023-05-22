@@ -6,16 +6,17 @@ import { Box, Button, Center } from '@chakra-ui/react'
 import BookView from '../components/BookView'
 import { BookViewType } from '../types'
 
-const books: BookViewType[] = [{
+const books: BookViewType[] = [
+    {
     title: 'The Hobbit',
     author: 'J.R.R. Tolkien',
     isbn: '9780547928227',
     description: 'Bilbo Baggins, a hobbit, is smoking in his porchway one day when Gandalf the Wizard visits him. He wants Bilbo to help a group of dwarves take back the Mountain from Smaug, a dragon. Bilbo is unsure he wants to help, but he is drawn in by some trickery on Gandalf\'s part and some flattering by the dwarves. He agrees to help, and they set off the next morning.',
     image: 'https://images.pexels.com/photos/2203051/pexels-photo-2203051.jpeg',
-    rating: 4.2,
+    rating: 4.2, // ** lender rating **
     distance: 1.2
-},
-{
+    },
+    {
     title: 'The whatever else things',
     author: 'someone',
     isbn: '9700547928227',
@@ -23,8 +24,8 @@ const books: BookViewType[] = [{
     image: 'https://images.pexels.com/photos/2203051/pexels-photo-2203051.jpeg',
     rating: 4.2,
     distance: 1.2
-},
-{
+    },
+    {
     title: 'The whatever else things',
     author: 'someone',
     isbn: '9700547928227',
@@ -32,8 +33,8 @@ const books: BookViewType[] = [{
     image: 'https://images.pexels.com/photos/2203051/pexels-photo-2203051.jpeg',
     rating: 4.2,
     distance: 1.2
-},
-{
+    },  
+    {
     title: 'The whatever else things',
     author: 'someone',
     isbn: '9700547928227',
@@ -41,8 +42,8 @@ const books: BookViewType[] = [{
     image: 'https://images.pexels.com/photos/2203051/pexels-photo-2203051.jpeg',
     rating: 4.2,
     distance: 1.2
-},
-{
+    },
+    {
     title: 'The whatever else things',
     author: 'someone',
     isbn: '9700547928227',
