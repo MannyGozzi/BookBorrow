@@ -139,10 +139,13 @@ const displaySize = 6;
 
 const Home = () => {
   const [next, setNext] = useState(displaySize);
-    
+  const [loader, setLoader] = useState(false)
+  
   const handleMoreBooks  = () => {
+    setLoader(true);
     setNext(next + displaySize);
-  };
+    setTimeout(() => setLoader(false), 1000)
+    };
 
   return (
     <>
@@ -165,6 +168,8 @@ const Home = () => {
             size={'lg'}
             mt = {6}
             mb = {6}
+            isLoading={loader}
+            disabled={loader}
             onClick={handleMoreBooks}>
             Load More
         </Button>
