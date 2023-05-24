@@ -9,25 +9,25 @@ const FilterBar = () => {
       <FormControl>
         <Flex alignItems={'center'} columnGap={1} rowGap={2} flexWrap={'wrap'}>
             <HStack rounded={'full'} background={useColorModeValue('gray.100', 'gray.700')} pl={3} gap={3} spacing={'space-between'}>
-              <FormLabel m={0} fontFamily={'Pacifico'} fontWeight={'bold'}>Style</FormLabel>
-              <Select placeholder='Either' variant={'filled'} background={useColorModeValue('gray.200', 'gray.600')} w={'5rm'} rounded={'full'}>
+              <FormLabel m={0} fontFamily={'Poppins'} fontWeight={'600'}>Style</FormLabel>
+              <Select placeholder='Either' fontFamily={'Poppins'} variant={'filled'} background={useColorModeValue('gray.200', 'gray.600')} w={'5rm'} rounded={'full'}>
                 <option>Hard Cover</option>
                 <option>Soft Cover</option>
               </Select>
             </HStack>
             <Spacer />
             <HStack rounded={'full'} background={useColorModeValue('gray.100', 'gray.700')} pl={3} gap={3} spacing={'space-between'}>
-              <FormLabel m={0} fontFamily={'Pacifico'} fontWeight={'bold'}>Genre</FormLabel>
-              <Select placeholder='Any' variant={'filled'} background={useColorModeValue('gray.200', 'gray.600')} w={'5rm'} rounded={'full'}>
+              <FormLabel m={0} fontFamily={'Poppins'} fontWeight={'600'}>Genre</FormLabel>
+              <Select placeholder='Any' fontFamily={'Poppins'} variant={'filled'} background={useColorModeValue('gray.200', 'gray.600')} w={'5rm'} rounded={'full'}>
                 <option>Fiction</option>
                 <option>Non-fiction</option>
               </Select>
             </HStack>
             <Spacer />
             <HStack rounded={'full'} background={useColorModeValue('gray.100', 'gray.700')} pl={3} gap={3} spacing={'space-between'}>
-              <FormLabel m={0} fontFamily={'Pacifico'} fontWeight={'bold'}>Distance</FormLabel>
+              <FormLabel m={0} fontFamily={'Poppins'} fontWeight={'600'}>Distance</FormLabel>
               <NumberInput defaultValue={15}>
-                <NumberInputField w={'5rem'} background={useColorModeValue('gray.200', 'gray.600')} rounded={'full'} />
+                <NumberInputField w={'5rem'} fontFamily={'Poppins'} background={useColorModeValue('gray.200', 'gray.600')} rounded={'full'} />
               </NumberInput>
             </HStack>
             <Spacer />
