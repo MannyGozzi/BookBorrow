@@ -1,13 +1,10 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from 'react';
-import Nav from './components/Nav';
-import Login from './components/Login';
-import BookUpload from './components/BookUpload';
-
 import './App.css';
 import Profile from './pages/Profile';
 import Login from './pages/Login';
+import BookUpload from './components/BookUpload';
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import { Box, Center } from "@chakra-ui/react";
@@ -17,10 +14,8 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Nav />
       <Login />
       <BookUpload />
-    </>
       <Center>
         <Box w={'75%'}> 
           <Routes> 
@@ -28,6 +23,7 @@ function App() {
             <Route path="profile" element={<Profile />} />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<Signup />} />
+            <Route path="upload" element={<BookUpload />} />
             <Route path="*" element={<FourOFour/>} />
           </Routes>
         </ Box>
