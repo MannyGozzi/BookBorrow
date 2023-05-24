@@ -43,7 +43,6 @@ import BooBo_logo from '../assets/BooBo_logo.png';
 //   );
 
   export default function Nav() {
-    //const { isOpen, onOpen, onClose } = useDisclosure();
     const { colorMode, toggleColorMode } = useColorMode();
     const [loggedIn, setLoggedIn] = useState(false);
 
@@ -56,14 +55,6 @@ import BooBo_logo from '../assets/BooBo_logo.png';
         <Center>
             <Box w={{lg: '75%', md: '85%', sm: '100%'}} px={4}>
             <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-                {/*<IconButton
-                size={'md'}
-                icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-                aria-label={'Open Menu'}
-                display={{ md: 'none' }}
-                onClick={isOpen ? onClose : onOpen}
-                />
-                    */}
                 <HStack spacing={8} alignItems={'center'}>
                 <Link href='/'>
                     <HStack>
@@ -135,17 +126,6 @@ import BooBo_logo from '../assets/BooBo_logo.png';
                     </Menu>
                 </Flex>
             </Flex>
-                    {/*
-            {isOpen ? (
-                <Box pb={4} display={{ md: 'none' }}>
-                <Stack as={'nav'} spacing={4}>
-                    {Links.map((link) => (
-                    <NavLink key={link}>{link}</NavLink>
-                    ))}
-                </Stack>
-                </Box>
-            ) : null}
-                    */}
             </Box>
         </ Center>
       </>
