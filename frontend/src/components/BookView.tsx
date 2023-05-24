@@ -56,8 +56,8 @@ function BookView({ title, author, isbn, description, image, rating, distance }:
           <Box>
             <Heading
               color={useColorModeValue('gray.700', 'white')}
-              fontSize={'2xl'}
-              fontFamily={'body'}
+              fontSize={'xl'}
+              fontFamily={'Poppins'}
               mt={0}
               mb={2}>
               {title}
@@ -67,6 +67,7 @@ function BookView({ title, author, isbn, description, image, rating, distance }:
                 color={'red.300'}
                 textTransform={'uppercase'}
                 fontWeight={800}
+                fontFamily={'Poppins'}
                 fontSize={'sm'}>
                 {author}
               </Text>
@@ -90,7 +91,7 @@ function BookView({ title, author, isbn, description, image, rating, distance }:
             <HStack>
               <Avatar size={'sm'} mr={1} />
                 <Link href='/'>
-                  <Text fontWeight={'bold'} fontSize={'sm'}>@lender_name</Text>
+                  <Text fontWeight={'700'} fontSize={'sm'} fontFamily={'Poppins'}>@lender_name</Text>
                 </Link>
             </HStack>
 

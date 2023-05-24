@@ -8,7 +8,7 @@ import { BookViewType } from '../types.d'
 import Footer from "../components/Footer";
 
 
-const books: BookViewType[] = [
+const bookViews: BookViewType[] = [
   {
   title: 'The Hobbit',
   author: 'J.R.R. Tolkien',
@@ -19,13 +19,13 @@ const books: BookViewType[] = [
   distance: 1.2
   },
   {
-  title: 'The whatever else things',
-  author: 'someone',
+  title: 'Stuff',
+  author: 'A person',
   isbn: '9700547928227',
-  description: 'Something happens',
+  description: 'Things',
   image: 'https://images.pexels.com/photos/2203051/pexels-photo-2203051.jpeg',
   rating: 4.2,
-  distance: 1.2
+  distance: 5.2
   },
   {
   title: 'The whatever else things',
@@ -142,20 +142,16 @@ const displaySize = 6;
 const Home = () => {
   const [next, setNext] = useState(displaySize);
   const [loader, setLoader] = useState(false);
-  // const [books, setBooks] = useState<BookViewType[]>([]);
+  // const [bookViews, setBookViews] = useState<BookViewType[]>([]);
 
   // useEffect(() => {
   //   fetch("http://api.example.com/v1")
   //     .then(response => response.json())
-  //     .then(data => setBooks(data))
+  //     .then(data => setBookViews(data))
   //     .catch(error => console.error(error));
   // }, []);
 
-  const sortedBooks = [].concat(books)
-    .sort((a, b) => a. > b.itemM ? 1 : -1)
-    .map((item, i) => 
-        <div key={i}> {item.matchID} {item.timeM}{item.description}</div>
-    );
+  const sortedBookViews = [...bookViews].sort((a, b) => a.distance - b.distance);
 
   const handleMoreBooks  = () => {
     setLoader(true);
@@ -172,7 +168,7 @@ const Home = () => {
         <FilterBar />
         <ThemedHeader text={'Results'} />
         <Box className='grid md:grid-cols-2 lg:grid-cols-3 sm:grid-cols-1 gap-7 pb-16'>
-            {books.slice(0, next).map((book) => (
+            {sortedBookViews.slice(0, next).map((book) => (
                 <BookView key={book.isbn} title={book.title} 
                 author={book.author} isbn={book.isbn} 
                 description={book.description.slice(0, 125) + "..."} 
@@ -183,12 +179,12 @@ const Home = () => {
     </Center>
     <Center>
         <Button
-            rounded={'2xl'}
             variant={'solid'}
-            colorScheme={'teal'}
-            color={'white'}
+            background={'red.200'}
             size={'lg'}
-            mb = {14}
+            rounded={'xl'}
+            mb={14}
+            fontFamily={'Poppins'}
             isLoading={loader}
             disabled={loader}
             onClick={handleMoreBooks}>
