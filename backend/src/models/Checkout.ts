@@ -8,7 +8,8 @@ const checkoutSchema = new Schema<ICheckout>({
   book: { type: Schema.Types.ObjectId, ref: 'Book', required: true },
   checkout_date: { type: Date, required: true },
   due_date: { type: Date, required: true },
-  return_date: { type: Date, default: null }
+  return_date: { type: Date, default: null },
+  returned: { type: Boolean, default: false }
 })
 
 const CheckoutModel = model<ICheckout>('Checkout', checkoutSchema)

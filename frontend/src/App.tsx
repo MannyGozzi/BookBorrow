@@ -15,17 +15,13 @@ function App() {
   return (
     <BrowserRouter>
       <Nav />
-      <Center>
-        <Box w={'75%'}> 
-          <Routes> 
-            <Route path="/" element={<Home />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="login" element={<Login />} />
-            <Route path="signup" element={<Signup />} />
-            <Route path="*" element={<FourOFour/>} />
-          </Routes>
-        </ Box>
-      </Center>
+      <Routes> 
+        <Route path="/" element={<Home />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="login" element={<Login />} />
+        <Route path="signup" element={<Signup />} />
+        <Route path="*" element={<FourOFour/>} />
+      </Routes>
     </BrowserRouter>
   );
 }

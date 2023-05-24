@@ -12,6 +12,7 @@ export interface IUser extends Document {
   zip_code: string
   updatePassword(newPassword: string): Promise<boolean>
   isValidPassword(password: string): Promise<boolean>
+  toJSON(): Exclude<IUser, 'password'>
 }
 
 export interface IBook extends Document {
@@ -27,12 +28,13 @@ export interface IBook extends Document {
   borrower?: Types.ObjectId | null
   available: boolean
   date_added: Date
+  zip_code: string
 }
 
 export interface IReview extends Document {
   id: number
   reviewer: Types.ObjectId
-  reviewed_lender: Types.ObjectId
+  reviewed: Types.ObjectId
   rating: number
   comment?: string
   date_created: Date
@@ -45,4 +47,5 @@ interface ICheckout extends Document {
   checkout_date: Date
   due_date: Date
   return_date?: Date | null
+  returned: boolean
 }
