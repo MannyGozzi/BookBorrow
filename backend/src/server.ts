@@ -4,7 +4,10 @@ import cookieSession from 'cookie-session'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 
-import login from './routes/login'
+import userRoutes from './routes/userRoutes'
+import reviewRoutes from './routes/reviewRoutes'
+import checkoutRoutes from './routes/checkoutRoutes'
+import bookRoutes from './routes/bookRoutes'
 
 dotenv.config()
 
@@ -22,8 +25,11 @@ app.use(
   })
 )
 
-// wire up all the routes 
-app.use(login())
+// wire up all the routes
+app.use('/books', bookRoutes)
+app.use('/users', userRoutes)
+app.use('/reviews', reviewRoutes)
+app.use('/checkout', checkoutRoutes)
 
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/', (_req, res) => {

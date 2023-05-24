@@ -53,7 +53,7 @@ import BooBo_logo from '../assets/BooBo_logo.png';
     return (
       <>
         <Center>
-            <Box w='75%' px={4}>
+            <Box w={{lg: '75%', md: '85%', sm: '100%'}} px={4}>
             <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
                 <HStack spacing={8} alignItems={'center'}>
                 <Link href='/'>
