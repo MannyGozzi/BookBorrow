@@ -31,6 +31,14 @@ userSchema.methods.isValidPassword = async function (password: string): Promise<
   return result
 }
 
+userSchema.methods.toJSON = function (): IUser {
+  const user = this.toObject()
+
+  delete user.password
+
+  return user
+}
+
 const UserModel = model<IUser>('User', userSchema)
 
 export default UserModel

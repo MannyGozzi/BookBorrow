@@ -12,9 +12,9 @@ const bookSchema = new Schema<IBook>({
   cover_image: { type: String },
   description: { type: String },
   lender: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  borrower: { type: Schema.Types.ObjectId, ref: 'User', default: null },
   available: { type: Boolean, default: true },
-  date_added: { type: Date, required: true }
+  date_added: { type: Date, required: true, default: Date.now },
+  zip_code: { type: String, required: true }
 })
 
 const BookModel = model<IBook>('Book', bookSchema)

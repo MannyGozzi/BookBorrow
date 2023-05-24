@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 
 import {StarIcon} from '@chakra-ui/icons';
-import { UserBookType } from '../types';
+import { UserBookType } from '../types.d';
 
 function UserBook({title, author, isbn, description, image, rating}: UserBookType) {
   return (
@@ -22,7 +22,7 @@ function UserBook({title, author, isbn, description, image, rating}: UserBookTyp
         maxW={'445px'}
         h={'full'}
         w={'full'}
-        bg={useColorModeValue('white', 'gray.900')}
+        bg={useColorModeValue('white', 'gray.700')}
         boxShadow={'xl'}
         rounded={'xl'}
         p={6}

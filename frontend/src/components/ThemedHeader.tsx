@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text } from '@chakra-ui/react'
-import { TextType } from '../types'
+import { TextType } from '../types.d'
 
 const ThemedHeader = ({ text }: TextType) => {
     return (
