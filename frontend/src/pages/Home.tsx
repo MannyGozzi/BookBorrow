@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ThemedHeader from '../components/ThemedHeader'
 import SearchBar from '../components/SearchBar'
 import FilterBar from '../components/FilterBar'
@@ -139,12 +139,28 @@ const displaySize = 6;
 
 const Home = () => {
   const [next, setNext] = useState(displaySize);
-  const [loader, setLoader] = useState(false)
-  
+  const [loader, setLoader] = useState(false);
+  // const [books, setBooks] = useState([]);
+
+  // const fetchBooks = () => {
+  //   fetch("http://api.example.com/v1")
+  //     .then(response => {
+  //       return response.json()
+  //     })
+  //     .then(data => {
+  //       setBooks(data)
+  //     })
+  // }
+
+  // useEffect(() => {
+  //   fetchBooks()
+  // }, [])
+
   const handleMoreBooks  = () => {
     setLoader(true);
     setNext(next + displaySize);
-    setTimeout(() => setLoader(false), 1000)
+    setTimeout(() => setLoader(false), 1000);
+    // setLoader(false);
     };
 
   return (
