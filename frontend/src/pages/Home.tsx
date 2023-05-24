@@ -142,14 +142,20 @@ const displaySize = 6;
 const Home = () => {
   const [next, setNext] = useState(displaySize);
   const [loader, setLoader] = useState(false);
-  const [books, setBooks] = useState<BookViewType[]>([]);
+  // const [books, setBooks] = useState<BookViewType[]>([]);
 
-  useEffect(() => {
-    fetch("http://api.example.com/v1")
-      .then(response => response.json())
-      .then(data => setBooks(data))
-      .catch(error => console.error(error));
-  }, []);
+  // useEffect(() => {
+  //   fetch("http://api.example.com/v1")
+  //     .then(response => response.json())
+  //     .then(data => setBooks(data))
+  //     .catch(error => console.error(error));
+  // }, []);
+
+  const sortedBooks = [].concat(books)
+    .sort((a, b) => a. > b.itemM ? 1 : -1)
+    .map((item, i) => 
+        <div key={i}> {item.matchID} {item.timeM}{item.description}</div>
+    );
 
   const handleMoreBooks  = () => {
     setLoader(true);
