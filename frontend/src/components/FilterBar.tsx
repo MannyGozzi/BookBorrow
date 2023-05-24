@@ -1,23 +1,40 @@
-import { Box, Center, FormControl, Input, Checkbox, CheckboxGroup, Stack, Flex,  NumberInput, NumberInputField, HStack, AbsoluteCenter } from '@chakra-ui/react'
+import { SearchIcon } from '@chakra-ui/icons'
+import { HStack, Center, FormControl, useColorModeValue, Flex,  NumberInput, NumberInputField, FormLabel, Select, IconButton, Spacer } from '@chakra-ui/react'
 import React from 'react'
 
 const FilterBar = () => {
   return (
     <Center mt={4} >
-      <Box rounded={'full'} bg={'gray.100'} w={'75%'} minHeight={'12'}>
+      <HStack rounded={'3xl'} border={'1px solid'} borderColor={useColorModeValue('gray.200', 'gray.700')}  w={{lg: '75%', md: '85%', sm: '100%'}} p={0} m={0}>
       <FormControl>
-            <Flex gap={5} pl={2} pr={2} justifyContent={'center'} pt={1}>
-              <NumberInput>
-                <NumberInputField placeholder='Distance' rounded={'full'}></NumberInputField>
+        <Flex alignItems={'center'} columnGap={1} rowGap={2} flexWrap={'wrap'}>
+            <HStack rounded={'full'} background={useColorModeValue('gray.100', 'gray.700')} pl={3} gap={3} spacing={'space-between'}>
+              <FormLabel m={0} fontFamily={'Pacifico'} fontWeight={'bold'}>Style</FormLabel>
+              <Select placeholder='Either' variant={'filled'} background={useColorModeValue('gray.200', 'gray.600')} w={'5rm'} rounded={'full'}>
+                <option>Hard Cover</option>
+                <option>Soft Cover</option>
+              </Select>
+            </HStack>
+            <Spacer />
+            <HStack rounded={'full'} background={useColorModeValue('gray.100', 'gray.700')} pl={3} gap={3} spacing={'space-between'}>
+              <FormLabel m={0} fontFamily={'Pacifico'} fontWeight={'bold'}>Genre</FormLabel>
+              <Select placeholder='Any' variant={'filled'} background={useColorModeValue('gray.200', 'gray.600')} w={'5rm'} rounded={'full'}>
+                <option>Fiction</option>
+                <option>Non-fiction</option>
+              </Select>
+            </HStack>
+            <Spacer />
+            <HStack rounded={'full'} background={useColorModeValue('gray.100', 'gray.700')} pl={3} gap={3} spacing={'space-between'}>
+              <FormLabel m={0} fontFamily={'Pacifico'} fontWeight={'bold'}>Distance</FormLabel>
+              <NumberInput defaultValue={15}>
+                <NumberInputField w={'5rem'} background={useColorModeValue('gray.200', 'gray.600')} rounded={'full'} />
               </NumberInput>
-              <NumberInput>
-                <NumberInputField placeholder='Rating' rounded={'full'}></NumberInputField>
-              </NumberInput>
-              <Checkbox defaultChecked>Hardcover</Checkbox>
-              <Input type='text' placeholder='Genre' rounded={'full'}/>
-            </Flex>
-        </FormControl>  
-      </Box>
+            </HStack>
+            <Spacer />
+            <IconButton type='submit' rounded={'full'} aria-label='Search database' icon={<SearchIcon />} />
+          </Flex>
+        </FormControl>
+      </HStack>
     </Center>
   )
 }

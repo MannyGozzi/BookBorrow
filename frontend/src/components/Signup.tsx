@@ -1,23 +1,23 @@
 import {
-    Box,
-    Button,
-    Checkbox,
-    Container,
-    Divider,
-    FormControl,
-    FormLabel,
-    Heading,
-    HStack,
-    Input,
-    Stack,
-    Text,
-    Image, 
-    Center
-  } from '@chakra-ui/react'
-  import { PasswordField, ConfirmPasswordField } from './PasswordField'
-  import BooBo_logo from '../assets/BooBo_logo.png'
-  
-  export const Signup = () => {
+  Box,
+  Button,
+  Checkbox,
+  Container,
+  Divider,
+  FormControl,
+  FormLabel,
+  Heading,
+  HStack,
+  Input,
+  Stack,
+  Text,
+  Image,
+  Center
+} from '@chakra-ui/react'
+import { PasswordField, ConfirmPasswordField } from './PasswordField'
+import BooBo_logo from '../assets/BooBo_logo.png'
+
+export const Signup = () => {
   return (
     <Container maxW="lg" py={{ base: '12', md: '24' }} px={{ base: '0', sm: '8' }}>
       <Stack spacing="8">
@@ -40,7 +40,7 @@ import {
         >
           <Stack spacing="6">
             <Stack spacing="5">
-            <FormControl>
+              <FormControl>
                 <FormLabel htmlFor="Name">Name</FormLabel>
                 <Input id="Name" type="text" />
               </FormControl>
@@ -68,5 +68,5 @@ import {
         </Box>
       </Stack>
     </Container>
-    )
-  }
+  )
+}
