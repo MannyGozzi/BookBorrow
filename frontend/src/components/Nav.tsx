@@ -25,7 +25,7 @@ import {
 import { MoonIcon, SunIcon, /*HamburgerIcon, CloseIcon, AddIcon,*/ ChatIcon } from '@chakra-ui/icons';
 import BooBo_logo from '../assets/BooBo_logo.png';
 
-// MIGHT USE THIS STUFF LATER
+// MIGHT USE THIS STUFF LATER, YAY
 //   const Links = ['Find Books', 'Other things', 'Team'];
 
 //   const NavLink = ({ children }: { children: ReactNode }) => (
@@ -49,7 +49,7 @@ import BooBo_logo from '../assets/BooBo_logo.png';
     const login = () => {
         setLoggedIn(true);
     }
-
+    
     return (
       <>
         <Center>
