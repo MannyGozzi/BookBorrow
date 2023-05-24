@@ -16,18 +16,14 @@ function App() {
     <BrowserRouter>
       <Login />
       <BookUpload />
-      <Center>
-        <Box w={'75%'}> 
-          <Routes> 
-            <Route path="/" element={<Home />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="login" element={<Login />} />
-            <Route path="signup" element={<Signup />} />
+      <Routes> 
+        <Route path="/" element={<Home />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="login" element={<Login />} />
+        <Route path="signup" element={<Signup />} />
             <Route path="upload" element={<BookUpload />} />
-            <Route path="*" element={<FourOFour/>} />
-          </Routes>
-        </ Box>
-      </Center>
+        <Route path="*" element={<FourOFour/>} />
+      </Routes>
     </BrowserRouter>
   );
 }

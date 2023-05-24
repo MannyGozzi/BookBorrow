@@ -22,7 +22,7 @@ function UserBook({title, author, isbn, description, image, rating}: UserBookTyp
         maxW={'445px'}
         h={'full'}
         w={'full'}
-        bg={useColorModeValue('white', 'gray.900')}
+        bg={useColorModeValue('white', 'gray.700')}
         boxShadow={'xl'}
         rounded={'xl'}
         p={6}

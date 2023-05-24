@@ -2,9 +2,11 @@ import React from 'react'
 import ThemedHeader from '../components/ThemedHeader'
 import SearchBar from '../components/SearchBar'
 import FilterBar from '../components/FilterBar'
-import { Box } from '@chakra-ui/react'
+import { Box, Center } from '@chakra-ui/react'
 import BookView from '../components/BookView'
 import { BookViewType } from '../types'
+import Footer from "../components/Footer";
+
 
 const books: BookViewType[] = [{
     title: 'The Hobbit',
@@ -54,16 +56,24 @@ const books: BookViewType[] = [{
 
 const Home = () => {
   return (
-    <Box className='w-full'>
-        <SearchBar text='Search for a book...'></SearchBar>
+    <>
+    <Center>
+        <Box w={{lg: '75%', md: '85%', sm: '100%'}}> 
+        <SearchBar text='Search for a book...' />
         <FilterBar />
         <ThemedHeader text={'Results'} />
-        <div className='grid md:grid-cols-2 lg:grid-cols-3  sm:grid-cols-1 gap-7'>
+        <Box className='grid md:grid-cols-2 lg:grid-cols-3 sm:grid-cols-1 gap-7 pb-16'>
             {books.map((book) => (
-                <BookView key={book.isbn} title={book.title} author={book.author} isbn={book.isbn} description={book.description.slice(0, 125) + "..."} image={book.image} rating={book.rating} distance={book.distance}/>
+                <BookView key={book.isbn} title={book.title} 
+                author={book.author} isbn={book.isbn} 
+                description={book.description.slice(0, 125) + "..."} 
+                image={book.image} rating={book.rating} distance={book.distance} />
             ))}
-        </div>
-    </Box>
+        </Box>
+        </Box>
+    </Center>
+    <Footer />
+    </>
   )
 }
 
