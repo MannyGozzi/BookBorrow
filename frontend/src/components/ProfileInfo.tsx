@@ -26,12 +26,12 @@ import {
   export default function ProfileInfo() {
   return (
     <Center>
-    <Flex align="center"justifyContent="center">
+    <Flex align="center">
       <VStack spacing='20px'>
       <Box marginTop="20px">
         <Image src="https://img.freepik.com/free-photo/beautiful-outdoor-view-ocean-beach_74190-6853.jpg?w=2000" alt="Banner Image" style={{ width: '700px', height: '300px', borderRadius: '10px' }} />
       </Box>
-        <Box width="700px">
+        <Box width = "100%">
             <HStack spacing="40px">
               <HStack spacing="30px"> 
                 <Text fontSize="3xl"><span className='theme-header'>Profile Name</span></Text>
@@ -48,7 +48,7 @@ import {
               <StarRating/>
             </HStack>
             </Box>
-            <Box width="700px">
+            <Box width = "100%">
               <HStack spacing='40px'> 
                     <Text fontSize="md">Email: user@gmail.com</Text>
                 <Spacer />
@@ -67,4 +67,3 @@ import {
       </Center>
     )
   }
-  

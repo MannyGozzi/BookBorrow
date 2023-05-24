@@ -60,9 +60,9 @@ const userBooksBorrowed: UserBookType[] = [{
 
 const Profile = () => {
     return (
-        <Box className='w-full'>
-            <Stack spacing='50px'>
-                <ProfileInfo/>
+        <Center>
+            <Box w={{lg: '75%', md: '85%', sm: '100%'}}>
+                <ProfileInfo/> 
                 <ThemedHeader text={'Books You Lended'}/>
                 <div className='grid md:grid-cols-2 lg:grid-cols-3 sm:grid-cols-1 gap-7'>
                     {userBooks.map((book) => (
@@ -81,8 +81,8 @@ const Profile = () => {
                         <UserBook key={book.isbn} title={book.title} author={book.author} isbn={book.isbn} description={book.description.slice(0, 125) + "..."} image={book.image} rating={book.rating} />
                     ))}
                 </div>
-            </Stack>
-        </Box>
+            </Box>
+         </Center>
     )
 }
 
