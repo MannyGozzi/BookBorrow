@@ -7,7 +7,7 @@ const SearchBar = ({text} : TextType) => {
     <Center mt={4} m={3}>
         <Box w={{lg: '75%', md: '85%', sm: '100%'}}>
         <FormControl>
-        <Input type='email' placeholder={text} rounded={'full'}/>
+        <Input type='email' placeholder={text} rounded={'full'} fontFamily={'Poppins'}/>
         </FormControl>
         </Box>
     </Center>
