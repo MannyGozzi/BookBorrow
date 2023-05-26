@@ -1,19 +1,19 @@
-import { IReview } from '../types';
-import { ADD_REVIEW, SET_REVIEWS } from '../actions/reviewActions';
+import { IReview } from '../types'
+import { ADD_REVIEW, SET_REVIEWS } from '../actions/reviewActions'
 
 // Define the initial state
-const initialState: IReview[] = [];
+const initialState: IReview[] = []
 
 // Review reducer
 const reviewReducer = (state = initialState, action: any): IReview[] => {
   switch (action.type) {
     case ADD_REVIEW:
-      return [...state, action.payload];
+      return [...state, action.payload]
     case SET_REVIEWS:
-      return action.payload;
+      return action.payload
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default reviewReducer;
+export default reviewReducer

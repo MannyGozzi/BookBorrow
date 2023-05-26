@@ -48,7 +48,7 @@ export default function Nav() {
     const [loggedIn, setLoggedIn] = useState(false);
 
     const login = () => {
-        setLoggedIn(true);
+        setLoggedIn(false);
     }
 
     return (

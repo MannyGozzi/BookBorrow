@@ -18,18 +18,22 @@ import {
   import axios from 'axios'
   import {Link as ReactLink} from 'react-router-dom'
 
-interface LoginCredentials {
-  email: string,
-  password: string
-}
-
-export const Login = () => {
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState('')
+  interface LoginCredentials {
+    email: string,
+    password: string
+  }
+  
+  export const Login = () =>  {
+    const [email, setEmail] = React.useState('')
+    const [password, setPassword] = React.useState('')
 
     const login = async () => {
       const response = await axios.post('http://localhost:3000/users/login',
-      {email, password});
+      {email, password},
+      {
+        withCredentials: true
+      }
+      );
       console.log(response.data);
       // TODO: ADD ALERT WHEN LOGIN FAILS AND RESET FIELDS
     }
@@ -63,14 +67,12 @@ export const Login = () => {
               <FormControl>
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <Input id="email" type="email" onChange={
-                  (e: React.FormEvent<HTMLInputElement>) => {
-                    setEmail(e.currentTarget.value)
-                  }} />
+                  (e : React.FormEvent<HTMLInputElement>) => {
+                    setEmail(e.currentTarget.value)}}/>
               </FormControl>
               <PasswordField onChange={
-                (e: React.FormEvent<HTMLInputElement>) => {
-                  setPassword(e.currentTarget.value)
-                }} />
+                  (e : React.FormEvent<HTMLInputElement>) => {
+                    setPassword(e.currentTarget.value)}}/>
             </Stack>
             <HStack justify="space-between">
             </HStack>
