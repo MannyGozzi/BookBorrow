@@ -12,7 +12,7 @@ export const issueJWT = (user: IUser) => {
     expiresIn: expiresIn
   })
   return {
-    token: 'Bearer ' + signedToken,
+    token: signedToken,
     expires: expiresIn
   }
 }
