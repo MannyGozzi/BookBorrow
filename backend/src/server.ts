@@ -1,5 +1,4 @@
-import express from 'express'
-import bodyParser from 'body-parser'
+import express, { json, urlencoded } from 'express'
 import cookieSession from 'cookie-session'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
@@ -15,8 +14,8 @@ dotenv.config()
 const PORT = process.env.PORT || 3000
 
 const app = express()
-app.use(bodyParser.urlencoded({ extended: false })) // For body parser
-app.use(bodyParser.json())
+app.use(urlencoded({ extended: false })) // For body parser
+app.use(json())
 app.use(
   cookieSession({
     name: 'mysession',
