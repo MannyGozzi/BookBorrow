@@ -11,7 +11,7 @@ import {
   Flex,
   Link,
 } from '@chakra-ui/react';
-
+import { NavLink as ReactLink } from 'react-router-dom';
 import { StarIcon, WarningTwoIcon } from '@chakra-ui/icons';
 import { BookViewType } from '../types';
 
@@ -87,7 +87,7 @@ function BookView({ title, author, isbn, description, image, rating, distance }:
           <HStack gap={3} justifyContent={'space-between'} background={useColorModeValue('gray.100', 'gray.600')} rounded={'2xl'} p={2} overflow={'hidden'}>
             <HStack>
               <Avatar size={'sm'} mr={1} />
-                <Link href='/'>
+                <Link as={ReactLink} to='/'>
                   <Text fontWeight={'700'} fontSize={'sm'} fontFamily={'Poppins'}>@lender_name</Text>
                 </Link>
             </HStack>
