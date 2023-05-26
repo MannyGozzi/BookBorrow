@@ -12,6 +12,8 @@ export type UserBookType = {
 }
 
 export type BookViewType = {
+  _id: string
+  lender: string
   title: string
   author: string
   isbn: string

@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 
 import {StarIcon} from '@chakra-ui/icons';
-import { UserBookType } from '../types';
+import { UserBookType } from '../types.d';
 
 function UserBook({title, author, isbn, description, image, rating}: UserBookType) {
   return (
