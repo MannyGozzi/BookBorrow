@@ -1,22 +1,22 @@
 import {
-  Box,
-  Button,
-  Container,
-  Divider,
-  FormControl,
-  FormLabel,
-  Heading,
-  HStack,
-  Input,
-  Stack,
-  Center,
-  Text,
-  Link,
-  useColorModeValue
-} from '@chakra-ui/react'
-import { PasswordField } from './PasswordField'
-import React from 'react'
-import { Link as ReactLink } from 'react-router-dom'
+    Box,
+    Button,
+    Container,
+    FormControl,
+    FormLabel,
+    Heading,
+    HStack,
+    Input,
+    Stack,
+    Text,
+    Center,
+    Link,
+    useColorModeValue
+  } from '@chakra-ui/react'
+  import { PasswordField } from './PasswordField'
+  import React, { ChangeEvent, ChangeEventHandler } from 'react'
+  import axios from 'axios'
+  import {Link as ReactLink} from 'react-router-dom'
 
 interface LoginCredentials {
   email: string,
@@ -27,21 +27,12 @@ export const Login = () => {
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
 
-  const login = async () => {
-    const data: LoginCredentials = { email, password };
-    const response = await fetch('http://localhost:3000/users/login',
-      {
-        method: "POST",
-        mode: 'no-cors',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-    const json = await response.json();
-    console.log(json);
-    // TODO: ADD ALERT WHEN LOGIN FAILS AND RESET FIELDS
-  }
+    const login = async () => {
+      const response = await axios.post('http://localhost:3000/users/login',
+      {email, password});
+      console.log(response.data);
+      // TODO: ADD ALERT WHEN LOGIN FAILS AND RESET FIELDS
+    }
 
   return (
     <Container maxW="lg" py={{ base: '12', md: '24' }} px={{ base: '0', sm: '8' }}>
