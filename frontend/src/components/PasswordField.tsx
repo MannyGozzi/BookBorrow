@@ -34,6 +34,7 @@ import {
               aria-label={isOpen ? 'Mask password' : 'Reveal password'}
               icon={isOpen ? <ViewOffIcon /> : <ViewIcon />}
               onClick={onClickReveal}
+              tabIndex={-1}
             />
           </InputRightElement>
           <Input
@@ -72,6 +73,7 @@ import {
               aria-label={isOpen ? 'Mask password' : 'Reveal password'}
               icon={isOpen ? <ViewOffIcon /> : <ViewIcon />}
               onClick={onClickReveal}
+              tabIndex={-1}
             />
           </InputRightElement>
           <Input

@@ -1,9 +1,7 @@
 import {
     Box,
     Button,
-    Checkbox,
     Container,
-    Divider,
     FormControl,
     FormLabel,
     Heading,
@@ -11,12 +9,14 @@ import {
     Input,
     Stack,
     Text,
-    Image, 
-    Center
+    Center,
+    Link,
+    useColorModeValue
   } from '@chakra-ui/react'
   import { PasswordField } from './PasswordField'
   import React, { ChangeEvent, ChangeEventHandler } from 'react'
   import axios from 'axios'
+  import {Link as ReactLink} from 'react-router-dom'
 
   interface LoginCredentials {
     email: string,
@@ -46,10 +46,12 @@ import {
           <Stack spacing={{ base: '2', md: '3' }} textAlign="center">
             <Heading size={{ base: 'lg', md: 'lg' }}><span className='theme-header'>Login</span></Heading>
             <HStack spacing="1" justify="center">
-              {/* <Text color="muted" >Don't have an account?</Text>
-              <Button variant="link" colorScheme="blue" className='theme-header'>
-                Sign up
-              </Button> */}
+              <Text color={"muted"}>Don't have an account yet?</Text>
+              <Link as={ReactLink} to='/signup'>
+                <Button variant="link" colorScheme="blue" className='theme-header'>
+                  Sign up
+                </Button>
+              </Link>
             </HStack>
           </Stack>
         </Stack>
@@ -73,25 +75,13 @@ import {
                     setPassword(e.currentTarget.value)}}/>
             </Stack>
             <HStack justify="space-between">
-              {/* <Checkbox defaultChecked>Remember me</Checkbox> */}
-              {/* <Button variant="link" colorScheme="blue" size="sm">
-                Forgot password?
-              </Button> */}
             </HStack>
             <Stack spacing="6">
-              <Button variant="primary" type='submit' onClick={login}>Sign in</Button>
-              <HStack>
-                <Divider />
-                {/* <Text fontSize="sm" whiteSpace="nowrap" color="muted">
-                  or continue with
-                </Text> */}
-                <Divider />
-              </HStack>
-              {/* <OAuthButtonGroup /> */}
+              <Button variant="primary" type='submit' onClick={login} background={useColorModeValue('gray.100', 'gray.600')}>Sign in</Button>
             </Stack>
           </Stack>
         </Box>
       </Stack>
     </Container>
-    )
-  }
+  )
+}

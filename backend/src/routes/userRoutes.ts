@@ -50,7 +50,11 @@ router.patch('/', verifyJWT, async (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
+<<<<<<< HEAD
+  const user = await User.findOne({ email: req.body.email } )
+=======
   const user = await User.findOne({ email: req.body.email })
+>>>>>>> 9d9e87567da78c3cd008307a4e0099d2059db477
 
   if (!user) {
     return res.status(401).send({ user, msg: 'No user found.' })
@@ -80,14 +84,22 @@ router.post('/register', async (req, res) => {
   const [existingUsername, existingEmail] = await Promise.all([
     UserModel.findOne({ username }),
     UserModel.findOne({ email })
+<<<<<<< HEAD
+  ]);
+=======
   ])
+>>>>>>> 9d9e87567da78c3cd008307a4e0099d2059db477
 
   if (existingUsername) {
     return res.status(400).json({ msg: 'Username already taken' })
   }
 
   if (existingEmail) {
+<<<<<<< HEAD
+    return res.status(400).json({ msg: "Email already taken" })
+=======
     return res.status(400).json({ msg: 'Email already taken' })
+>>>>>>> 9d9e87567da78c3cd008307a4e0099d2059db477
   }
 
   const encryptedPassword = await hash(password, 10)

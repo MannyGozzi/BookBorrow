@@ -1,26 +1,26 @@
 import { useState } from 'react';
 import {
-  Box,
-  Flex,
-  Avatar,
-  HStack,
-  Link,
-  Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  /*
-  MenuDivider,
-  useDisclosure,
-  IconButton,
-  useColorModeValue,
-  Stack,
-  */
-  useColorMode,
-  Center,
-  Image,
-  Text
+    Box,
+    Flex,
+    Avatar,
+    HStack,
+    Link,
+    Button,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    /*
+    MenuDivider,
+    useDisclosure,
+    IconButton,
+    useColorModeValue,
+    Stack,
+    */
+    useColorMode,
+    Center,
+    Image,
+    Text
 } from '@chakra-ui/react';
 import { NavLink as ReactLink } from "react-router-dom"
 import { MoonIcon, SunIcon, /*HamburgerIcon, CloseIcon, AddIcon,*/ ChatIcon } from '@chakra-ui/icons';
@@ -43,14 +43,14 @@ import BooBo_logo from '../assets/BooBo_logo.png';
 //     </Link>
 //   );
 
-  export default function Nav() {
+export default function Nav() {
     const { colorMode, toggleColorMode } = useColorMode();
     const [loggedIn, setLoggedIn] = useState(false);
 
     const login = () => {
-        setLoggedIn(true);
+        setLoggedIn(false);
     }
-    
+
     return (
       <>
         <Center>
@@ -131,4 +131,4 @@ import BooBo_logo from '../assets/BooBo_logo.png';
         </ Center>
       </>
     );
-  }
+}
