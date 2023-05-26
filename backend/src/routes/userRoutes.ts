@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler'
 import UserModel from '../models/User'
 import { issueJWT } from '../helpers/JWT'
 import User from '../models/User'
-import { genSalt, hash } from 'bcryptjs'
+import { hash } from 'bcryptjs'
 import { verifyJWT } from '../middlewares/auth'
 
 const router = express.Router()
@@ -50,7 +50,7 @@ router.patch('/', verifyJWT, async (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
-  const user = await User.findOne({ where: { email: req.body.email } })
+  const user = await User.findOne({ email: req.body.email })
 
   if (!user) {
     return res.status(401).send({ user, msg: 'No user found.' })
@@ -77,29 +77,40 @@ router.get('/logout', (req: Request, res: Response) => {
 router.post('/register', async (req, res) => {
   const { email, password, zip_code, username, firstName, lastName } = req.body
 
-  const existingUsername = UserModel.findOne({ username })
+  const [existingUsername, existingEmail] = await Promise.all([
+    UserModel.findOne({ username }),
+    UserModel.findOne({ email })
+  ])
 
   if (existingUsername) {
-    res.status(400).json({ msg: 'Username already taken' })
+    return res.status(400).json({ msg: 'Username already taken' })
   }
 
-  const salt = await genSalt(10)
-  const encryptedPassword = await hash(password, salt)
+  if (existingEmail) {
+    return res.status(400).json({ msg: 'Email already taken' })
+  }
+
+  const encryptedPassword = await hash(password, 10)
 
   const user = new UserModel({
     email,
     password: encryptedPassword,
     zip_code,
     username,
-    firstName,
-    lastName
+    first_name: firstName,
+    last_name: lastName
   })
 
   try {
     await user.save()
-    return res.status(201).json({ user: user.toJSON(), msg: 'User created successfully' })
+
+    const jwtToken = issueJWT(user)
+
+    return res.status(201)
+      .cookie('jwt', jwtToken.token, { httpOnly: true, secure: false })
+      .json({ user: user.toJSON(), msg: 'User created successfully' })
   } catch (e) {
-    res.status(400).json({ msg: 'Error creating user' })
+    return res.status(400).json({ msg: 'Error creating user' })
   }
 })
 

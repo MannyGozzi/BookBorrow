@@ -10,8 +10,8 @@ const userSchema = new Schema<IUser>({
   password: { type: String, required: true },
   first_name: { type: String, required: true },
   last_name: { type: String, required: true },
-  date_joined: { type: Date, required: true },
-  is_staff: { type: Boolean, required: true },
+  date_joined: { type: Date, required: true, default: Date.now },
+  is_staff: { type: Boolean, required: true, default: false },
   zip_code: { type: String, required: true }
 })
 

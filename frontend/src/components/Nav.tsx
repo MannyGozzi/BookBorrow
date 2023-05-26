@@ -22,6 +22,7 @@ import {
   Image,
   Text
 } from '@chakra-ui/react';
+import { NavLink as ReactLink } from "react-router-dom"
 import { MoonIcon, SunIcon, /*HamburgerIcon, CloseIcon, AddIcon,*/ ChatIcon } from '@chakra-ui/icons';
 import BooBo_logo from '../assets/BooBo_logo.png';
 
@@ -56,10 +57,10 @@ import BooBo_logo from '../assets/BooBo_logo.png';
             <Box w={{lg: '75%', md: '85%', sm: '100%'}} px={4}>
             <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
                 <HStack spacing={8} alignItems={'center'}>
-                <Link href='/'>
+                <Link as={ReactLink} to='/'>
                     <HStack>
                         <Image className='h-16' src={BooBo_logo} alt="BooBo Logo"></Image>
-                        <Text fontSize={'2xl'} className='theme-header' fontFamily={'Pacifico'}>BooBo</Text>
+                        <Text fontSize={'2xl'} className='theme-header' color={'gray.700'} fontFamily={'Pacifico'}>BooBo</Text>
                     </HStack>
                 </Link>
                 {/*<HStack
@@ -79,7 +80,7 @@ import BooBo_logo from '../assets/BooBo_logo.png';
                         {!loggedIn &&
                         <>
                             <Button mr={4}>{<ChatIcon/>}</Button>
-                            <Link href='/signup'>
+                            <Link as={ReactLink} to='/signup'>
                                 <Button
                                     variant={'solid'}
                                     bg={'red.200'}
@@ -90,7 +91,7 @@ import BooBo_logo from '../assets/BooBo_logo.png';
                                     Register
                                 </Button>
                             </Link>
-                            <Link href='/login'>
+                            <Link as={ReactLink} to='/login'>
                                 <Button
                                     variant={'solid'}
                                     background={'red.200'}
@@ -117,7 +118,7 @@ import BooBo_logo from '../assets/BooBo_logo.png';
                         />
                         </MenuButton>
                         <MenuList rounded={'2xl'}>
-                            <Link href='/profile'>
+                            <Link as={ReactLink} to='/profile'>
                                 <MenuItem padding={4}>My Profile</MenuItem>
                             </Link>
                         <MenuItem padding={4}>Messages</MenuItem>
