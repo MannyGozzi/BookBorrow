@@ -7,7 +7,8 @@ const ThemedHeader = ({ text }: TextType) => {
         <Text
             fontSize={'3xl'}
             className='theme-header'
-            m={4}>
+            m={4}
+            color={'gray.600'}>
             {text}
         </Text>
     )
