@@ -20,7 +20,8 @@ import {
     useColorMode,
     Center,
     Image,
-    Text
+    Text,
+    useColorModeValue
 } from '@chakra-ui/react';
 import { NavLink as ReactLink } from "react-router-dom"
 import { MoonIcon, SunIcon, /*HamburgerIcon, CloseIcon, AddIcon,*/ ChatIcon } from '@chakra-ui/icons';
@@ -60,7 +61,7 @@ export default function Nav() {
                 <Link as={ReactLink} to='/'>
                     <HStack>
                         <Image className='h-16' src={BooBo_logo} alt="BooBo Logo"></Image>
-                        <Text fontSize={'2xl'} className='theme-header' color={'gray.700'} fontFamily={'Pacifico'}>BooBo</Text>
+                        <Text fontSize={'2xl'} className='theme-header' color={useColorModeValue('gray.800', 'gray.100')} fontFamily={'Pacifico'}>BooBo</Text>
                     </HStack>
                 </Link>
                 {/*<HStack
