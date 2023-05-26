@@ -103,7 +103,12 @@ router.post('/register', async (req, res) => {
 
   try {
     await user.save()
-    return res.status(201).json({ user: user.toJSON(), msg: 'User created successfully' })
+
+    const jwtToken = issueJWT(user)
+
+    return res.status(201)
+      .cookie('jwt', jwtToken.token, { httpOnly: true, secure: false })
+      .json({ user: user.toJSON(), msg: 'User created successfully' })
   } catch (e) {
     return res.status(400).json({ msg: 'Error creating user' })
   }

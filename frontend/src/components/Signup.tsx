@@ -26,7 +26,7 @@ export const Signup = () => {
 
   const signup = async () => {
     const response = await axios.post('http://localhost:3000/users/register',
-    {firstName, lastName, email, password, zip_code: zipCode, username});
+    {firstName, lastName, email, password, zip_code: zipCode, username}, {withCredentials: true});
     console.log(response.data);
   }
 
