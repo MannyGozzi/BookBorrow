@@ -29,7 +29,11 @@ import {
 
     const login = async () => {
       const response = await axios.post('http://localhost:3000/users/login',
-      {email, password});
+      {email, password},
+      {
+        withCredentials: true
+      }
+      );
       console.log(response.data);
       // TODO: ADD ALERT WHEN LOGIN FAILS AND RESET FIELDS
     }
