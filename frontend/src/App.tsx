@@ -1,4 +1,3 @@
-import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from 'react';
 import './App.css';
@@ -7,7 +6,6 @@ import Login from './pages/Login';
 import BookUpload from './components/BookUpload';
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
-import { Box, Center } from "@chakra-ui/react";
 import FourOFour from "./pages/FourOFour";
 import Nav from "./components/Nav";
 

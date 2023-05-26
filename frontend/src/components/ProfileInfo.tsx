@@ -22,6 +22,7 @@ import {
   } from '@chakra-ui/react'
   
   import StarRating from './RatingStars'
+  import BookUpload from './BookUpload'
 
   export default function ProfileInfo() {
   return (
@@ -52,15 +53,8 @@ import {
               <HStack spacing='40px'> 
                     <Text fontSize="md">Email: user@gmail.com</Text>
                 <Spacer />
-                <Button
-                  variant={'solid'}
-                  colorScheme={'orange'}
-                  size={'md'}
-                  m={4}>
-                  Upload Book
-                </Button>
+                <BookUpload/>
               </HStack>
-                  <Text fontSize="md">Phone Number: 1-800-000-0000</Text>
           </Box>
           </VStack>
           </Flex>

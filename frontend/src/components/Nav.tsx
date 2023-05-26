@@ -1,26 +1,27 @@
 import { useState } from 'react';
 import {
-  Box,
-  Flex,
-  Avatar,
-  HStack,
-  Link,
-  Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  /*
-  MenuDivider,
-  useDisclosure,
-  IconButton,
-  useColorModeValue,
-  Stack,
-  */
-  useColorMode,
-  Center,
-  Image,
-  Text
+    Box,
+    Flex,
+    Avatar,
+    HStack,
+    Link,
+    Button,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    /*
+    MenuDivider,
+    useDisclosure,
+    IconButton,
+    useColorModeValue,
+    Stack,
+    */
+    useColorMode,
+    Center,
+    Image,
+    Text,
+    useColorModeValue
 } from '@chakra-ui/react';
 import { NavLink as ReactLink } from "react-router-dom"
 import { MoonIcon, SunIcon, /*HamburgerIcon, CloseIcon, AddIcon,*/ ChatIcon } from '@chakra-ui/icons';
@@ -43,14 +44,14 @@ import BooBo_logo from '../assets/BooBo_logo.png';
 //     </Link>
 //   );
 
-  export default function Nav() {
+export default function Nav() {
     const { colorMode, toggleColorMode } = useColorMode();
     const [loggedIn, setLoggedIn] = useState(false);
 
     const login = () => {
-        setLoggedIn(true);
+        setLoggedIn(false);
     }
-    
+
     return (
       <>
         <Center>
@@ -60,7 +61,7 @@ import BooBo_logo from '../assets/BooBo_logo.png';
                 <Link as={ReactLink} to='/'>
                     <HStack>
                         <Image className='h-16' src={BooBo_logo} alt="BooBo Logo"></Image>
-                        <Text fontSize={'2xl'} className='theme-header' color={'gray.700'} fontFamily={'Pacifico'}>BooBo</Text>
+                        <Text fontSize={'2xl'} className='theme-header' color={useColorModeValue('gray.800', 'gray.100')} fontFamily={'Pacifico'}>BooBo</Text>
                     </HStack>
                 </Link>
                 {/*<HStack
@@ -131,4 +132,4 @@ import BooBo_logo from '../assets/BooBo_logo.png';
         </ Center>
       </>
     );
-  }
+}
