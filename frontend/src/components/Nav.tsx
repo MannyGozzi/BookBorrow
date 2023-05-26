@@ -60,7 +60,7 @@ import BooBo_logo from '../assets/BooBo_logo.png';
                 <Link as={ReactLink} to='/'>
                     <HStack>
                         <Image className='h-16' src={BooBo_logo} alt="BooBo Logo"></Image>
-                        <Text fontSize={'2xl'} className='theme-header' fontFamily={'Pacifico'}>BooBo</Text>
+                        <Text fontSize={'2xl'} className='theme-header' color={'gray.700'} fontFamily={'Pacifico'}>BooBo</Text>
                     </HStack>
                 </Link>
                 {/*<HStack

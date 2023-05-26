@@ -52,7 +52,7 @@ function BookView({ title, author, isbn, description, image, rating, distance }:
         <Flex flexDir={'column'} h={'57%'} justifyContent={'space-between'}>
           <Box>
             <Heading
-              color={useColorModeValue('gray.700', 'white')}
+              color={useColorModeValue('gray.600', 'white')}
               fontSize={'xl'}
               fontFamily={'Poppins'}
               mt={0}
