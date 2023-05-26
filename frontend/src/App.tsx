@@ -16,7 +16,6 @@ function App() {
   return (
     <BrowserRouter>
       <Nav />
-      <BookUpload />
       <Routes> 
         <Route path="/" element={<Home />} />
         <Route path="profile" element={<Profile />} />
