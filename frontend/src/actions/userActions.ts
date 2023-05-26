@@ -1,11 +1,10 @@
-
-import { IUser } from '../types';
+import { IUser } from '../types'
 
 // Action Types
-export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const SET_CURRENT_USER = 'SET_CURRENT_USER'
 
 // Action Creators
 export const setCurrentUser = (user: IUser) => ({
   type: SET_CURRENT_USER,
-  payload: user,
-});
+  payload: user
+})
