@@ -14,11 +14,33 @@ import {
     Image, 
     Center
   } from '@chakra-ui/react'
-  // import { OAuthButtonGroup } from './OAuthButtonGroup'
   import { PasswordField } from './PasswordField'
-  import BooBo_logo from '../assets/BooBo_logo.png'
+  import React, { ChangeEvent, ChangeEventHandler } from 'react'
+
+  interface LoginCredentials {
+    email: string,
+    password: string
+  }
   
   export const Login = () =>  {
+    const [email, setEmail] = React.useState('')
+    const [password, setPassword] = React.useState('')
+
+    const login = async () => {
+      const response = await fetch('http://localhost:3000/users/login',
+      {
+        method: "POST",
+        mode: 'no-cors',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({email, password}),
+      });
+      const data = await response.json();
+      console.log(data);
+      // TODO: ADD ALERT WHEN LOGIN FAILS AND RESET FIELDS
+    }
+
   return (
     <Container maxW="lg" py={{ base: '12', md: '24' }} px={{ base: '0', sm: '8' }}>
       <Stack spacing="8">
@@ -45,9 +67,13 @@ import {
             <Stack spacing="5">
               <FormControl>
                 <FormLabel htmlFor="email">Email</FormLabel>
-                <Input id="email" type="email" />
+                <Input id="email" type="email" onChange={
+                  (e : React.FormEvent<HTMLInputElement>) => {
+                    setEmail(e.currentTarget.value)}}/>
               </FormControl>
-              <PasswordField />
+              <PasswordField onChange={
+                  (e : React.FormEvent<HTMLInputElement>) => {
+                    setPassword(e.currentTarget.value)}}/>
             </Stack>
             <HStack justify="space-between">
               {/* <Checkbox defaultChecked>Remember me</Checkbox> */}
@@ -56,7 +82,7 @@ import {
               </Button> */}
             </HStack>
             <Stack spacing="6">
-              <Button variant="primary">Sign in</Button>
+              <Button variant="primary" type='submit' onClick={login}>Sign in</Button>
               <HStack>
                 <Divider />
                 {/* <Text fontSize="sm" whiteSpace="nowrap" color="muted">

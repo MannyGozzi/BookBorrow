@@ -15,8 +15,8 @@ dotenv.config()
 const PORT = process.env.PORT || 3000
 
 const app = express()
-app.use(bodyParser.urlencoded({ extended: false })) // For body parser
-app.use(bodyParser.json())
+app.use(express.json()); // support json encoded bodies
+app.use(express.urlencoded({ extended: true })); // support encoded bodies
 app.use(
   cookieSession({
     name: 'mysession',

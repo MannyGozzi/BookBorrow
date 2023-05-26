@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler'
 import UserModel from '../models/User'
 import { issueJWT } from '../helpers/JWT'
 import User from '../models/User'
-import { genSalt, hash } from 'bcryptjs'
+import { hash } from 'bcryptjs'
 import { verifyJWT } from '../middlewares/auth'
 
 const router = express.Router()
@@ -75,16 +75,19 @@ router.get('/logout', (req: Request, res: Response) => {
 })
 
 router.post('/register', async (req, res) => {
+  console.log(req.body)
+  let data = JSON.stringify(req.body)
+  console.log(data)
   const { email, password, zip_code, username, firstName, lastName } = req.body
+  const existingUsername = await UserModel.findOne({ username }).exec()
 
-  const existingUsername = UserModel.findOne({ username })
-
+  console.log(existingUsername)
+  console.log(password)
   if (existingUsername) {
     res.status(400).json({ msg: 'Username already taken' })
   }
 
-  const salt = await genSalt(10)
-  const encryptedPassword = await hash(password, salt)
+  const encryptedPassword = await hash(password, 10)
 
   const user = new UserModel({
     email,
