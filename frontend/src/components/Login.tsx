@@ -16,6 +16,7 @@ import {
   } from '@chakra-ui/react'
   import { PasswordField } from './PasswordField'
   import React, { ChangeEvent, ChangeEventHandler } from 'react'
+  import axios from 'axios'
 
   interface LoginCredentials {
     email: string,
@@ -27,17 +28,9 @@ import {
     const [password, setPassword] = React.useState('')
 
     const login = async () => {
-      const response = await fetch('http://localhost:3000/users/login',
-      {
-        method: "POST",
-        mode: 'no-cors',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({email, password}),
-      });
-      const data = await response.json();
-      console.log(data);
+      const response = await axios.post('http://localhost:3000/users/login',
+      {email, password});
+      console.log(response.data);
       // TODO: ADD ALERT WHEN LOGIN FAILS AND RESET FIELDS
     }
 

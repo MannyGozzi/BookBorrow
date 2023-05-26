@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react'
 import { PasswordField, ConfirmPasswordField } from './PasswordField'
 import React from 'react'
+import axios from 'axios';
 
 export const Signup = () => {
 
@@ -24,17 +25,9 @@ export const Signup = () => {
   const [zipCode, setZipCode] = React.useState('')
 
   const signup = async () => {
-    const response = await fetch('http://localhost:3000/users/register',
-    {
-      method: "POST",
-      mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: JSON.stringify({firstName, lastName, email, password, zip_code: zipCode, username}),
-    });
-    const data = await response.json();
-    console.log(data);
+    const response = await axios.post('http://localhost:3000/users/register',
+    {firstName, lastName, email, password, zip_code: zipCode, username});
+    console.log(response.data);
   }
 
 return (
