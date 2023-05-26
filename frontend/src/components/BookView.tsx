@@ -14,11 +14,11 @@ import {
   VStack,
   Stack
 } from '@chakra-ui/react';
-
 import { StarIcon, WarningTwoIcon } from '@chakra-ui/icons';
 import { BookViewType } from '../types.d';
 
-function BookView({ title, author, isbn, description, image, rating, distance }: BookViewType) {
+// Take in book type and convert to BookViewType instead???
+function BookView({ _id, lender, title, author, isbn, description, image, rating, distance }: BookViewType) {
   const isAvailable = true;
   return (
     <Center >
@@ -48,7 +48,7 @@ function BookView({ title, author, isbn, description, image, rating, distance }:
           {!isAvailable && <WarningTwoIcon boxSize={5} color={'red.500'}/>}
           {[...Array(Math.floor(rating))].map((star, index) => <StarIcon boxSize={4} key={index} color={'red.300'} />)}
           {[...Array(5 - Math.floor(rating))].map((star, index) => <StarIcon boxSize={4} key={index + 5} color={'gray.300'} />)}
-          <Text fontWeight={'bold'} fontSize={'sm'} m={0}>{distance}mi.</Text>
+          <Text fontWeight={'bold'} fontSize={'sm'} m={0}>{distance} mi.</Text>
         </HStack>
         </Box>
         
@@ -90,20 +90,21 @@ function BookView({ title, author, isbn, description, image, rating, distance }:
           <HStack gap={3} justifyContent={'space-between'} background={useColorModeValue('gray.100', 'gray.600')} rounded={'2xl'} p={2} overflow={'hidden'}>
             <HStack>
               <Avatar size={'sm'} mr={1} />
-                <Link href='/'>
+                <Link href={`/${lender}`}>
                   <Text fontWeight={'700'} fontSize={'sm'} fontFamily={'Poppins'}>@lender_name</Text>
                 </Link>
             </HStack>
-
-            <Button 
-              rounded={'2xl'}
-              variant={'solid'}
-              background={useColorModeValue('gray.100', 'gray.600')}
-              color={'red.300'}
-              fontFamily={'Poppins'}
-              size={'md'}>
-              View
-            </Button>
+            <Link href={`/${_id}`}>
+              <Button 
+                rounded={'2xl'}
+                variant={'solid'}
+                background={useColorModeValue('gray.100', 'gray.600')}
+                color={'red.300'}
+                fontFamily={'Poppins'}
+                size={'md'}>
+                View
+              </Button>
+            </Link>
           </HStack>
         </Flex>
       </Box>

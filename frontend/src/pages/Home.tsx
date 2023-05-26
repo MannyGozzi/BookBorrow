@@ -10,6 +10,8 @@ import Footer from "../components/Footer";
 
 const bookViews: BookViewType[] = [
   {
+  _id: '1',
+  lender: 'dude',
   title: 'The Hobbit',
   author: 'J.R.R. Tolkien',
   isbn: '9780547928227',
@@ -19,6 +21,8 @@ const bookViews: BookViewType[] = [
   distance: 1.2
   },
   {
+  _id: '2',
+  lender: 'guy',
   title: 'Stuff',
   author: 'A person',
   isbn: '9700547928227',
@@ -28,6 +32,8 @@ const bookViews: BookViewType[] = [
   distance: 5.2
   },
   {
+  _id: '3',
+  lender: 'peep',
   title: 'The whatever else things',
   author: 'someone',
   isbn: '9700547928227',
@@ -37,6 +43,8 @@ const bookViews: BookViewType[] = [
   distance: 1.2
   },  
   {
+  _id: '4',
+  lender: 'dude',
   title: 'The whatever else things',
   author: 'someone',
   isbn: '9700547928227',
@@ -46,6 +54,8 @@ const bookViews: BookViewType[] = [
   distance: 1.2
   },
   {
+  _id: '5',
+  lender: 'peep',
   title: 'The Hobbit',
   author: 'J.R.R. Tolkien',
   isbn: '9780547928227',
@@ -55,6 +65,8 @@ const bookViews: BookViewType[] = [
   distance: 1.2
   },
   {
+  _id: '6',
+  lender: 'person',
   title: 'The whatever else things',
   author: 'someone',
   isbn: '9700547928227',
@@ -64,6 +76,8 @@ const bookViews: BookViewType[] = [
   distance: 1.2
   },
   {
+  _id: '7',
+  lender: 'guy',
   title: 'The whatever else things',
   author: 'someone',
   isbn: '9700547928227',
@@ -73,6 +87,8 @@ const bookViews: BookViewType[] = [
   distance: 1.2
   },  
   {
+  _id: '8',
+  lender: 'human',
   title: 'The whatever else things',
   author: 'someone',
   isbn: '9700547928227',
@@ -82,6 +98,8 @@ const bookViews: BookViewType[] = [
   distance: 1.2
   },
   {
+  _id: '9',
+  lender: 'cadt',
   title: 'The whatever else things',
   author: 'someone',
   isbn: '9700547928227',
@@ -91,6 +109,8 @@ const bookViews: BookViewType[] = [
   distance: 1.2
   },
   {
+  _id: '10',
+  lender: 'doge',
   title: 'The whatever else things',
   author: 'someone',
   isbn: '9700547928227',
@@ -100,6 +120,8 @@ const bookViews: BookViewType[] = [
   distance: 1.2
   },
   {
+  _id: '11',
+  lender: 'guy',
   title: 'The Hobbit',
   author: 'J.R.R. Tolkien',
   isbn: '9780547928227',
@@ -109,6 +131,8 @@ const bookViews: BookViewType[] = [
   distance: 1.2
   },
   {
+  _id: '12',
+  lender: 'me',
   title: 'The whatever else things',
   author: 'someone',
   isbn: '9700547928227',
@@ -118,6 +142,8 @@ const bookViews: BookViewType[] = [
   distance: 1.2
   },
   {
+  _id: '13',
+  lender: 'you',
   title: 'The whatever else things',
   author: 'someone',
   isbn: '9700547928227',
@@ -127,6 +153,8 @@ const bookViews: BookViewType[] = [
   distance: 1.2
   },
   {
+  _id: '14',
+  lender: 'peep',
   title: 'The Hobbit 2',
   author: 'J.R.R. Tolkien',
   isbn: '9780547928227',
@@ -169,7 +197,7 @@ const Home = () => {
         <ThemedHeader text={'Results'} />
         <Box className='grid md:grid-cols-2 lg:grid-cols-3 sm:grid-cols-1 gap-7 pb-16'>
             {sortedBookViews.slice(0, next).map((book) => (
-                <BookView key={book.isbn} title={book.title} 
+                <BookView _id={book._id} lender={book.lender} key={book.isbn} title={book.title} 
                 author={book.author} isbn={book.isbn} 
                 description={book.description.slice(0, 125) + "..."} 
                 image={book.image} rating={book.rating} distance={book.distance} />
