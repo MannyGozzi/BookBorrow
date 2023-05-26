@@ -9,12 +9,13 @@ import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import { Box, Center } from "@chakra-ui/react";
 import FourOFour from "./pages/FourOFour";
+import Nav from "./components/Nav";
 
 function App() {
 
   return (
     <BrowserRouter>
-      <Login />
+      <Nav />
       <BookUpload />
       <Routes> 
         <Route path="/" element={<Home />} />
