@@ -15,7 +15,7 @@ import {
   useColorModeValue
 } from '@chakra-ui/react'
 import { PasswordField, ConfirmPasswordField } from './PasswordField'
-import { Link as ReactLink } from 'react-router-dom'
+import { Link as ReactLink, useNavigate } from 'react-router-dom'
 import React from 'react'
 import axios from 'axios';
 
@@ -28,10 +28,17 @@ export const Signup = () => {
   const [password, setPassword] = React.useState('')
   const [zipCode, setZipCode] = React.useState('')
 
+  const redirect = useNavigate();
+
   const signup = async () => {
-    const response = await axios.post('http://localhost:3000/users/register',
-    {firstName, lastName, email, password, zip_code: zipCode, username});
-    console.log(response.data);
+    await axios.post('http://localhost:3000/users/register',
+    {firstName, lastName, email, password, zip_code: zipCode, username})
+    .then((response) => {
+      redirect('/login')
+    })
+    .catch((error) => {
+      console.log(error)
+    })
   }
 
   return (
