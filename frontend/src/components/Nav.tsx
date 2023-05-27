@@ -60,7 +60,7 @@ export default function Nav() {
                 <HStack spacing={8} alignItems={'center'}>
                 <Link as={ReactLink} to='/'>
                     <HStack>
-                        <Image className='h-16' src={BooBo_logo} alt="BooBo Logo"></Image>
+                        <Image className='h-16' src={BooBo_logo} alt="BooBo L`ogo"></Image>
                         <Text fontSize={'2xl'} className='theme-header' color={useColorModeValue('gray.800', 'gray.100')} fontFamily={'Pacifico'}>BooBo</Text>
                     </HStack>
                 </Link>
