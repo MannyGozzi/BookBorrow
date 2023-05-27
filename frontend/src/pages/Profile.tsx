@@ -1,6 +1,6 @@
 import React from 'react'
 import UserBook from '../components/UserBook'
-import { UserBookType } from '../types'
+import { UserBookType } from '../types.d'
 import ThemedHeader from '../components/ThemedHeader'
 import { Stack, Box, Center } from '@chakra-ui/react'
 import ProfileInfo from '../components/ProfileInfo'
