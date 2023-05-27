@@ -8,3 +8,8 @@ export const setCurrentUser = (user: IUser) => ({
   type: SET_CURRENT_USER,
   payload: user
 })
+
+export const resetCurrentUser = () => ({
+  type: SET_CURRENT_USER,
+  payload: null
+})

@@ -76,7 +76,8 @@ function BookView({ _id, lender, title, author, isbn, description, image, rating
                 textTransform={'uppercase'}
                 fontWeight={400}
                 fontSize={'xs'}
-                letterSpacing={1.1}>
+                letterSpacing={1.1}
+                key={isbn}>
                 | {isbn}
               </Text>
             </HStack>
