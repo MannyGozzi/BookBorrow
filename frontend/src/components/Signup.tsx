@@ -39,7 +39,6 @@ export const Signup = () => {
     .catch((error) => {
       console.log(error)
     })
-    
   }
 
   return (
