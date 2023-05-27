@@ -196,8 +196,8 @@ const Home = () => {
         <FilterBar />
         <ThemedHeader text={'Results'} />
         <Box className='grid md:grid-cols-2 lg:grid-cols-3 sm:grid-cols-1 gap-7 pb-16'>
-            {sortedBookViews.slice(0, next).map((book) => (
-                <BookView _id={book._id} lender={book.lender} key={book.isbn} title={book.title} 
+            {sortedBookViews.slice(0, next).map((book, index) => (
+                <BookView _id={book._id} lender={book.lender} key={index} title={book.title} 
                 author={book.author} isbn={book.isbn} 
                 description={book.description.slice(0, 125) + "..."} 
                 image={book.image} rating={book.rating} distance={book.distance} />

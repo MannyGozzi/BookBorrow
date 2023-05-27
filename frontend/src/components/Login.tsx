@@ -19,6 +19,8 @@ import {
   import React, { useEffect } from 'react'
   import axios from 'axios'
   import {Link as ReactLink, useNavigate} from 'react-router-dom'
+  import { useDispatch } from 'react-redux'
+  import { setCurrentUser } from '../actions/userActions'
 
   interface LoginCredentials {
     email: string,
@@ -32,24 +34,21 @@ import {
 
     const redirect = useNavigate();
 
-    const login = async (autoLogin: Boolean) => {
+    const dispatch = useDispatch()
+
+    const login = async () => {
       await axios.post('http://localhost:3000/users/login',
         {email, password},
         {withCredentials: true})
         .then((response) => {
+          dispatch(setCurrentUser(response.data.user))
           redirect('/')
         })
         .catch((error) => {
           console.log(error)
-          if (!autoLogin) setLoginFail(true)
+          setLoginFail(true)
         })
-          // TODO: ADD ALERT WHEN LOGIN FAILS AND RESET FIELDS
     }
-
-    // automatically login using credentials
-    useEffect(() => {
-      login(true)
-    }, [])
 
   return (
     <Container maxW="lg" py={{ base: '12', md: '24' }} px={{ base: '0', sm: '8' }}>
@@ -97,7 +96,7 @@ import {
             <HStack justify="space-between">
             </HStack>
             <Stack spacing="6">
-              <Button variant="primary" type='submit' onClick={()=>login(false)} background={useColorModeValue('gray.100', 'gray.600')}>Sign in</Button>
+              <Button variant="primary" type='submit' onClick={login} background={useColorModeValue('gray.100', 'gray.600')}>Sign in</Button>
             </Stack>
           </Stack>
         </Box>
