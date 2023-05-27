@@ -37,14 +37,10 @@ import {
         {email, password},
         {withCredentials: true})
         .then((response) => {
-          if (response.status === 200) redirect('/')
-          else {
-            console.log('login failed')
-            if (!autoLogin) setLoginFail(true)
-          }
+          redirect('/')
         })
         .catch((error) => {
-          console.log('login failed')
+          console.log(error)
           if (!autoLogin) setLoginFail(true)
         })
           // TODO: ADD ALERT WHEN LOGIN FAILS AND RESET FIELDS
