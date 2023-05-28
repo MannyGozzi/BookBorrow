@@ -11,7 +11,8 @@ const bookSchema = new Schema<IBook>({
   genre: { type: String },
   cover_image: { type: String },
   description: { type: String },
-  lender: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  lender: { type: String, ref: 'User', required: true },
+  borrower: { type: String, ref: 'User', default: null },
   available: { type: Boolean, default: true },
   date_added: { type: Date, required: true, default: Date.now },
   zip_code: { type: String, required: true }
