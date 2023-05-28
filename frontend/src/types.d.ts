@@ -50,6 +50,10 @@ export interface IBook {
   zip_code: string
 }
 
+export interface IBookView extends IBook {
+  distance: number
+}
+
 export interface IReview {
   _id: number
   reviewer: Types.ObjectId
