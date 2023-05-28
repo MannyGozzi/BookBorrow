@@ -13,7 +13,6 @@ router.post(
   [verifyJWT, fileUpload()],
   asyncHandler(async (req, res) => {
     const { title, author, isbn, publication_date, genre, cover_image, description } = req.body
-    console.log(req.body)
     const user = await UserModel.findById(req.userId)
 
     if (!user) {

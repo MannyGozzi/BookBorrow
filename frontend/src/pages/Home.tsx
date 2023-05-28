@@ -41,7 +41,6 @@ const Home = () => {
       searchTerm: ''
     }})
       .then(response => {
-        // console.log('books', addDistanceToBooks(response.data.books))
         dispatch(setBooks(addDistanceToBooks(response.data.books)))
 
       })

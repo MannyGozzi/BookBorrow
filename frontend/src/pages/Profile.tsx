@@ -23,7 +23,6 @@ const Profile = () => {
         .then(res => {
             dispatch(setBooks(res.data.books))
             setUserBooks(res.data.books)
-            // console.log("res.data.books", res.data.books)
         })
         .catch(err => console.log(err.message))
     }, [])
