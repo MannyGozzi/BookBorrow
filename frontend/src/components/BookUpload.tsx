@@ -40,11 +40,11 @@ const BookUpload = () => {
     return () => clearTimeout(delayDebounceFn)
   }, [name])
   
-  const signup = async () => {
-    const response = await axios.post('http://localhost:3000/users/register',
-    {firstName, lastName, email, password, zip_code: zipCode, username}, {withCredentials: true});
-    console.log(response.data);
-  }
+  // const signup = async () => {
+  //   const response = await .post('http://localhost:3000/users/register',
+  //   {firstName, lastName, email, password, zip_code: zipCode, username}, {withCredentials: true});
+  //   console.log(response.data);
+  // }
 
   return (
     <>
