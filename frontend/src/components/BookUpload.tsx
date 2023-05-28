@@ -16,40 +16,48 @@ import {
   Box
 } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
-import { search } from '@chewhx/google-books'
+// import { search } from '@chewhx/google-books'
 import ImageUpload from './ImageUpload'
 import axios from 'axios'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { addBook } from '../actions/bookActions'
 
 const BookUpload = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-
   const [title, setTitle] = useState<string>('')
   const [author, setAuthor] = useState<string>('')
   const [isbn, setIsbn] = useState<string>('')
-  const [publication_date, setPublication_date] = useState<string>('')
+  const [publication_date, setPublication_date] = useState<Date | null>()
   const [genre, setGenre] = useState<string>('')
-  const [cover_image, setCover_image] = useState<string>('')
+  const [cover_image, setCover_image] = useState<File | null | String>()
   const [description, setDescription] = useState<string>('')
-
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null)
+  const user = useSelector((state: any) => state.user)
+  const dispatch = useDispatch()
+  // useEffect(() => {
+  //   const delayDebounceFn = setTimeout(() => {
+  //     if (!title) return;
+  //     search(title)
+  //       .then(res => {
+  //         console.log(res);
+  //       })
+  //   }, 1000)
 
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      if (!title) return;
-      search(title)
-        .then(res => {
-          console.log(res);
-        })
-    }, 1000)
+  //   return () => clearTimeout(delayDebounceFn)
+  // }, [title])
 
-    return () => clearTimeout(delayDebounceFn)
-  }, [title])
-
-  const signup = async () => {
-    const response = await axios.post('http://localhost:3000/books',
-      { title, author, isbn, publication_date, genre, cover_image, description }, { withCredentials: true });
-    console.log(response.data);
+  const submit = async () => {
+    setCover_image('https://images.pexels.com/photos/4778341/pexels-photo-4778341.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')
+    axios.post('http://localhost:3000/books',
+      { title, author, isbn, publication_date, genre, cover_image, description, userId: user._id }, 
+      { withCredentials: true })
+      .then(response => {
+        dispatch(addBook(response.data))
+      })
+      .catch(error => console.error(error))
+    onClose()
   }
 
   return (
@@ -73,7 +81,7 @@ const BookUpload = () => {
               <Center>
                 <Box height="100%" display="flex" alignItems="center" justifyContent="center">
                   <Center width="100%" height="100%">
-                    <ImageUpload />
+                    <ImageUpload retrieveImage={setCover_image}/>
                   </Center>
                 </Box>
               </Center>
@@ -96,7 +104,7 @@ const BookUpload = () => {
 
             <Heading size='sm'>Publication Date</Heading>
             <FormControl mt={4}>
-              <Input type='DATE' placeholder='01/01/2023' onChange={(event) => setPublication_date(event.target.value)}/>
+              <Input type='DATE' placeholder='01/01/2023' onChange={(event) => setPublication_date(event.target.valueAsDate)}/>
             </FormControl>
 
             <Heading size='sm'>Genre</Heading>
@@ -131,7 +139,7 @@ const BookUpload = () => {
             <Button variant='ghost' mr={3} onClick={onClose}>
               Cancel
             </Button>
-            <Button colorScheme='blue' mr={3} onClick={onClose}>
+            <Button colorScheme='blue' mr={3} onClick={submit}>
               Submit
             </Button>
           </ModalFooter>

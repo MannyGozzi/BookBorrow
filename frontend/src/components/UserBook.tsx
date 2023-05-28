@@ -13,9 +13,9 @@ import {
 } from '@chakra-ui/react';
 
 import {StarIcon} from '@chakra-ui/icons';
-import { UserBookType } from '../types.d';
+import { IBook } from '../types.d';
 
-function UserBook({title, author, isbn, description, image, rating}: UserBookType) {
+function UserBook({title, author, isbn, description, cover_image}: IBook) {
   return (
     <Center >
       <Box
@@ -46,7 +46,7 @@ function UserBook({title, author, isbn, description, image, rating}: UserBookTyp
             </Button>
           </Center>
           <Image
-            src={image}
+            src={cover_image}
             boxSize={'full'}
             objectFit='cover'
             alt='Book Image'/>
@@ -75,10 +75,6 @@ function UserBook({title, author, isbn, description, image, rating}: UserBookTyp
               letterSpacing={1.1}>
               | {isbn}
             </Text>
-          </HStack>
-          <HStack>
-            {[...Array(Math.floor(rating))].map((star, index) => <StarIcon key={index} color={'red.300'}/>)}
-            {[...Array(5-Math.floor(rating))].map((star, index) => <StarIcon key={index + 5} color={'gray.300'}/>)}
           </HStack>
           <Text 
           color={'gray.500'}

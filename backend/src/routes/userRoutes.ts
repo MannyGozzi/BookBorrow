@@ -5,6 +5,8 @@ import { issueJWT } from '../helpers/JWT'
 import User from '../models/User'
 import { hash } from 'bcryptjs'
 import { verifyJWT } from '../middlewares/auth'
+import BookModel from '../models/Book'
+import ReviewModel from '../models/Review'
 
 const router = express.Router()
 
@@ -13,7 +15,12 @@ router.get(
   asyncHandler(async (req, res) => {
     const user = await UserModel.findById(req.params.id)
     if (user) {
-      res.json(user)
+      const [books, reviews] = await Promise.all([
+        BookModel.find({ lender: user._id }), 
+        ReviewModel.find({ reviewed: user._id })
+      ]);
+
+      res.json({user: user.toJSON(), books, reviews})
     } else {
       res.status(404)
       throw new Error('User not found')
