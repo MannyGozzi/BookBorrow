@@ -1,4 +1,4 @@
-import { Document, Types } from 'mongoose'
+import { Document } from 'mongoose'
 
 export interface IUser extends Document {
   id: number
@@ -6,6 +6,8 @@ export interface IUser extends Document {
   email: string
   password: string
   first_name: string
+  lender: String
+  borrower?: String | null
   last_name: string
   date_joined: Date
   is_staff: boolean
@@ -24,8 +26,8 @@ export interface IBook extends Document {
   genre?: string
   cover_image?: string
   description?: string
-  lender: Types.ObjectId
-  borrower?: Types.ObjectId | null
+  lender: string
+  borrower?: string
   available: boolean
   date_added: Date
   zip_code: string
@@ -33,8 +35,8 @@ export interface IBook extends Document {
 
 export interface IReview extends Document {
   id: number
-  reviewer: Types.ObjectId
-  reviewed: Types.ObjectId
+  reviewer: String
+  reviewed_lender: String
   rating: number
   comment?: string
   date_created: Date
@@ -42,8 +44,8 @@ export interface IReview extends Document {
 
 interface ICheckout extends Document {
   id: number
-  user: Types.ObjectId
-  book: Types.ObjectId
+  user: String
+  book: String
   checkout_date: Date
   due_date: Date
   return_date?: Date | null

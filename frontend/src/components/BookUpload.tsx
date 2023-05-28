@@ -15,33 +15,51 @@ import {
   useDisclosure,
   Box
 } from '@chakra-ui/react'
-import React, {useEffect, useState} from 'react'
-import { search } from '@chewhx/google-books'
+import React, { useState } from 'react'
+// import { search } from '@chewhx/google-books'
 import ImageUpload from './ImageUpload'
 import axios from 'axios'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { addBook } from '../actions/bookActions'
 
 const BookUpload = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure() 
-
-  const [name, setName] = useState<string>("");
-  const [isbn, setIsbn] = useState<number>();
-
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [title, setTitle] = useState<string>('')
+  const [author, setAuthor] = useState<string>('')
+  const [isbn, setIsbn] = useState<string>('')
+  const [publication_date, setPublication_date] = useState<Date | null>()
+  const [genre, setGenre] = useState<string>('')
+  const [cover_image, setCover_image] = useState<File | null | String>()
+  const [description, setDescription] = useState<string>('')
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null)
+  const user = useSelector((state: any) => state.user)
+  const dispatch = useDispatch()
   
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      if (!name) return;
-      search(name)
-      .then(res => {
-        console.log(res);
-      })
-    }, 1000)
+  // useEffect(() => {
+  //   const delayDebounceFn = setTimeout(() => {
+  //     if (!title) return;
+  //     search(title)
+  //       .then(res => {
+  //         console.log(res);
+  //       })
+  //   }, 1000)
 
-    return () => clearTimeout(delayDebounceFn)
-  }, [name])
-  
-  
+  //   return () => clearTimeout(delayDebounceFn)
+  // }, [title])
+
+  const submit = async () => {
+    setCover_image('https://images.pexels.com/photos/448835/pexels-photo-448835.jpeg')
+    axios.post('http://localhost:3000/books',
+      { title, author, isbn, publication_date, genre, cover_image, description, userId: user._id }, 
+      { withCredentials: true })
+      .then(response => {
+        dispatch(addBook(response.data))
+      })
+      .catch(error => console.error(error))
+    onClose()
+  }
 
   return (
     <>
@@ -52,54 +70,77 @@ const BookUpload = () => {
       </Button>
       <Modal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent w={'100%'}>
           <ModalHeader>
-            <center>
+            <Center>
               <span className='theme-header'>Book Upload</span>
-            </center>
+            </Center>
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={6}>
+          <ModalBody pb={6} w={'100%'}>
             <Heading>
               <Center>
-              <Box height="100%" display="flex" alignItems="center" justifyContent="center">
-                <Center width="100%" height="100%">
-                <ImageUpload/>
-                 </Center>
-              </Box>
+                <Box height="100%" display="flex" alignItems="center" justifyContent="center">
+                  <Center width="100%" height="100%">
+                    <ImageUpload retrieveImage={setCover_image}/>
+                  </Center>
+                </Box>
               </Center>
             </Heading>
 
             <Heading size='sm'>Title</Heading>
             <FormControl>
-              <Input ref={initialRef} value={name} onChange={(event) => setName(event.target.value)} placeholder='Book Title' />
+              <Input ref={initialRef} onChange={(event) => setTitle(event.target.value)} placeholder='Book Title' />
             </FormControl>
 
             <Heading size='sm'>Author</Heading>
             <FormControl mt={4}>
-              <Input placeholder='Book Author' />
+              <Input placeholder='Book Author' onChange={(event) => setAuthor(event.target.value)}/>
             </FormControl>
 
-            <Heading size='sm'>Condition</Heading>
+            <Heading size='sm'>ISBN</Heading>
+            <FormControl mt={4}>
+              <Input placeholder='ISBN' onChange={(event) => setIsbn(event.target.value)}/>
+            </FormControl>
+
+            <Heading size='sm'>Publication Date</Heading>
+            <FormControl mt={4}>
+              <Input type='DATE' placeholder='01/01/2023' onChange={(event) => setPublication_date(event.target.valueAsDate)}/>
+            </FormControl>
+
+            <Heading size='sm'>Genre</Heading>
+            <Select placeholder='Select...' mt={4} onChange={(event)=> setGenre(event.target.value)}>
+              <option value='option1'>Fiction</option>
+              <option value='option2'>Non-fiction</option>
+            </Select>
+
+            <Heading size='sm'>Description</Heading>
+            <FormControl mt={4}>
+              <Input placeholder='A traveler goes on a journey to...' onChange={(event) => setDescription(event.target.value)}/>
+            </FormControl>
+
+            {/*<Heading size='sm'>Condition</Heading>
             <Select placeholder='Select...' mt={4}>
               <option value='option1'>Like New</option>
               <option value='option2'>Minimal Wear</option>
               <option value='option3'>Moderate Wear</option>
               <option value='option4'>In Tatters</option>
-            </Select>
+            </Select> */}
 
+            {/*}
             <Heading size='sm'>Cover Style</Heading>
             <Select placeholder='Select...' mt={4}>
               <option value='option1'>Hard Cover</option>
               <option value='option2'>Paperback</option>
             </Select>
+            */}
           </ModalBody>
 
           <ModalFooter>
             <Button variant='ghost' mr={3} onClick={onClose}>
               Cancel
             </Button>
-            <Button colorScheme='blue' mr={3} onClick={onClose}>
+            <Button colorScheme='blue' mr={3} onClick={submit}>
               Submit
             </Button>
           </ModalFooter>

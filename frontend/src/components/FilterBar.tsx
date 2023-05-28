@@ -5,7 +5,7 @@ import React from 'react'
 const FilterBar = () => {
   return (
     <Center mt={4} m={3}>
-      <HStack rounded={'3xl'} border={'1px solid'} borderColor={useColorModeValue('gray.200', 'gray.700')}  w={{lg: '75%', md: '85%', sm: '100%'}} p={0} m={0}>
+      <HStack rounded={'3xl'} w={'100%'} border={'1px solid'} borderColor={useColorModeValue('gray.200', 'gray.700')}   p={0} m={0}>
       <FormControl>
         <Flex alignItems={'center'} columnGap={1} rowGap={2} flexWrap={'wrap'}>
             <HStack rounded={'full'} background={useColorModeValue('gray.100', 'gray.700')} pl={3} gap={3} spacing={'space-between'}>

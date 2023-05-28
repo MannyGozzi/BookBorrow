@@ -3,89 +3,95 @@ import {
   Center,
   Heading,
   Text,
-  Stack,
-  Avatar,
   useColorModeValue,
   Image,
   HStack,
   Button,
-  ButtonGroup
+  Flex,
+  Link,
 } from '@chakra-ui/react';
+import { NavLink as ReactLink } from 'react-router-dom';
+import { IBook } from '../types.d';
 
-import {StarIcon} from '@chakra-ui/icons';
-import { UserBookType } from '../types.d';
-
-function UserBook({title, author, isbn, description, image, rating}: UserBookType) {
+// Take in book type and convert to BookViewType instead???
+function UserBook({ _id, lender, title, author, isbn, description, cover_image }: IBook) {
+  const rating = Math.random() * 5;
+  const isAvailable = true;
   return (
     <Center >
       <Box
         maxW={'445px'}
-        h={'full'}
+        h={'450px'}
         w={'full'}
         bg={useColorModeValue('white', 'gray.700')}
         boxShadow={'xl'}
         rounded={'xl'}
-        p={6}
+        p={3}
         overflow={'hidden'}>
         <Box
-          h={'210px'}
+          h={'200px'}
           bg={'gray.100'}
           mt={-6}
           mx={-6}
           mb={6}
           pos={'relative'}>
-          <Center position={'relative'}>
-            <Button
-              className='absolute top-0 right-0'
-              variant={'solid'}
-              position={'absolute'}
-              colorScheme={'teal'}
-              size={'lg'}
-              m={4}>
-              View
-            </Button>
-          </Center>
           <Image
-            src={image}
+            src={cover_image}
             boxSize={'full'}
             objectFit='cover'
-            alt='Book Image'/>
+            alt='Book Image' />
         </Box>
-        <Stack>
-          <Heading
-            color={useColorModeValue('gray.700', 'white')}
-            fontSize={'2xl'}
-            fontFamily={'body'}
-            m={0}>
-            {title}
-          </Heading>
-          <HStack className='content-center'>
+        
+        <Flex flexDir={'column'} h={'53%'} justifyContent={'space-between'}>
+          <Box>
+            <Heading
+              color={useColorModeValue('gray.600', 'white')}
+              fontSize={'xl'}
+              fontFamily={'Poppins'}
+              mt={0}
+              mb={2}>
+              {title}
+            </Heading>
+            <HStack className='content-center' mb={2}>
+              <Text
+                color={'red.300'}
+                textTransform={'uppercase'}
+                fontWeight={800}
+                fontFamily={'Poppins'}
+                fontSize={'sm'}>
+                {author}
+              </Text>
+              <Text
+                textTransform={'uppercase'}
+                fontWeight={400}
+                fontSize={'xs'}
+                letterSpacing={1.1}
+                key={isbn}>
+                | {isbn}
+              </Text>
+            </HStack>
+
             <Text
-              color={'red.300'}
-              textTransform={'uppercase'}
-              fontWeight={800}
-              fontSize={'sm'}
-              letterSpacing={1.1}>
-              {author}
+              color={'gray.500'}
+              fontFamily={'body'}
+              mb={4}>
+              {description}
             </Text>
-            <Text
-              textTransform={'uppercase'}
-              fontWeight={400}
-              fontSize={'xs'}
-              letterSpacing={1.1}>
-              | {isbn}
-            </Text>
+          </Box>
+          <HStack gap={3} justifyContent={'space-between'} background={useColorModeValue('gray.100', 'gray.600')} rounded={'2xl'} p={2} overflow={'hidden'}>
+            <Link as={ReactLink} to={`/books/${_id}`}>
+              <Button 
+                rounded={'2xl'}
+                variant={'solid'}
+                background={useColorModeValue('gray.100', 'gray.600')}
+                color={'red.300'}
+                fontFamily={'Poppins'}
+                size={'md'}>
+                View
+              </Button>
+            </Link>
           </HStack>
-          <HStack>
-            {[...Array(Math.floor(rating))].map((star, index) => <StarIcon key={index} color={'red.300'}/>)}
-            {[...Array(5-Math.floor(rating))].map((star, index) => <StarIcon key={index + 5} color={'gray.300'}/>)}
-          </HStack>
-          <Text 
-          color={'gray.500'}
-          fontFamily={'body'}>
-            {description}
-          </Text>
-        </Stack>
+        </Flex>
       </Box>
     </Center>
   );
