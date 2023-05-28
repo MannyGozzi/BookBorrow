@@ -18,6 +18,7 @@ import {
 import React, {useEffect, useState} from 'react'
 import { search } from '@chewhx/google-books'
 import ImageUpload from './ImageUpload'
+import axios from 'axios'
 
 const BookUpload = () => {
   const { isOpen, onOpen, onClose } = useDisclosure() 
@@ -40,11 +41,7 @@ const BookUpload = () => {
     return () => clearTimeout(delayDebounceFn)
   }, [name])
   
-  // const signup = async () => {
-  //   const response = await axios.post('http://localhost:3000/users/register',
-  //   {firstName, lastName, email, password, zip_code: zipCode, username}, {withCredentials: true});
-  //   console.log(response.data);
-  // }
+  
 
   return (
     <>

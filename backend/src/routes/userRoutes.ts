@@ -50,11 +50,7 @@ router.patch('/', verifyJWT, async (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
-<<<<<<< HEAD
-  const user = await User.findOne({ email: req.body.email } )
-=======
   const user = await User.findOne({ email: req.body.email })
->>>>>>> 9d9e87567da78c3cd008307a4e0099d2059db477
 
   if (!user) {
     return res.status(401).send({ user, msg: 'No user found.' })
@@ -66,11 +62,11 @@ router.post('/login', async (req, res) => {
 
   const jwtToken = issueJWT(user)
   return res
-    .cookie('jwt', jwtToken.token, { httpOnly: true, secure: false })
+    .cookie('jwt', jwtToken.token, { httpOnly: true, secure: false, sameSite: 'lax' })
     .json({ user, msg: 'Logged in Successfully' })
 })
 
-router.get('/logout', (req: Request, res: Response) => {
+router.post('/logout', verifyJWT, (req: Request, res: Response) => {
   if (!req.userId) {
     return res.status(400).send({ msg: 'Cannot logout if you are not logged in' })
   }
@@ -84,22 +80,14 @@ router.post('/register', async (req, res) => {
   const [existingUsername, existingEmail] = await Promise.all([
     UserModel.findOne({ username }),
     UserModel.findOne({ email })
-<<<<<<< HEAD
-  ]);
-=======
   ])
->>>>>>> 9d9e87567da78c3cd008307a4e0099d2059db477
 
   if (existingUsername) {
     return res.status(400).json({ msg: 'Username already taken' })
   }
 
   if (existingEmail) {
-<<<<<<< HEAD
-    return res.status(400).json({ msg: "Email already taken" })
-=======
     return res.status(400).json({ msg: 'Email already taken' })
->>>>>>> 9d9e87567da78c3cd008307a4e0099d2059db477
   }
 
   const encryptedPassword = await hash(password, 10)
@@ -118,7 +106,8 @@ router.post('/register', async (req, res) => {
 
     const jwtToken = issueJWT(user)
 
-    return res.status(201)
+    return res
+      .status(201)
       .cookie('jwt', jwtToken.token, { httpOnly: true, secure: false })
       .json({ user: user.toJSON(), msg: 'User created successfully' })
   } catch (e) {

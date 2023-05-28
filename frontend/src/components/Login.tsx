@@ -11,12 +11,16 @@ import {
     Text,
     Center,
     Link,
-    useColorModeValue
+    useColorModeValue,
+    Alert,
+    AlertIcon
   } from '@chakra-ui/react'
   import { PasswordField } from './PasswordField'
-  import React, { ChangeEvent, ChangeEventHandler } from 'react'
+  import React, { useEffect } from 'react'
   import axios from 'axios'
-  import {Link as ReactLink} from 'react-router-dom'
+  import {Link as ReactLink, useNavigate} from 'react-router-dom'
+  import { useDispatch } from 'react-redux'
+  import { setCurrentUser } from '../actions/userActions'
 
   interface LoginCredentials {
     email: string,
@@ -26,16 +30,24 @@ import {
   export const Login = () =>  {
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
+    const [loginFail, setLoginFail] = React.useState(false)
+
+    const redirect = useNavigate();
+
+    const dispatch = useDispatch()
 
     const login = async () => {
-      const response = await axios.post('http://localhost:3000/users/login',
-      {email, password},
-      {
-        withCredentials: true
-      }
-      );
-      console.log(response.data);
-      // TODO: ADD ALERT WHEN LOGIN FAILS AND RESET FIELDS
+      await axios.post('http://localhost:3000/users/login',
+        {email, password},
+        {withCredentials: true})
+        .then((response) => {
+          dispatch(setCurrentUser(response.data.user))
+          redirect('/')
+        })
+        .catch((error) => {
+          console.log(error)
+          setLoginFail(true)
+        })
     }
 
   return (
@@ -55,6 +67,12 @@ import {
             </HStack>
           </Stack>
         </Stack>
+        {loginFail &&
+          <Alert status='error' rounded={'xl'} mb={10}>
+            <AlertIcon />
+            Incorrect email or password
+          </Alert>
+          }
         <Box
           py={{ base: '0', sm: '8' }}
           px={{ base: '4', sm: '10' }}
@@ -62,6 +80,7 @@ import {
           boxShadow={{ base: 'none', sm: 'md' }}
           borderRadius={{ base: 'none', sm: 'xl' }}
         >
+
           <Stack spacing="6">
             <Stack spacing="5">
               <FormControl>
