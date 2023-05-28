@@ -41,7 +41,7 @@ const BookUpload = () => {
   }, [name])
   
   // const signup = async () => {
-  //   const response = await .post('http://localhost:3000/users/register',
+  //   const response = await axios.post('http://localhost:3000/users/register',
   //   {firstName, lastName, email, password, zip_code: zipCode, username}, {withCredentials: true});
   //   console.log(response.data);
   // }
