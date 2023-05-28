@@ -15,7 +15,7 @@ import {
   useDisclosure,
   Box
 } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 // import { search } from '@chewhx/google-books'
 import ImageUpload from './ImageUpload'
 import axios from 'axios'
@@ -36,6 +36,7 @@ const BookUpload = () => {
   const finalRef = React.useRef(null)
   const user = useSelector((state: any) => state.user)
   const dispatch = useDispatch()
+  
   // useEffect(() => {
   //   const delayDebounceFn = setTimeout(() => {
   //     if (!title) return;
@@ -49,7 +50,7 @@ const BookUpload = () => {
   // }, [title])
 
   const submit = async () => {
-    setCover_image('https://images.pexels.com/photos/4778341/pexels-photo-4778341.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')
+    setCover_image('https://images.pexels.com/photos/448835/pexels-photo-448835.jpeg')
     axios.post('http://localhost:3000/books',
       { title, author, isbn, publication_date, genre, cover_image, description, userId: user._id }, 
       { withCredentials: true })
@@ -69,14 +70,14 @@ const BookUpload = () => {
       </Button>
       <Modal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent w={'100%'}>
           <ModalHeader>
-            <center>
+            <Center>
               <span className='theme-header'>Book Upload</span>
-            </center>
+            </Center>
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={6}>
+          <ModalBody pb={6} w={'100%'}>
             <Heading>
               <Center>
                 <Box height="100%" display="flex" alignItems="center" justifyContent="center">

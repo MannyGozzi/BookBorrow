@@ -47,13 +47,12 @@ router.get(
     const searchTerm = req.query.searchTerm
 
     const query = {
-      title: {}
     }
 
-    if (searchTerm) {
-      // Add a search condition to the query using a regular expression
-      query.title = { $regex: searchTerm, $options: 'i' }
-    }
+    // if (searchTerm) {
+    //   // Add a search condition to the query using a regular expression
+    //   query.title = { $regex: searchTerm, $options: 'i' }
+    // }
 
     const count = await BookModel.countDocuments(query)
     const books = await BookModel.find(query)

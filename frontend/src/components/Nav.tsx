@@ -68,8 +68,8 @@ export default function Nav() {
 
     return (
         <>
-            <Center>
-                <Box w={{ lg: '75%', md: '85%', sm: '100%' }} px={4}>
+            <Center mx={3} mt={2}>
+                <Box w={{ lg: '75%', md: '85%', sm: '100%' }}>
                     <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
                         <HStack spacing={8} alignItems={'center'}>
                             <Link as={ReactLink} to='/'>

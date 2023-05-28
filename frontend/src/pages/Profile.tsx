@@ -23,7 +23,7 @@ const Profile = () => {
         .then(res => {
             dispatch(setBooks(res.data.books))
             setUserBooks(res.data.books)
-            console.log("res.data.books", res.data.books)
+            // console.log("res.data.books", res.data.books)
         })
         .catch(err => console.log(err.message))
     }, [])
@@ -31,14 +31,14 @@ const Profile = () => {
     return (
         <Center>
             {user && 
-            <Box w={{lg: '75%', md: '85%', sm: '100%'}}>
+            <Box w={{lg: '85%', md: '90%', sm: '100%'}}>
                 <ProfileInfo/> 
                 <ThemedHeader text={'Books You Lended'}/>
-                <div className='grid md:grid-cols-2 lg:grid-cols-3 sm:grid-cols-1 gap-7'>
+                <Box className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 gap-7 pb-16'>
                     {reduxBooks?.map((book: any, index: any) => (
                         <UserBook key={index} title={book.title} author={book.author} isbn={book?.isbn} description={book.description?.slice(0, 125) + "..."} cover_image={book?.cover_image} lender={book.lender} _id={book._id} zip_code={book.zip_code} date_added={book.date_added} available={book.available}/>
                     ))}
-                </div>
+                </Box>
             </Box>}
             {!user && <Restricted />}
          </Center>
