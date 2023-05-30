@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import ThemedHeader from '../components/ThemedHeader'
 import SearchBar from '../components/SearchBar'
 import FilterBar from '../components/FilterBar'
-import { Box, Button, Center } from '@chakra-ui/react'
+import { Box, Button, Center, useColorModeValue } from '@chakra-ui/react'
 import BookView from '../components/BookView'
 import { IBookView, IBook } from '../types.d'
 import Footer from "../components/Footer";
