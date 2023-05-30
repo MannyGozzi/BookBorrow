@@ -32,7 +32,7 @@ export default function ProfileInfo() {
         setUser(res.data.user)
     })
     .catch(err => console.log(err.message))
-}, [dispatch, user._id])
+}, [user._id])
 
   return (
     <Center>
