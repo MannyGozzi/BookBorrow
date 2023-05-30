@@ -87,7 +87,7 @@ function BookView({ _id, lender, title, author, isbn, description, cover_image, 
                 {description}
               </Text>
             </Box>
-            <HStack gap={3} justifyContent={'space-around'} background={useColorModeValue('gray.100', 'gray.600')} rounded={'2xl'} p={2} overflow={'hidden'}>
+            <HStack gap={3} background={useColorModeValue('gray.100', 'gray.600')} rounded={'2xl'} p={2} overflow={'hidden'}>
               <Link as={ReactLink} to={`/${lender}`}>
                 <Button 
                   rounded={'2xl'}
@@ -96,24 +96,10 @@ function BookView({ _id, lender, title, author, isbn, description, cover_image, 
                   fontFamily={'Poppins'}
                   color={'gray.900'}
                   size={'md'}>
-                  <HStack justifyContent={'space-around'}>
+                  <HStack>
                     <Avatar size={'sm'} mr={1} />
                     <Text fontWeight={'700'} fontSize={'xs'} fontFamily={'Poppins'}>{lender.slice(0, 12) + '...'}</Text>
                   </HStack>
-                </Button>
-              </Link>
-              <Text fontSize={'lg'}>
-                |
-              </Text>
-              <Link as={ReactLink} to={`/books/${_id}`}>
-                <Button 
-                  rounded={'2xl'}
-                  variant={'solid'}
-                  background={useColorModeValue('gray.100', 'gray.600')}
-                  color={'red.300'}
-                  fontFamily={'Poppins'}
-                  size={'md'}>
-                  View
                 </Button>
               </Link>
             </HStack>
