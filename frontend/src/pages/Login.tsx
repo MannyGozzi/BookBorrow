@@ -6,7 +6,7 @@ import { Center } from '@chakra-ui/react'
 
 const Login = () => {
   return (
-    <section>
+    <section className='flex justify-center items-center'>
       <LoginComp />
     </section>
   )

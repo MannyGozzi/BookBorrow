@@ -13,7 +13,6 @@ router.post(
   [verifyJWT, fileUpload()],
   asyncHandler(async (req, res) => {
     const { title, author, isbn, publication_date, genre, cover_image, description } = req.body
-
     const user = await UserModel.findById(req.userId)
 
     if (!user) {
@@ -47,13 +46,12 @@ router.get(
     const searchTerm = req.query.searchTerm
 
     const query = {
-      title: {}
     }
 
-    if (searchTerm) {
-      // Add a search condition to the query using a regular expression
-      query.title = { $regex: searchTerm, $options: 'i' }
-    }
+    // if (searchTerm) {
+    //   // Add a search condition to the query using a regular expression
+    //   query.title = { $regex: searchTerm, $options: 'i' }
+    // }
 
     const count = await BookModel.countDocuments(query)
     const books = await BookModel.find(query)

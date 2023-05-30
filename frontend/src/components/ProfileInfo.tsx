@@ -1,41 +1,50 @@
 import {
-    Box,
-    Button,
-    Checkbox,
-    Container,
-    Divider,
-    FormControl,
-    FormLabel,
-    Heading,
-    HStack,
-    VStack,
-    Input,
-    Stack,
-    Text,
-    Image, 
-    Center,
-    Avatar,
-    MenuButton,
-    Flex,
-    Menu,
-    Card, CardHeader, CardBody, CardFooter, StackDivider, Spacer
-  } from '@chakra-ui/react'
-  
-  import StarRating from './RatingStars'
+  Box,
+  HStack,
+  VStack,
+  Text,
+  Image,
+  Center,
+  Avatar,
+  MenuButton,
+  Flex,
+  Menu,
+  Spacer
+} from '@chakra-ui/react'
+import BookUpload from './BookUpload'
+import StarRating from './RatingStars'
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import {useSelector, useDispatch} from 'react-redux'
+import { setCurrentUser } from '../actions/userActions'
+import { IUser } from '../types';
 
-  export default function ProfileInfo() {
-    
+export default function ProfileInfo() {
+
+  const user = useSelector((state: any) => state.user)
+  const [currentUser, setUser] = useState<IUser>();
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    axios.get(`http://localhost:3000/users/${user._id}`)
+    .then(res => {
+        dispatch(setCurrentUser(res.data.user))
+        setUser(res.data.user)
+    })
+    .catch(err => console.log(err.message))
+}, [dispatch, user._id])
+
   return (
     <Center>
-    <Flex align="center">
-      <VStack spacing='20px'>
-      <Box marginTop="20px">
-        <Image src="https://img.freepik.com/free-photo/beautiful-outdoor-view-ocean-beach_74190-6853.jpg?w=2000" alt="Banner Image" style={{ width: '700px', height: '300px', borderRadius: '10px' }} />
-      </Box>
-        <Box width = "100%">
+      <Flex align="center">
+        <VStack spacing='20px'>
+          <Box marginTop="20px">
+            <Image src="https://img.freepik.com/free-photo/beautiful-outdoor-view-ocean-beach_74190-6853.jpg?w=2000" alt="Banner Image" style={{ width: '700px', height: '300px', borderRadius: '10px' }} />
+          </Box>
+          <Box width="100%">
             <HStack spacing="40px">
-              <HStack spacing="30px"> 
-                <Text fontSize="3xl"><span className='theme-header'>Profile Name</span></Text>
+              <HStack spacing="30px">
+                <Text fontSize="3xl"><span className='theme-header'>{currentUser?.first_name} {currentUser?.last_name}</span></Text>
                 <Menu>
                   <MenuButton>
                     <Avatar
@@ -46,25 +55,18 @@ import {
                 </Menu>
               </HStack>
               <Spacer />
-              <StarRating/>
+              <StarRating />
             </HStack>
-            </Box>
-            <Box width = "100%">
-              <HStack spacing='40px'> 
-                    <Text fontSize="md">Email: user@gmail.com</Text>
-                <Spacer />
-                <Button
-                  variant={'solid'}
-                  colorScheme={'orange'}
-                  size={'md'}
-                  m={4}>
-                  Upload Book
-                </Button>
-              </HStack>
-                  <Text fontSize="md">Phone Number: 1-800-000-0000</Text>
           </Box>
-          </VStack>
-          </Flex>
-      </Center>
-    )
-  }
+          <Box width="100%">
+            <HStack spacing='40px'>
+              <Text fontSize="md">Email: {currentUser?.email}</Text>
+              <Spacer />
+              <BookUpload/>
+            </HStack>
+          </Box>
+        </VStack>
+      </Flex>
+    </Center>
+  )
+}

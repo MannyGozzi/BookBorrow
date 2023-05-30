@@ -1,8 +1,8 @@
-import express from 'express'
-import bodyParser from 'body-parser'
+import express, { json, urlencoded } from 'express'
 import cookieSession from 'cookie-session'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
+import cors from 'cors'
 
 import userRoutes from './routes/userRoutes'
 import reviewRoutes from './routes/reviewRoutes'
@@ -15,13 +15,13 @@ dotenv.config()
 const PORT = process.env.PORT || 3000
 
 const app = express()
-app.use(bodyParser.urlencoded({ extended: false })) // For body parser
-app.use(bodyParser.json())
+app.use(urlencoded({ extended: false })) // For body parser
+app.use(json())
+
 app.use(
-  cookieSession({
-    name: 'mysession',
-    keys: ['vueauthrandomkey'],
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  cors({
+    credentials: true,
+    origin: 'http://localhost:3001'
   })
 )
 
@@ -30,11 +30,6 @@ app.use('/books', bookRoutes)
 app.use('/users', userRoutes)
 app.use('/reviews', reviewRoutes)
 app.use('/checkout', checkoutRoutes)
-
-// respond with "hello world" when a GET request is made to the homepage
-app.get('/', (_req, res) => {
-  res.send('hello world')
-})
 
 mongoose.connect(process.env.MONGODB_URI).then(() => {
   console.log('Connected to MongoDB')
