@@ -2,7 +2,7 @@ import { Input, Center, Box } from '@chakra-ui/react'
 import React from 'react'
 
 export interface retrieveImageType {
-    retrieveImage: React.Dispatch<React.SetStateAction<File | null | undefined | String>>
+    retrieveImage: React.Dispatch<React.SetStateAction<File | null | undefined | string>>
 }
     const ImageUpload = ({retrieveImage}:retrieveImageType) => {
 

@@ -52,6 +52,7 @@ export interface IBook {
 
 export interface IBookView extends IBook {
   distance: number
+  bookIndex?: number
 }
 
 export interface IReview {

@@ -22,6 +22,7 @@ import axios from 'axios'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { addBook } from '../actions/bookActions'
+const defaultImage: string = "https://media.istockphoto.com/id/1292243602/vector/book-vector-icon-isolated-closed-book-notebook-with-orange-cover-flat-colored-illustration.jpg?s=170667a&w=0&k=20&c=dLB7CeqXUIw0bofaJ83F33dKVECyM7UUHKM0jdYUR2E="
 
 const BookUpload = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -30,7 +31,7 @@ const BookUpload = () => {
   const [isbn, setIsbn] = useState<string>('')
   const [publication_date, setPublication_date] = useState<Date | null>()
   const [genre, setGenre] = useState<string>('')
-  const [cover_image, setCover_image] = useState<File | null | String>()
+  const [cover_image, setCover_image] = useState<File | null | string>()
   const [description, setDescription] = useState<string>('')
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null)
@@ -50,9 +51,9 @@ const BookUpload = () => {
   // }, [title])
 
   const submit = async () => {
-    setCover_image('https://images.pexels.com/photos/448835/pexels-photo-448835.jpeg')
+    const image = cover_image ? cover_image : defaultImage
     axios.post('http://localhost:3000/books',
-      { title, author, isbn, publication_date, genre, cover_image, description, userId: user._id }, 
+      { title, author, isbn, publication_date, genre, cover_image: image, description, userId: user._id }, 
       { withCredentials: true })
       .then(response => {
         dispatch(addBook(response.data))
@@ -63,7 +64,7 @@ const BookUpload = () => {
 
   return (
     <>
-      <Button mt={4} onClick={onOpen}>
+      <Button mt={4} onClick={onOpen} rounded={'xl'} size={'md'}>
         <Center>
           Upload Book
         </Center>

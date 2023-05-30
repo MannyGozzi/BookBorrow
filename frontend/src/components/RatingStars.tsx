@@ -1,4 +1,4 @@
-import { Box, Icon } from '@chakra-ui/react';
+import { Flex, Icon } from '@chakra-ui/react';
 import { FaStar, FaStarHalfAlt} from 'react-icons/fa';
 
 interface IRating {
@@ -11,7 +11,7 @@ const StarRating = ({rating} : IRating) => {
     const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
   
     return (
-      <Box>
+      <Flex justifyContent={'center'}>
         {[...Array(fullStars)].map((_, index) => (
           <Icon key={index} as={FaStar} color="yellow.500" boxSize={6} />
         ))}
@@ -21,7 +21,7 @@ const StarRating = ({rating} : IRating) => {
         {[...Array(emptyStars)].map((_, index) => (
         <Icon key={index} as={FaStar} color="gray.400" boxSize={6} />
       ))}
-      </Box>
+      </Flex>
     );
   };
 
