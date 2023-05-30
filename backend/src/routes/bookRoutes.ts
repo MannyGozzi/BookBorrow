@@ -38,6 +38,21 @@ router.post(
   })
 )
 
+router.post(
+  '/delete',
+  verifyJWT,
+  asyncHandler(async (req, res) => {
+    const { _id } = req.body
+    const targetBook = await BookModel.findById(_id)
+
+    if (!targetBook) {
+      res.status(404).json({ error: 'Book not found' })
+    }
+
+    const bookDeleted = await targetBook.deleteOne()
+    res.status(201).json(bookDeleted)})
+)
+
 router.get(
   '/',
   asyncHandler(async (req, res) => {
