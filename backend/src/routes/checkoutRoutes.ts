@@ -6,6 +6,17 @@ import { verifyJWT } from '../middlewares/auth'
 import BookModel from '../models/Book'
 
 const router = express.Router()
+router.get(
+  '/from/:userId',
+  asyncHandler(async (req, res) => {
+    const checkouts = await CheckoutModel.find({user: req.params.userId})
+
+    if (!checkouts) {
+      res.status(404).json({ error: 'No checkouts found' })
+    }
+    res.status(201).json(checkouts)
+  })
+)
 
 router.post(
   '/:bookId',
@@ -41,7 +52,7 @@ router.post(
 )
 
 router.post(
-  '/:checkoutId',
+  '/return/:checkoutId',
   verifyJWT,
   asyncHandler(async (req, res) => {
     const targetCheckout = await CheckoutModel.findById(req.params.checkoutId)
