@@ -10,6 +10,7 @@ import axios from 'axios'
 import {useState, useEffect} from 'react'
 import { setBooks } from '../actions/bookActions'
 import BookCheckout from '../components/BookCheckout'
+import { check } from 'prettier'
 
 const Profile = () => {
     const user = useSelector((state: any) => state.user)
@@ -29,8 +30,7 @@ const Profile = () => {
 
         if (!userId && user._id) axios.get(`http://localhost:3000/checkout/from/${user._id}`, {withCredentials: true})
             .then(res => {
-                console.log(res.data)
-                setCurrentlyBorrowing(res.data)
+                setCurrentlyBorrowing(res.data.filter((checkout: any) => !checkout.returned))
             })
             .catch(() => setCurrentlyBorrowing([]))
     }, [])
@@ -51,7 +51,7 @@ const Profile = () => {
                     <ThemedHeader text={'Currently Borrowing'}/>
                     <Box className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 gap-7 pb-16'>
                         {currentlyBorrowing?.map((checkout: any, index: any) => (
-                            checkout.returned ? null : <BookCheckout key={index} {...checkout}  />
+                            <BookCheckout key={index} {...checkout} />
                         ))}
                     </Box>
                 </>}
