@@ -111,7 +111,7 @@ function BookView({ _id, lender, title, author, isbn, description, cover_image, 
               </Text>
             </Box>
             <HStack gap={3} background={useColorModeValue('gray.100', 'gray.600')} rounded={'2xl'} p={2} overflow={'hidden'}>
-              <Link as={ReactLink} to={`/profile/${lender}`}>
+              <Link as={ReactLink} to={`/profile?userid=${lender}`}>
                 <Button 
                   rounded={'2xl'}
                   variant={'solid'}

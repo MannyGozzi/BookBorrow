@@ -19,20 +19,20 @@ import {useSelector, useDispatch} from 'react-redux'
 import { setCurrentUser } from '../actions/userActions'
 import { IUser } from '../types';
 
-export default function ProfileInfo() {
+export default function ProfileInfo({userId} : {userId: string}) {
 
   const user = useSelector((state: any) => state.user)
   const [currentUser, setUser] = useState<IUser>();
   const dispatch = useDispatch()
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/users/${user._id}`)
+    axios.get(`http://localhost:3000/users/${userId}`)
     .then(res => {
         dispatch(setCurrentUser(res.data.user))
         setUser(res.data.user)
     })
     .catch(err => console.log(err.message))
-}, [dispatch, user._id])
+}, [dispatch, userId])
 
   return (
     <Center m={4}>
