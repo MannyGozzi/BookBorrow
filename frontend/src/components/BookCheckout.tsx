@@ -10,6 +10,7 @@ import {
   Button,
   Flex,
   Link,
+  useToast
 } from '@chakra-ui/react';
 import { NavLink as ReactLink } from 'react-router-dom';
 import axios from 'axios';
@@ -17,9 +18,9 @@ import { useEffect, useState } from 'react';
 import { ICheckout, IBook } from '../types';
 import { CheckCircleIcon } from '@chakra-ui/icons';
 
-// Take in book type and convert to BookViewType instead???
-function BookCheckout({ book, checkout_date, due_date, return_date, returned, user }: ICheckout) {
+function BookCheckout({ _id, book, checkout_date, due_date, return_date, returned, user }: ICheckout) {
   const [bookData, setBookData] = useState<IBook | null>(null)
+  const toast = useToast()
 
   const getBookProps = async () => {
     axios.get(`http://localhost:3000/books/view/${book}`,
@@ -28,6 +29,29 @@ function BookCheckout({ book, checkout_date, due_date, return_date, returned, us
         setBookData(response.data)
       })
       .catch(error => console.error(error))
+  }
+
+  const returnBook = () => {
+    axios.post(`http://localhost:3000/checkout/return/${_id}`,
+      {},
+      { withCredentials: true })
+      .then(response => {
+        toast({
+          title: 'Return Success!',
+          description: "You've successfully returned a book, congrats! 🔥",
+          status: 'success',
+          duration: 7000,
+          isClosable: true,
+        })
+      })
+      .catch(error => {
+        toast({
+          title: 'Return Failed',
+          description: "Something went wrong 😔",
+          status: 'error',
+          duration: 7000,
+          isClosable: true,
+      })})
   }
 
   useEffect(() => {
@@ -95,7 +119,7 @@ function BookCheckout({ book, checkout_date, due_date, return_date, returned, us
                 color={'gray.500'}
                 fontFamily={'body'}
                 mb={4}>
-                {bookData?.description}
+                {bookData?.description?.slice(0, 85) + (bookData?.description && bookData.description.length > 85 ? '...' : '')}
               </Text>
             </Box>
             <HStack gap={3} background={useColorModeValue('gray.100', 'gray.600')} rounded={'2xl'} p={2} px={3} overflow={'hidden'} justifyContent={'space-between'}>
@@ -106,7 +130,8 @@ function BookCheckout({ book, checkout_date, due_date, return_date, returned, us
                   fontFamily={'Poppins'}
                   size={'md'}
                   w={'100%'}
-                  color={'red.300'}>
+                  color={'red.300'}
+                  onClick={returnBook}>
                   <HStack justifyContent={'space-between'} w={'100%'}>
                     <Text>Return Book</Text>
                     <CheckCircleIcon />

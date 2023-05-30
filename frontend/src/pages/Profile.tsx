@@ -51,7 +51,7 @@ const Profile = () => {
                     <ThemedHeader text={'Currently Borrowing'}/>
                     <Box className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 gap-7 pb-16'>
                         {currentlyBorrowing?.map((checkout: any, index: any) => (
-                            <BookCheckout key={index} {...checkout} />
+                            checkout.returned ? null : <BookCheckout key={index} {...checkout}  />
                         ))}
                     </Box>
                 </>}

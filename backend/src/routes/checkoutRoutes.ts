@@ -52,7 +52,7 @@ router.post(
 )
 
 router.post(
-  '/:checkoutId',
+  '/return/:checkoutId',
   verifyJWT,
   asyncHandler(async (req, res) => {
     const targetCheckout = await CheckoutModel.findById(req.params.checkoutId)
