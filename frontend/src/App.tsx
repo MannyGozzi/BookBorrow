@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import FourOFour from "./pages/FourOFour";
 import Nav from "./components/Nav";
 import Restricted from "./pages/Restricted";
+import Book from "./pages/Book";
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
         <Route path="restricted" element={<Restricted />} />
+        <Route path="book" element={<Book />} />
         <Route path="*" element={<FourOFour/>} />
       </Routes>
     </BrowserRouter>

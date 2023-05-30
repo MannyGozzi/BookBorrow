@@ -19,7 +19,6 @@ import axios from 'axios';
 
 // Take in book type and convert to BookViewType instead???
 function UserBook({ _id, lender, title, author, isbn, description, cover_image }: IBook) {
-  const rating = Math.random() * 5;
   const isAvailable = true;
   const dispatch = useDispatch()
 
@@ -45,7 +44,7 @@ function UserBook({ _id, lender, title, author, isbn, description, cover_image }
         rounded={'xl'}
         p={3}
         overflow={'hidden'}>
-          <Link as={ReactLink} to={`/books/${_id}`}>
+          <Link as={ReactLink} to={`/book?id=${_id}`}>
         <Box
           h={'200px'}
           bg={'gray.100'}
@@ -59,6 +58,7 @@ function UserBook({ _id, lender, title, author, isbn, description, cover_image }
             objectFit='cover'
             alt='Book Image' />
         </Box>
+        </Link>
         
         <Flex flexDir={'column'} h={'53%'} justifyContent={'space-between'}>
           <Box>
@@ -113,7 +113,7 @@ function UserBook({ _id, lender, title, author, isbn, description, cover_image }
               </Button>
           </HStack>
         </Flex>
-        </Link>
+
       </Box>
 
     </Center>
