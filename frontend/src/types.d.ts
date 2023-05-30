@@ -24,7 +24,7 @@ export type BookViewType = {
 }
 
 export interface IUser {
-  _id: number
+  _id: string
   username: string
   email: string
   first_name: string
@@ -35,7 +35,7 @@ export interface IUser {
 }
 
 export interface IBook {
-  _id: number
+  _id: string
   title: string
   author: string
   isbn?: string
@@ -55,7 +55,7 @@ export interface IBookView extends IBook {
 }
 
 export interface IReview {
-  _id: number
+  _id: string
   reviewer: Types.ObjectId
   reviewed: Types.ObjectId
   rating: number
@@ -64,7 +64,7 @@ export interface IReview {
 }
 
 interface ICheckout {
-  _id: number
+  _id: string
   user: Types.ObjectId
   book: Types.ObjectId
   checkout_date: Date
