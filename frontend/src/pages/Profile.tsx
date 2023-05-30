@@ -31,7 +31,7 @@ const Profile = () => {
         <Center>
             {user && 
             <Box w={{lg: '85%', md: '90%', sm: '100%'}}>
-                <ProfileInfo/> 
+                <ProfileInfo /> 
                 <ThemedHeader text={'Books You Lended'}/>
                 <Box className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 gap-7 pb-16'>
                     {reduxBooks?.map((book: any, index: any) => (

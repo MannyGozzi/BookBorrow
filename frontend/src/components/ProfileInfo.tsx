@@ -35,11 +35,11 @@ export default function ProfileInfo() {
 }, [dispatch, user._id])
 
   return (
-    <Center>
+    <Center m={4}>
       <Flex align="center">
         <VStack spacing='20px'>
           <Box marginTop="20px">
-            <Image src="https://img.freepik.com/free-photo/beautiful-outdoor-view-ocean-beach_74190-6853.jpg?w=2000" alt="Banner Image" style={{ width: '700px', height: '300px', borderRadius: '10px' }} />
+            <Image src="https://img.freepik.com/free-photo/beautiful-outdoor-view-ocean-beach_74190-6853.jpg?w=2000" aspectRatio={'4/1'} fit={'cover'} rounded={'2xl'} w={'100%'} alt="Banner Image"/>
           </Box>
           <Box width="100%">
             <HStack spacing="40px">
@@ -55,7 +55,7 @@ export default function ProfileInfo() {
                 </Menu>
               </HStack>
               <Spacer />
-              <StarRating />
+              <StarRating rating={3.5}/>
             </HStack>
           </Box>
           <Box width="100%">
