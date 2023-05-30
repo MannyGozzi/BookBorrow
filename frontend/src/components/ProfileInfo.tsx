@@ -24,6 +24,7 @@ import {
   import StarRating from './RatingStars'
 
   export default function ProfileInfo() {
+    
   return (
     <Center>
     <Flex align="center">
