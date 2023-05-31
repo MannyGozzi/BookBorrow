@@ -21,7 +21,8 @@ import {
     Center,
     Image,
     Text,
-    useColorModeValue
+    useColorModeValue,
+    useToast
 } from '@chakra-ui/react';
 import { NavLink as ReactLink } from "react-router-dom"
 import { MoonIcon, SunIcon, /*HamburgerIcon, CloseIcon, AddIcon, ChatIcon*/ } from '@chakra-ui/icons';
@@ -55,6 +56,7 @@ export default function Nav() {
     const user = useSelector((state: any) => state.user)
     const [loggedIn, setLoggedIn] = useState<boolean>(!!user);
     const navigate = useNavigate()
+    const toast = useToast()
 
     useEffect(() => {
         if (user) setLoggedIn(true)
@@ -65,6 +67,13 @@ export default function Nav() {
         axios.post('http://localhost:3000/users/logout', {}, { withCredentials: true })
         .then(() => {
             dispatch(resetCurrentUser())
+            toast({
+                title: 'Logout Success! 🔥',
+                description: "We hope to see you soon",
+                status: 'success',
+                duration: 7000,
+                isClosable: true,
+              })
             navigate('/')
         })
     }
