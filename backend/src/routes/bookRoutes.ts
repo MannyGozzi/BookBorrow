@@ -74,6 +74,7 @@ router.post(
     await CheckoutModel.deleteMany({book: _id})
 
     const bookDeleted = await targetBook.deleteOne()
+    
     res.status(201).json(bookDeleted)
   })
 )

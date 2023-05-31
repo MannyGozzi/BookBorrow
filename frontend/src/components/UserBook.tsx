@@ -16,13 +16,13 @@ import { DeleteIcon } from '@chakra-ui/icons';
 import { useDispatch } from 'react-redux';
 import { removeBook } from '../actions/bookActions';
 import axios from 'axios';
+import { useCallback } from 'react';
 
 // Take in book type and convert to BookViewType instead???
 function UserBook({ _id, lender, title, author, isbn, description, cover_image }: IBook) {
-  const isAvailable = true;
   const dispatch = useDispatch()
 
-  const deleteBook = () => {
+  const deleteBook = useCallback(() => {
     axios.post(`http://localhost:3000/books/delete`,
       { _id }, 
       { withCredentials: true })
@@ -30,7 +30,7 @@ function UserBook({ _id, lender, title, author, isbn, description, cover_image }
         dispatch(removeBook(_id))
       })
       .catch(error => console.error(error))
-  }
+  }, [])
 
   return (
     <Center >

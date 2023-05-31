@@ -94,9 +94,9 @@ export default function BookInfo({_id, cover_image, title, author, description, 
               </HStack>
               </Link>
                 <Button size="lg" rounded={'2xl'} bg={requestAvailable? btnColor : 'red.300'} onClick={checkout} isDisabled={!requestAvailable.current}>
-                Request Checkout
+                {available ? 'Request Checkout'
+                : 'Due Date:' + !checkoutInfo?.due_date?.toString() ? 'Pending' : checkoutInfo?.due_date?.toString()}
                 </Button>
-              {!available && <Text>Return Date: {checkoutInfo?.due_date?.toString()}</Text>}
             </HStack>
           </Stack>
         </VStack>
