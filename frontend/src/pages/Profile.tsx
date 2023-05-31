@@ -9,6 +9,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import axios from 'axios'
 import {useState, useEffect} from 'react'
 import { setBooks } from '../actions/bookActions'
+import { Login } from '../components/Login'
 
 const Profile = () => {
     const user = useSelector((state: any) => state.user)
