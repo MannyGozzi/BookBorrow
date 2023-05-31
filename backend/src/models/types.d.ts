@@ -1,5 +1,9 @@
 import { Document } from 'mongoose'
 
+export interface IGeoLocation {
+  type: 'Point'
+  coordinates: [number, number] // longitude and latitude
+}
 export interface IUser extends Document {
   id: number
   username: string
@@ -30,7 +34,7 @@ export interface IBook extends Document {
   borrower?: string
   available: boolean
   date_added: Date
-  zip_code: string
+  location: IGeoLocation
 }
 
 export interface IReview extends Document {

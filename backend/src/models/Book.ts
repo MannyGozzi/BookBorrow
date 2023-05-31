@@ -15,9 +15,25 @@ const bookSchema = new Schema<IBook>({
   borrower: { type: String, ref: 'User', default: null },
   available: { type: Boolean, default: true },
   date_added: { type: Date, required: true, default: Date.now },
-  zip_code: { type: String, required: true }
+  location: {
+    type: {
+      type: String,
+      enum: ['Point'],
+      required: true
+    },
+    coordinates: {
+      type: [Number],
+      required: true
+    }
+  }
 })
 
+bookSchema.index({ location: '2dsphere' })
+
 const BookModel = model<IBook>('Book', bookSchema)
+
+BookModel.init()
+  .then(() => console.log('Book indexes have been created.'))
+  .catch(console.error)
 
 export default BookModel

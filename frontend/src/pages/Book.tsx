@@ -24,7 +24,7 @@ const Profile = () => {
                 {book && <BookInfo _id={book._id} lender={book.lender} title={book.title} 
                 author={book.author} isbn={book.isbn} 
                 description={book.description} 
-                cover_image={book.cover_image} available={book.available} date_added={book.date_added} zip_code={book.zip_code}/> 
+                cover_image={book.cover_image} available={book.available} date_added={book.date_added} distance={book.distance}/> 
                 }
             </Box>
          </Center>
