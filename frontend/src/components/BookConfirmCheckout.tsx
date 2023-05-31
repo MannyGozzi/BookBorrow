@@ -39,7 +39,6 @@ function BookConfirmCheckout({ _id, book, checkout_date, due_date, return_date, 
     axios.get(`http://localhost:3000/users/${user}`,
       { withCredentials: true })
       .then(response => {
-        console.log(response.data)
         setLenderData(response.data)
       })
       .catch(error => console.error(error))

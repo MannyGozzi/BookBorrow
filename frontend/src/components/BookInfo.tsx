@@ -15,7 +15,7 @@ import {
   useToast
 } from '@chakra-ui/react'
 // import StarRating from './RatingStars'
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { IBook, ICheckout } from '../types';
 import { NavLink as ReactLink } from 'react-router-dom';
@@ -26,6 +26,7 @@ export default function BookInfo({_id, cover_image, title, author, description, 
   const [lenderName, setLenderName] = useState('...')
   const [checkoutInfo, setCheckoutInfo] = useState<ICheckout | null>()
   const toast = useToast()
+  const requestAvailable = useRef(available)
 
   const checkout = () => {
     const info = { userId: user, lender, bookId: _id }
@@ -40,12 +41,13 @@ export default function BookInfo({_id, cover_image, title, author, description, 
           duration: 7000,
           isClosable: true,
         })
+        requestAvailable.current = false
         setCheckoutInfo(response.data)
       })
       .catch(error => {
         toast({
           title: 'Checkout Failed',
-          description: "This book is already be checked out 😔",
+          description: "Book is already checked out or requested by you 😔",
           status: 'error',
           duration: 7000,
           isClosable: true,
@@ -91,11 +93,10 @@ export default function BookInfo({_id, cover_image, title, author, description, 
                 <Text fontSize="md"><span className='theme-header'>{lenderName.slice(0, 12) + (lenderName.length > 20 ? '...' : '')}</span></Text>
               </HStack>
               </Link>
-              {available ?
-                <Button size="lg" rounded={'2xl'} bg={btnColor} onClick={checkout}>
+                <Button size="lg" rounded={'2xl'} bg={requestAvailable? btnColor : 'red.300'} onClick={checkout} isDisabled={!requestAvailable.current}>
                 Request Checkout
                 </Button>
-              : <Text>Return Date: {checkoutInfo?.due_date?.toString()}</Text>}
+              {!available && <Text>Return Date: {checkoutInfo?.due_date?.toString()}</Text>}
             </HStack>
           </Stack>
         </VStack>

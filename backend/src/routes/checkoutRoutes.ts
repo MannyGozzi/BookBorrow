@@ -10,7 +10,7 @@ const router = express.Router()
 router.get(
   '/by/:userId',
   asyncHandler(async (req, res) => {
-    const checkouts = await CheckoutModel.find({user: req.params.userId})
+    const checkouts = await CheckoutModel.find({ user: req.params.userId })
 
     if (!checkouts) {
       res.status(404).json({ error: 'No checkouts found' })
@@ -36,9 +36,13 @@ router.post(
   '/:bookId',
   verifyJWT,
   asyncHandler(async (req, res) => {
-    const { user, lender } = req.body
+    const { userId, lender } = req.body
     const checkout_date = new Date()
 
+    const alreadyCheckedOut = await CheckoutModel.findOne({ user: userId._id, book: req.params.bookId })
+    if (alreadyCheckedOut) {
+      res.status(400).json({ error: 'Book is already checked out' })
+    }
     const targetBook = await BookModel.findById(req.params.bookId)
 
     if (!targetBook) {

@@ -1,6 +1,5 @@
 import React from 'react'
 import { IBook } from '../types'
-import ThemedHeader from '../components/ThemedHeader'
 import { Box, Center } from '@chakra-ui/react'
 import BookInfo from '../components/BookInfo'
 import axios from 'axios'
@@ -24,7 +23,7 @@ const Profile = () => {
                 {book && <BookInfo _id={book._id} lender={book.lender} title={book.title} 
                 author={book.author} isbn={book.isbn} 
                 description={book.description} 
-                cover_image={book.cover_image} available={book.available} date_added={book.date_added} zip_code={book.zip_code}/> 
+                cover_image={book.cover_image} available={book.available} date_added={book.date_added} distance={5}/> 
                 }
             </Box>
          </Center>

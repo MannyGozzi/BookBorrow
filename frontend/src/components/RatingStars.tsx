@@ -1,5 +1,10 @@
 import { Flex, Icon } from '@chakra-ui/react';
 import { FaStar, FaStarHalfAlt} from 'react-icons/fa';
+import {useSelector, useDispatch} from 'react-redux'
+import axios from 'axios'
+import {useState, useEffect} from 'react'
+import { setReviews } from '../actions/reviewActions'
+import { IReview } from '../types';
 
 interface IRating {
   rating: number

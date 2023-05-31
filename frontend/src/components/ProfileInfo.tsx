@@ -19,18 +19,21 @@ import {useSelector, useDispatch} from 'react-redux'
 import { setCurrentUser } from '../actions/userActions'
 import { IUser } from '../types';
 import { setBooks } from '../actions/bookActions';
+import { IReview } from '../types';
 
 export default function ProfileInfo({userId, isLocalUser} : {userId: string, isLocalUser: boolean}) {
 
   const user = useSelector((state: any) => state.user)
   const [currentUser, setUser] = useState<IUser>();
   const dispatch = useDispatch()
+  const [averageRating, setAverageRating] = useState<number>(0);
 
   useEffect(() => {
     axios.get(`http://localhost:3000/users/${userId}`)
     .then(res => {
         dispatch(setCurrentUser(res.data.user))
         setUser(res.data.user)
+        calculateAverageRating(res.data.user.reviews);
     })
     .catch(err => console.log(err.message))
 
@@ -43,6 +46,23 @@ export default function ProfileInfo({userId, isLocalUser} : {userId: string, isL
       axios.get(`http://localhost:3000/checkout/from/${user._id}`, {withCredentials: true})
 }, [dispatch, userId])
 
+  const calculateAverageRating = (reviews: IReview[]) => {
+    if (!reviews) return
+    if (reviews.length === 0) {
+      setAverageRating(0);
+      return;
+    }
+
+    let totalRating = 0;
+
+    for (let i = 0; i < reviews.length; i++) {
+      totalRating += reviews[i].rating;
+    }
+
+    const average = totalRating / reviews.length;
+    setAverageRating(average);
+  }
+  
   return (
     <Center m={4}>
       <Flex align="center">
@@ -64,7 +84,7 @@ export default function ProfileInfo({userId, isLocalUser} : {userId: string, isL
                 </Menu>
               </HStack>
               <Spacer />
-              <StarRating rating={3.5}/>
+              <StarRating rating={averageRating}/>
             </HStack>
           </Box>
           <Box width="100%">

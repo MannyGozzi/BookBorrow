@@ -1,8 +1,13 @@
 import { Document } from 'mongoose'
 
+export interface IGeoLocation {
+  type: 'Point'
+  coordinates: [number, number] // longitude and latitude
+}
 export interface IUser extends Document {
   id: number
   username: string
+  zip_code: string
   email: string
   password: string
   first_name: string
@@ -11,7 +16,6 @@ export interface IUser extends Document {
   last_name: string
   date_joined: Date
   is_staff: boolean
-  zip_code: string
   updatePassword(newPassword: string): Promise<boolean>
   isValidPassword(password: string): Promise<boolean>
   toJSON(): Exclude<IUser, 'password'>
@@ -30,7 +34,7 @@ export interface IBook extends Document {
   borrower?: string
   available: boolean
   date_added: Date
-  zip_code: string
+  location: IGeoLocation
 }
 
 export interface IReview extends Document {
