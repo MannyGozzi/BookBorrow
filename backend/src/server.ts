@@ -8,6 +8,7 @@ import userRoutes from './routes/userRoutes'
 import reviewRoutes from './routes/reviewRoutes'
 import checkoutRoutes from './routes/checkoutRoutes'
 import bookRoutes from './routes/bookRoutes'
+import BookModel from './models/Book'
 
 dotenv.config()
 
@@ -33,5 +34,6 @@ app.use('/checkout', checkoutRoutes)
 
 mongoose.connect(process.env.MONGODB_URI).then(() => {
   console.log('Connected to MongoDB')
-  app.listen(PORT, () => console.log('BooBo backend listening on port 3000!'))
+  BookModel.ensureIndexes()
+  app.listen(PORT, () => console.log(`BooBo backend listening on port ${PORT}!`))
 })

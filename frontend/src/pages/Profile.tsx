@@ -54,8 +54,8 @@ const Profile = () => {
                 <ThemedHeader text={'Books'}/>
                 <Box className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 gap-7 pb-16'>
                     {reduxBooks?.map((book: any, index: any) => (
-                        <UserBook key={index} title={book.title?.slice(0, 35) + (book.title.length>35 ? '...' : '')} author={book.author} isbn={book?.isbn} description={book.description.slice(0, 100) + (book.description.length>100 ? '...' : '')} cover_image={book?.cover_image} lender={book.lender} _id={book._id} zip_code={book.zip_code} date_added={book.date_added} available={book.available}/>
-                    ))}   
+                        <UserBook key={index} title={book.title?.slice(0, 35) + (book.title.length>35 ? '...' : '')} author={book.author} isbn={book?.isbn} description={book.description.slice(0, 100) + (book.description.length>100 ? '...' : '')} cover_image={book?.cover_image} lender={book.lender} _id={book._id} date_added={book.date_added} available={book.available} distance={book.distance}/>
+                    ))}
                 </Box>
                 {currentlyBorrowing.length > 0 && 
                 <>

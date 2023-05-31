@@ -16,11 +16,11 @@ router.get(
     const user = await UserModel.findById(req.params.id)
     if (user) {
       const [books, reviews] = await Promise.all([
-        BookModel.find({ lender: user._id }), 
+        BookModel.find({ lender: user._id }),
         ReviewModel.find({ reviewed: user._id })
-      ]);
+      ])
 
-      res.json({user: user.toJSON(), books, reviews})
+      res.json({ user: user.toJSON(), books, reviews })
     } else {
       res.status(404)
       throw new Error('User not found')

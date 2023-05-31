@@ -1,5 +1,18 @@
+import { SetStateAction } from 'react'
+
 export type TextType = {
   text: string
+}
+
+export type SearchBarProps = {
+  text: string
+  value: string
+  onChange: Dispatch<SetStateAction<string>>
+}
+
+export interface IGeoLocation {
+  type: 'Point'
+  coordinates: [number, number] // longitude and latitude
 }
 
 export type UserBookType = {
@@ -47,7 +60,7 @@ export interface IBook {
   borrower?: Types.ObjectId | null
   available: boolean
   date_added: Date
-  zip_code: string
+  distance: number
 }
 
 export interface IBookView extends IBook {

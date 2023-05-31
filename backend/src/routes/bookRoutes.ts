@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from 'uuid'
 import { verifyJWT } from '../middlewares/auth'
 import UserModel from '../models/User'
 import fileUpload from 'express-fileupload'
+import { lookup } from 'geoip-lite'
+import axios from 'axios'
 
 const router = express.Router()
 
@@ -19,6 +21,8 @@ router.post(
       res.status(404).json({ error: 'User not found' })
     }
 
+    const geo = lookup(user.zip_code)
+
     const book = new BookModel({
       _id: uuidv4(),
       title,
@@ -30,7 +34,10 @@ router.post(
       description,
       available: true,
       lender: req.userId,
-      zip_code: user.zip_code
+      location: {
+        type: 'Point',
+        coordinates: [geo.ll[1], geo.ll[0]]
+      }
     })
 
     const createdBook = await book.save()
@@ -50,7 +57,6 @@ router.get(
     res.status(201).json(book)
   })
 )
-
 
 router.post(
   '/delete',
@@ -75,22 +81,68 @@ router.get(
     const page = Number(req.query.pageNumber) || 1
     const searchTerm = req.query.searchTerm
 
-    const query = {
-    }
+    // Get client's IP and find its location
+    const clientIp = req.ip === '127.0.0.1' || req.ip === '::1' ? '129.65.145.15' : req.ip
+    const response = await axios.get(`https://ipapi.co/${clientIp}/json/`)
+    const { latitude: lat, longitude: lon } = response.data
 
-    // if (searchTerm) {
-    //   // Add a search condition to the query using a regular expression
-    //   query.title = { $regex: searchTerm, $options: 'i' }
-    // }
+    // Create a pipeline for the aggregate method
+    const pipeline: any[] = [
+      {
+        $geoNear: {
+          near: {
+            type: 'Point',
+            coordinates: [lon, lat]
+          },
+          distanceField: 'distance',
+          spherical: true
+        }
+      },
+      {
+        $addFields: {
+          distance: {
+            $divide: ['$distance', 1609.34] // Convert distance from meters to miles (1 meter = 0.000621371 miles)
+          }
+        }
+      },
+      {
+        $match: {
+          title: {
+            $regex: new RegExp((searchTerm as string) || '', 'i')
+          }
+        }
+      },
+      {
+        $facet: {
+          books: [{ $skip: pageSize * (page - 1) }, { $limit: pageSize }],
+          count: [{ $count: 'count' }]
+        }
+      },
+      {
+        $unwind: '$count'
+      },
+      {
+        $addFields: {
+          pages: { $ceil: { $divide: ['$count.count', pageSize] } },
+          currentPage: page
+        }
+      },
+      {
+        $project: {
+          books: 1,
+          pages: 1,
+          currentPage: 1
+        }
+      }
+    ]
 
-    const count = await BookModel.countDocuments(query)
-    const books = await BookModel.find(query)
-      .limit(pageSize)
-      .skip(pageSize * (page - 1))
+    const result = await BookModel.aggregate(pipeline)
+
+    const books = result[0].books
 
     res.json({
-      pages: Math.ceil(count / pageSize),
-      currentPage: page,
+      pages: result[0].pages,
+      currentPage: result[0].currentPage,
       books
     })
   })

@@ -9,7 +9,7 @@ const router = express.Router()
 router.get(
   '/from/:userId',
   asyncHandler(async (req, res) => {
-    const checkouts = await CheckoutModel.find({user: req.params.userId})
+    const checkouts = await CheckoutModel.find({ user: req.params.userId })
 
     if (!checkouts) {
       res.status(404).json({ error: 'No checkouts found' })

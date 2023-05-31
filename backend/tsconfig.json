@@ -12,6 +12,7 @@
         "baseUrl": "src",
         "declaration": true,
         "esModuleInterop": true,
+        "skipLibCheck": true,
         "declarationMap": true,
         "sourceMap": true,
         "emitDecoratorMetadata": true,

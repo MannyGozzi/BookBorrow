@@ -8,7 +8,7 @@ const persistConfig = {
   key: 'root', // change this key if necessary
   storage,
   // Whitelist the reducers you want to persist
-  whitelist: ['books', 'checkouts', 'reviews', 'user']
+  whitelist: ['checkouts', 'reviews', 'user']
 }
 
 // Create the persisted reducer
