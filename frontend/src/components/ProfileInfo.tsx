@@ -19,7 +19,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import { setCurrentUser } from '../actions/userActions'
 import { IUser } from '../types';
 
-export default function ProfileInfo({userId} : {userId: string}) {
+export default function ProfileInfo({userId, isLocalUser} : {userId: string, isLocalUser: boolean}) {
 
   const user = useSelector((state: any) => state.user)
   const [currentUser, setUser] = useState<IUser>();
@@ -62,7 +62,7 @@ export default function ProfileInfo({userId} : {userId: string}) {
             <HStack spacing='40px'>
               <Text fontSize="md">Email: {currentUser?.email}</Text>
               <Spacer />
-              <BookUpload/>
+              {isLocalUser && <BookUpload/>}
             </HStack>
           </Box>
         </VStack>
