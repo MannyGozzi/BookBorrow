@@ -18,9 +18,10 @@ import axios from 'axios';
 import {useSelector, useDispatch} from 'react-redux'
 import { setCurrentUser } from '../actions/userActions'
 import { IUser } from '../types';
+import { setBooks } from '../actions/bookActions';
 import { IReview } from '../types';
 
-export default function ProfileInfo({userId} : {userId: string}) {
+export default function ProfileInfo({userId, isLocalUser} : {userId: string, isLocalUser: boolean}) {
 
   const user = useSelector((state: any) => state.user)
   const [currentUser, setUser] = useState<IUser>();
@@ -35,9 +36,18 @@ export default function ProfileInfo({userId} : {userId: string}) {
         calculateAverageRating(res.data.user.reviews);
     })
     .catch(err => console.log(err.message))
+
+      axios.get(`http://localhost:3000/users/${userId ? userId : user._id}`)
+      .then(res => {
+          dispatch(setBooks(res.data.books))
+      })
+      .catch(err => console.log(err.message))
+
+      axios.get(`http://localhost:3000/checkout/from/${user._id}`, {withCredentials: true})
 }, [dispatch, userId])
 
   const calculateAverageRating = (reviews: IReview[]) => {
+    if (!reviews) return
     if (reviews.length === 0) {
       setAverageRating(0);
       return;
@@ -81,7 +91,7 @@ export default function ProfileInfo({userId} : {userId: string}) {
             <HStack spacing='40px'>
               <Text fontSize="md">Email: {currentUser?.email}</Text>
               <Spacer />
-              <BookUpload/>
+              {isLocalUser && <BookUpload/>}
             </HStack>
           </Box>
         </VStack>

@@ -31,6 +31,7 @@ import {
   export const Login = () =>  {
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
+    const [loginFail, setLoginFail] = React.useState(false)
     const toast = useToast()
 
     const redirect = useNavigate();

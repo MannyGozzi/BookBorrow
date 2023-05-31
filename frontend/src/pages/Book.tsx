@@ -1,14 +1,24 @@
-import React from 'react'
-import { IBook } from '../types'
-import ThemedHeader from '../components/ThemedHeader'
+import React, { useCallback, useMemo } from 'react'
+import { IBook, ICheckout } from '../types'
 import { Box, Center } from '@chakra-ui/react'
 import BookInfo from '../components/BookInfo'
 import axios from 'axios'
 import { useEffect, useState} from 'react'
+import { useSelector } from 'react-redux'
 
 const Profile = () => {
     const bookId =  new URLSearchParams(window.location.search).get('id');
     const [book, setBook] = useState<IBook | null>()
+    const user = useSelector((state: any) => state.user)
+    const [available, setAvailable] = useState<boolean>(true)
+
+    const checkAvailable = async () => {
+        if (user && user._id) await axios.get(`http://localhost:3000/checkout/by/${user._id}`, {withCredentials: true})
+            .then(res => {
+                return setAvailable((res.data.filter((checkout: ICheckout) => checkout.book === bookId).length === 0))
+            })
+            .catch(() => setAvailable(false))
+        }
 
     useEffect(() => {
         axios.get(`http://localhost:3000/books/view/${bookId}`)
@@ -16,6 +26,7 @@ const Profile = () => {
             setBook(res.data)
         })
         .catch(err => console.log(err.message))
+        checkAvailable()
     }, [])
 
     return (
@@ -24,7 +35,7 @@ const Profile = () => {
                 {book && <BookInfo _id={book._id} lender={book.lender} title={book.title} 
                 author={book.author} isbn={book.isbn} 
                 description={book.description} 
-                cover_image={book.cover_image} available={book.available} date_added={book.date_added} distance={book.distance}/> 
+                cover_image={book.cover_image} available={available} date_added={book.date_added} distance={5}/> 
                 }
             </Box>
          </Center>
