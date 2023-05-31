@@ -3,22 +3,27 @@ import {
   Center,
   Heading,
   Text,
-  Avatar,
   useColorModeValue,
   Image,
   HStack,
   Button,
   Flex,
-  Link,
-  useToast
+  useToast,
+  Avatar,
+  FormControl,
+  Input
 } from '@chakra-ui/react';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ICheckout, IBook } from '../types';
-import { CalendarIcon, CheckCircleIcon } from '@chakra-ui/icons';
+import { CheckCircleIcon } from '@chakra-ui/icons';
+import ReactDOM from 'react-dom';
 
-function BookCheckout({ _id, book, checkout_date, due_date, return_date, returned, user }: ICheckout) {
+function BookConfirmCheckout({ _id, book, checkout_date, due_date, return_date, returned, user, lender }: ICheckout) {
   const [bookData, setBookData] = useState<IBook | null>(null)
+  const [lenderData, setLenderData] = useState<any>(null)
+  const [checkedOut, setCheckedOut] = useState<boolean>(false)
+  const dueDate = useRef<Date | null>(null)
   const toast = useToast()
 
   const getBookProps = async () => {
@@ -30,31 +35,58 @@ function BookCheckout({ _id, book, checkout_date, due_date, return_date, returne
       .catch(error => console.error(error))
   }
 
-  const returnBook = () => {
-    axios.post(`http://localhost:3000/checkout/return/${_id}`,
-      {},
+  const getBorrowerProps = async () => {
+    axios.get(`http://localhost:3000/users/${user}`,
       { withCredentials: true })
       .then(response => {
-        toast({
-          title: 'Return Success!',
-          description: "You've successfully returned a book, congrats! 🔥",
+        setLenderData(response.data)
+      })
+      .catch(error => console.error(error))
+  }
+
+  const checkout = (approved: boolean) => {
+    console.log('duedate', dueDate.current)
+    if (!dueDate.current) {return toast({
+      title: 'Error',
+      description: "Please select a due date!",
+      status: 'error',
+      duration: 7000,
+      isClosable: true,
+    })}
+    axios.post(`http://localhost:3000/checkout/confirm/${_id}`,
+      {approved, due_date: dueDate.current},
+      { withCredentials: true })
+      .then(response => {
+        if (approved) toast({
+          title: 'Checkout Approved!',
+          description: "You've successfully lended the book! 🔥",
           status: 'success',
           duration: 7000,
           isClosable: true,
         })
+        else toast({
+          title: 'Checkout Declined!',
+          description: "You've successfully declined the request! 🔥",
+          status: 'info',
+          duration: 7000,
+          isClosable: true,
+        })
+        setCheckedOut(true)
       })
       .catch(error => {
+        console.error(error)
         toast({
-          title: 'Return Failed',
-          description: "Something went wrong 😔",
+          title: 'Error',
+          description: "Something unexpected happened 😔",
           status: 'error',
           duration: 7000,
           isClosable: true,
-      })})
+        })})
   }
 
   useEffect(() => {
     getBookProps()
+    getBorrowerProps()
   }, [])
 
 
@@ -113,28 +145,50 @@ function BookCheckout({ _id, book, checkout_date, due_date, return_date, returne
                   | {bookData?.isbn}
                 </Text>
               </HStack>
-
-              <Text
-                color={'gray.500'}
-                fontFamily={'body'}
-                mb={4}>
-                {bookData?.description?.slice(0, 85) + (bookData?.description && bookData.description.length > 85 ? '...' : '')}
-              </Text>
-              {due_date && <Text fontFamily={'Poppins'} ><CalendarIcon mx={2} />  Due | {new Date(due_date).toDateString()}</Text>}
+              <HStack>
+                <Avatar size={'sm'} />
+                <Text
+                  color={'red.300'}
+                  textTransform={'uppercase'}
+                  fontWeight={800}
+                  fontFamily={'Poppins'}
+                  fontSize={'sm'}>
+                  {'@' + lenderData?.user.username}
+                </Text>
+              </HStack>
+              <FormControl mt={4}>
+              <Input rounded={'xl'} type='DATE' placeholder={Date().toString()} onChange={(event) => dueDate.current = event.target.valueAsDate}/>
+              </FormControl>
             </Box>
             <HStack gap={3} background={useColorModeValue('gray.100', 'gray.600')} rounded={'2xl'} p={2} px={3} overflow={'hidden'} justifyContent={'space-between'}>
                 <Button 
                   rounded={'2xl'}
                   variant={'solid'}
-                  background={useColorModeValue('gray.100', 'gray.600')}
+                  background={useColorModeValue('gray.50', 'gray.600')}
+                  fontFamily={'Poppins'}
+                  size={'md'}
+                  w={'100%'}
+                  color={'green.300'}
+                  onClick={()=>checkout(true)}
+                  isDisabled={checkedOut}>
+                  <HStack justifyContent={'space-between'} w={'100%'}>
+                    <Text>Confirm</Text>
+                    <CheckCircleIcon/>
+                  </HStack>
+                </Button>
+                <Button 
+                  rounded={'2xl'}
+                  variant={'solid'}
+                  background={useColorModeValue('gray.50', 'gray.600')}
                   fontFamily={'Poppins'}
                   size={'md'}
                   w={'100%'}
                   color={'red.300'}
-                  onClick={returnBook}>
+                  onClick={()=>checkout(false)}
+                  isDisabled={checkedOut}>
                   <HStack justifyContent={'space-between'} w={'100%'}>
-                    <Text>Return Book</Text>
-                    <CheckCircleIcon />
+                    <Text>Decline</Text>
+                    <CheckCircleIcon/>
                   </HStack>
                 </Button>
             </HStack>
@@ -145,4 +199,4 @@ function BookCheckout({ _id, book, checkout_date, due_date, return_date, returne
   );
 }
 
-export default BookCheckout;
+export default BookConfirmCheckout;

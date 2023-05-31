@@ -7,6 +7,7 @@ export interface IGeoLocation {
 export interface IUser extends Document {
   id: number
   username: string
+  zip_code: string
   email: string
   password: string
   first_name: string
@@ -15,7 +16,6 @@ export interface IUser extends Document {
   last_name: string
   date_joined: Date
   is_staff: boolean
-  zip_code: string
   updatePassword(newPassword: string): Promise<boolean>
   isValidPassword(password: string): Promise<boolean>
   toJSON(): Exclude<IUser, 'password'>
@@ -49,9 +49,11 @@ export interface IReview extends Document {
 interface ICheckout extends Document {
   id: number
   user: String
+  lender: String
   book: String
-  checkout_date: Date
-  due_date: Date
+  checkout_date: Date,
+  approved: boolean,
+  due_date?: Date | null
   return_date?: Date | null
   returned: boolean
 }
