@@ -57,7 +57,7 @@ import {
           console.log(error)
           setLoginFail(true)
           toast({
-            title: 'Logout Failed 😔',
+            title: 'Login Failed 😔',
             description: "It looks like your password or email is wrong",
             status: 'error',
             duration: 7000,
