@@ -60,11 +60,11 @@ router.post('/login', async (req, res) => {
   const user = await User.findOne({ email: req.body.email })
 
   if (!user) {
-    return res.status(401).send({ user, msg: 'No user found.' })
+    return res.status(401).send({ user, msg: 'Email/Password Invalid' })
   }
 
   if (!(await user.isValidPassword(req.body.password))) {
-    return res.status(401).send({ user, msg: 'Invalid password.' })
+    return res.status(401).send({ user, msg: 'Email/Password Invalid' })
   }
 
   const jwtToken = issueJWT(user)
@@ -84,6 +84,20 @@ router.post('/logout', verifyJWT, (req: Request, res: Response) => {
 router.post('/register', async (req, res) => {
   const { email, password, zip_code, username, firstName, lastName } = req.body
 
+  // Validate email
+  const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ msg: 'Email not valid' })
+  }
+
+  if (username.length < 4) {
+    return res.status(400).json({ msg: 'Username must be > 3 characters long' })
+  }
+
+  if (password.length < 6) {
+    return res.status(400).json({ msg: 'Password must be > 6 characters long' })
+  }
+
   const [existingUsername, existingEmail] = await Promise.all([
     UserModel.findOne({ username }),
     UserModel.findOne({ email })
@@ -102,7 +116,7 @@ router.post('/register', async (req, res) => {
   const user = new UserModel({
     email,
     password: encryptedPassword,
-    zip_code,
+    zip_code: Number(zip_code),
     username,
     first_name: firstName,
     last_name: lastName

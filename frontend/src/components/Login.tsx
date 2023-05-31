@@ -31,7 +31,6 @@ import {
   export const Login = () =>  {
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
-    const [loginFail, setLoginFail] = React.useState(false)
     const toast = useToast()
 
     const redirect = useNavigate();
@@ -55,7 +54,15 @@ import {
         })
         .catch((error) => {
           console.log(error)
-          setLoginFail(true)
+          if (error.response?.data?.msg) {
+            toast({
+              title: 'Logout Failed 😔',
+              description: error.response?.data?.msg,
+              status: 'error',
+              duration: 7000,
+              isClosable: true,
+            })
+          } else {
           toast({
             title: 'Logout Failed 😔',
             description: "It looks like your password or email is wrong",
@@ -63,6 +70,7 @@ import {
             duration: 7000,
             isClosable: true,
           })
+        }
         })
     }
 
@@ -83,12 +91,6 @@ import {
             </HStack>
           </Stack>
         </Stack>
-        {loginFail &&
-          <Alert status='error' rounded={'xl'} mb={10}>
-            <AlertIcon />
-            Incorrect email or password
-          </Alert>
-          }
         <Box
           py={{ base: '0', sm: '8' }}
           px={{ base: '4', sm: '10' }}

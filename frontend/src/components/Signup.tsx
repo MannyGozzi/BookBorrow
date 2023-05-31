@@ -47,13 +47,23 @@ export const Signup = () => {
     })
     .catch((error) => {
       console.log(error)
-      toast({
-        title: 'Registration Failed! 😔',
-        description: "Try filling in all fields.",
-        status: 'error',
-        duration: 7000,
-        isClosable: true,
-      })
+      if (error.response?.data?.msg) {
+        toast({
+          title: 'Registration Failed! 😔',
+          description: error.response?.data?.msg,
+          status: 'error',
+          duration: 7000,
+          isClosable: true,
+        })
+      } else {
+        toast({
+          title: 'Registration Failed! 😔',
+          description: "Try filling in all fields.",
+          status: 'error',
+          duration: 7000,
+          isClosable: true,
+        })
+      }
     })
   }
 

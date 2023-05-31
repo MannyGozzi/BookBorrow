@@ -15,7 +15,7 @@ export interface IUser extends Document {
   last_name: string
   date_joined: Date
   is_staff: boolean
-  zip_code: string
+  zip_code: number
   updatePassword(newPassword: string): Promise<boolean>
   isValidPassword(password: string): Promise<boolean>
   toJSON(): Exclude<IUser, 'password'>

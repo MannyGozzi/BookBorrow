@@ -12,7 +12,7 @@ const userSchema = new Schema<IUser>({
   last_name: { type: String, required: true },
   date_joined: { type: Date, required: true, default: Date.now },
   is_staff: { type: Boolean, required: true, default: false },
-  zip_code: { type: String, required: true }
+  zip_code: { type: Number, required: true }
 })
 
 userSchema.methods.updatePassword = async function (newPassword: string): Promise<boolean> {
