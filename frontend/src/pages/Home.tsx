@@ -2,17 +2,16 @@ import React, { useEffect, useState } from 'react'
 import ThemedHeader from '../components/ThemedHeader'
 import SearchBar from '../components/SearchBar'
 import FilterBar from '../components/FilterBar'
-import { Box, Button, Center } from '@chakra-ui/react'
+import { Box, Button, Center, useColorModeValue } from '@chakra-ui/react'
 import BookView from '../components/BookView'
-import { IBookView } from '../types.d'
+import { IBookView, IBook } from '../types.d'
 import Footer from "../components/Footer";
-import { setBooks } from '../actions/bookActions'
+import { addBook, setBooks } from '../actions/bookActions'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 
 
 const Home = () => {
-  const pageCount = 10
   const [page, setPage] = useState(1);
   const [loader, setLoader] = useState(false);
   const dispatch = useDispatch()
@@ -25,38 +24,51 @@ const Home = () => {
   //     .catch(error => console.error(error));
   // }, []);
 
-  // TODO, CALCULATE ACTUAL DISTANC FROM USER
-  const addDistanceToBooks = (books: IBookView[]) => {
-    const newBooks = books.map(book => {
-      const distance = Math.random() * 20;
-      return {...book, distance}
-    })
-    return newBooks
+  const addDistanceToBook = (book: IBookView) => {
+    const distance = Math.random() * 20;
+    return {...book, distance}
   }
 
-  const refreshBooks = () => {
-    axios.get('http://localhost:3000/books', 
+  const initBooksPage = (pageNum: number) => {
+    axios.get(`http://localhost:3000/books`, 
     { params: {
       pageNumber: page,
       searchTerm: ''
     }})
       .then(response => {
-        dispatch(setBooks(addDistanceToBooks(response.data.books)))
+        dispatch(setBooks([]))
+        response.data.books.forEach((book: IBookView) => {
+          dispatch(addBook(addDistanceToBook(book)))
+        });
+      })
+      .catch(error => console.error(error))
+  }
+
+  const getBooksPage = (pageNum: number) => {
+    axios.get(`http://localhost:3000/books`, 
+    { params: {
+      pageNumber: pageNum,
+      searchTerm: ''
+    }})
+      .then(response => {
+        response.data.books.forEach((book: IBookView) => {
+          dispatch(addBook(addDistanceToBook(book)))
+        });
 
       })
       .catch(error => console.error(error))
   }
 
   useEffect(() => {
-    refreshBooks()
+    initBooksPage(page)
   }, [])
 
-  const sortBooks = (books: IBookView[]) => [...books].sort((a, b) => a.distance - b.distance)
+  //const sortBooks = (books: IBookView[]) => [...books].sort((a, b) => a.distance - b.distance)
   let books: IBookView[] = useSelector((state: any) => state.books)
-  books = sortBooks(books)
 
-  const handleMoreBooks  = () => {
+  const handleMoreBooks  = async () => {
     setLoader(true);
+    getBooksPage(page + 1)
     setPage(page + 1);
     setTimeout(() => setLoader(false), 1000);
     };
@@ -69,10 +81,10 @@ const Home = () => {
         <FilterBar />
         <ThemedHeader text={'Results'} />
         <Box className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 gap-7 pb-16'>
-            {books.slice(0, page*pageCount).map((book, index) => (
-                <BookView _id={book._id} lender={book.lender} key={index} title={book.title} 
+            {books.map((book, index) => (
+                <BookView _id={book._id} lender={book.lender} key={index} title={book.title.slice(0, 35) + (book.title.length > 35 ? '...' : '')} 
                 author={book.author} isbn={book.isbn} 
-                description={book.description?.slice(0, 125) + "..."} 
+                description={book.description?.slice(0, 80) + "..."} 
                 cover_image={book.cover_image} distance={book.distance} available={book.available} date_added={book.date_added} zip_code={book.zip_code}/>
             ))}
         </Box>

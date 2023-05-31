@@ -10,46 +10,53 @@ import {
   Button,
   Flex,
   Link,
+  useToast
 } from '@chakra-ui/react';
 import { NavLink as ReactLink } from 'react-router-dom';
-import { WarningIcon } from '@chakra-ui/icons';
-import { IBookView } from '../types.d';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import StarRating from './RatingStars';
+import { ICheckout, IBook } from '../types';
+import { CheckCircleIcon } from '@chakra-ui/icons';
 
-// Take in book type and convert to BookViewType instead???
-function BookView({ _id, lender, title, author, isbn, description, cover_image, distance, available }: IBookView) {
-  const [rating, setRating] = useState(0)
-  const [lenderName, setLenderName] = useState('...')
+function BookCheckout({ _id, book, checkout_date, due_date, return_date, returned, user }: ICheckout) {
+  const [bookData, setBookData] = useState<IBook | null>(null)
+  const toast = useToast()
 
-  const getRating = async () => {
-    axios.get(`http://localhost:3000/reviews/${_id}`,
+  const getBookProps = async () => {
+    axios.get(`http://localhost:3000/books/view/${book}`,
       { withCredentials: true })
       .then(response => {
-        let avgRating = 0
-        if (response.data) {
-          avgRating = response.data.reduce((acc: number, review: any) => acc + review.rating, 0)
-          avgRating /= Math.max(response.data.length, 1)
-        }
-        setRating(avgRating)
+        setBookData(response.data)
       })
       .catch(error => console.error(error))
   }
 
-  const getLenderName = async () => {
-    axios.get(`http://localhost:3000/users/${lender}`,
+  const returnBook = () => {
+    axios.post(`http://localhost:3000/checkout/return/${_id}`,
+      {},
       { withCredentials: true })
       .then(response => {
-        setLenderName(response.data.user.username)
+        toast({
+          title: 'Return Success!',
+          description: "You've successfully returned a book, congrats! 🔥",
+          status: 'success',
+          duration: 7000,
+          isClosable: true,
+        })
       })
-      .catch(error => console.error(error))
+      .catch(error => {
+        toast({
+          title: 'Return Failed',
+          description: "Something went wrong 😔",
+          status: 'error',
+          duration: 7000,
+          isClosable: true,
+      })})
   }
 
   useEffect(() => {
-    getRating()
-    getLenderName()
-  }, [lender])
+    getBookProps()
+  }, [])
 
 
   return (
@@ -70,18 +77,13 @@ function BookView({ _id, lender, title, author, isbn, description, cover_image, 
             mx={-6}
             mb={6}
             pos={'relative'}>
-            <Link as={ReactLink} to={`/book?id=${_id}`}>
             <Image
-              src={cover_image}
+              src={bookData?.cover_image}
               boxSize={'full'}
               objectFit='cover'
               alt='Book Image' />
-            </Link>
             <HStack mt={0} position={'absolute'} top={6} left={6} rounded={'full'} 
               background={useColorModeValue('white', 'gray.700')} padding={2} alignItems={'center'}>
-              {!available && <WarningIcon boxSize={5} color={'red.500'}/>}
-              <StarRating rating={rating} />
-              <Text fontWeight={'bold'} fontSize={'sm'} m={0}>{distance?.toFixed(1)} mi.</Text>
             </HStack>
           </Box>
           <Flex flexDir={'column'} h={'53%'} justifyContent={'space-between'}>
@@ -92,7 +94,7 @@ function BookView({ _id, lender, title, author, isbn, description, cover_image, 
                 fontFamily={'Poppins'}
                 mt={0}
                 mb={2}>
-                {title}
+                {bookData?.title}
               </Heading>
               <HStack className='content-center' mb={2}>
                 <Text
@@ -101,15 +103,15 @@ function BookView({ _id, lender, title, author, isbn, description, cover_image, 
                   fontWeight={800}
                   fontFamily={'Poppins'}
                   fontSize={'sm'}>
-                  {author}
+                  {bookData?.author}
                 </Text>
                 <Text
                   textTransform={'uppercase'}
                   fontWeight={400}
                   fontSize={'xs'}
                   letterSpacing={1.1}
-                  key={isbn}>
-                  | {isbn}
+                  key={bookData?.isbn}>
+                  | {bookData?.isbn}
                 </Text>
               </HStack>
 
@@ -117,25 +119,25 @@ function BookView({ _id, lender, title, author, isbn, description, cover_image, 
                 color={'gray.500'}
                 fontFamily={'body'}
                 mb={4}>
-                {description}
+                {bookData?.description?.slice(0, 85) + (bookData?.description && bookData.description.length > 85 ? '...' : '')}
               </Text>
             </Box>
-            <Link as={ReactLink} to={`/profile?userid=${lender}`}>
             <HStack gap={3} background={useColorModeValue('gray.100', 'gray.600')} rounded={'2xl'} p={2} px={3} overflow={'hidden'} justifyContent={'space-between'}>
                 <Button 
                   rounded={'2xl'}
                   variant={'solid'}
                   background={useColorModeValue('gray.100', 'gray.600')}
                   fontFamily={'Poppins'}
-                  color={'gray.900'}
-                  size={'md'}>
-                  <HStack>
-                    <Avatar size={'sm'} mr={1} />
-                    <Text fontWeight={'700'} fontSize={'sm'} fontFamily={'Poppins'}>{'@' + lenderName?.slice(0, 20) + (lenderName.length > 20 ? '...' : '')}</Text>
+                  size={'md'}
+                  w={'100%'}
+                  color={'red.300'}
+                  onClick={returnBook}>
+                  <HStack justifyContent={'space-between'} w={'100%'}>
+                    <Text>Return Book</Text>
+                    <CheckCircleIcon />
                   </HStack>
                 </Button>
             </HStack>
-            </Link>
           </Flex>
 
       </Box>
@@ -143,4 +145,4 @@ function BookView({ _id, lender, title, author, isbn, description, cover_image, 
   );
 }
 
-export default BookView;
+export default BookCheckout;

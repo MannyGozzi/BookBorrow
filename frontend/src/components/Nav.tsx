@@ -30,6 +30,7 @@ import { useSelector } from 'react-redux';
 import { resetCurrentUser } from '../actions/userActions'
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 // MIGHT USE THIS STUFF LATER, YAY
 //   const Links = ['Find Books', 'Other things', 'Team'];
@@ -53,6 +54,7 @@ export default function Nav() {
     const dispatch = useDispatch()
     const user = useSelector((state: any) => state.user)
     const [loggedIn, setLoggedIn] = useState<boolean>(!!user);
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (user) setLoggedIn(true)
@@ -63,6 +65,7 @@ export default function Nav() {
         axios.post('http://localhost:3000/users/logout', {}, { withCredentials: true })
         .then(() => {
             dispatch(resetCurrentUser())
+            navigate('/')
         })
     }
 
