@@ -17,21 +17,20 @@ import {
 // import StarRating from './RatingStars'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { IBook } from '../types';
+import { IBook, ICheckout } from '../types';
 import { NavLink as ReactLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-export default function BookInfo({_id, cover_image, title, author, description, lender} : IBook) {
+export default function BookInfo({_id, cover_image, title, author, description, lender, available} : IBook) {
   const user = useSelector((state: any) => state.user)
   const [lenderName, setLenderName] = useState('...')
+  const [checkoutInfo, setCheckoutInfo] = useState<ICheckout | null>()
   const toast = useToast()
 
   const checkout = () => {
-    const checkout_date = new Date()
-    const due_date = (new Date()).setDate(checkout_date.getDate() + 14)
-    
+    const info = { userId: user, lender, bookId: _id }
     axios.post(`http://localhost:3000/checkout/${_id}`,
-      { checkout_date, due_date, return_date: null, userId: user },
+      info,
       { withCredentials: true })
       .then(response => {
         toast({
@@ -41,6 +40,7 @@ export default function BookInfo({_id, cover_image, title, author, description, 
           duration: 7000,
           isClosable: true,
         })
+        setCheckoutInfo(response.data)
       })
       .catch(error => {
         toast({
@@ -64,6 +64,8 @@ export default function BookInfo({_id, cover_image, title, author, description, 
   useEffect(() => {
     getLenderName()
   }, [])
+
+  const btnColor = useColorModeValue('gray.50', 'gray.600')
 
   return (
     <Center m={4}>
@@ -89,9 +91,11 @@ export default function BookInfo({_id, cover_image, title, author, description, 
                 <Text fontSize="md"><span className='theme-header'>{lenderName.slice(0, 12) + (lenderName.length > 20 ? '...' : '')}</span></Text>
               </HStack>
               </Link>
-              <Button size="lg" rounded={'2xl'} bg={useColorModeValue('gray.50', 'gray.600')} onClick={checkout}>
+              {available ?
+                <Button size="lg" rounded={'2xl'} bg={btnColor} onClick={checkout}>
                 Request Checkout
-              </Button>
+                </Button>
+              : <Text>Return Date: {checkoutInfo?.due_date?.toString()}</Text>}
             </HStack>
           </Stack>
         </VStack>

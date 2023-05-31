@@ -18,6 +18,7 @@ import axios from 'axios';
 import {useSelector, useDispatch} from 'react-redux'
 import { setCurrentUser } from '../actions/userActions'
 import { IUser } from '../types';
+import { setBooks } from '../actions/bookActions';
 
 export default function ProfileInfo({userId, isLocalUser} : {userId: string, isLocalUser: boolean}) {
 
@@ -32,6 +33,14 @@ export default function ProfileInfo({userId, isLocalUser} : {userId: string, isL
         setUser(res.data.user)
     })
     .catch(err => console.log(err.message))
+
+      axios.get(`http://localhost:3000/users/${userId ? userId : user._id}`)
+      .then(res => {
+          dispatch(setBooks(res.data.books))
+      })
+      .catch(err => console.log(err.message))
+
+      axios.get(`http://localhost:3000/checkout/from/${user._id}`, {withCredentials: true})
 }, [dispatch, userId])
 
   return (

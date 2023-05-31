@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { verifyJWT } from '../middlewares/auth'
 import UserModel from '../models/User'
 import fileUpload from 'express-fileupload'
+import CheckoutModel from '../models/Checkout'
 
 const router = express.Router()
 
@@ -62,6 +63,8 @@ router.post(
     if (!targetBook) {
       res.status(404).json({ error: 'Book not found' })
     }
+
+    await CheckoutModel.deleteMany({book: _id})
 
     const bookDeleted = await targetBook.deleteOne()
     res.status(201).json(bookDeleted)

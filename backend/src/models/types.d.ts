@@ -45,9 +45,11 @@ export interface IReview extends Document {
 interface ICheckout extends Document {
   id: number
   user: String
+  lender: String
   book: String
-  checkout_date: Date
-  due_date: Date
+  checkout_date: Date,
+  approved: boolean,
+  due_date?: Date | null
   return_date?: Date | null
   returned: boolean
 }

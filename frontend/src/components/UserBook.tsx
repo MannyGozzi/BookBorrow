@@ -96,20 +96,23 @@ function UserBook({ _id, lender, title, author, isbn, description, cover_image }
               {description}
             </Text>
           </Box>
-          <HStack gap={3} justifyContent={'space-between'} background={useColorModeValue('gray.100', 'gray.600')} rounded={'2xl'} p={2} overflow={'hidden'}>
+          <HStack gap={3} justifyContent={'space-between'} background={useColorModeValue('gray.100', 'gray.600')} rounded={'2xl'} p={2} overflow={'hidden'} >
               <Button 
                 rounded={'2xl'}
                 variant={'solid'}
                 background={useColorModeValue('gray.100', 'gray.600')}
-                color={'red.300'}
                 fontFamily={'Poppins'}
                 size={'md'}
-                leftIcon={<DeleteIcon/>}
+                color={'red.300'}
+                w={'100%'}
                 onClick={e=>{
                   e.preventDefault()
                   deleteBook()
                 }}>
-                Delete
+                  <HStack justifyContent={'space-between'} w={'100%'}>
+                    <Text>Delete</Text>
+                    <DeleteIcon/>
+                  </HStack>
               </Button>
           </HStack>
         </Flex>

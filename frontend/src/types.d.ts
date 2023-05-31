@@ -67,9 +67,11 @@ export interface IReview {
 interface ICheckout {
   _id: string
   user: Types.ObjectId
+  lender: Types.ObjectId
   book: Types.ObjectId
+  approved: boolean
   checkout_date: Date
-  due_date: Date
+  due_date?: Date | null
   return_date?: Date | null
   returned: boolean
 }
