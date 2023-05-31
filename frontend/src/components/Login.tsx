@@ -13,7 +13,8 @@ import {
     Link,
     useColorModeValue,
     Alert,
-    AlertIcon
+    AlertIcon,
+    useToast
   } from '@chakra-ui/react'
   import { PasswordField } from './PasswordField'
   import React, { useEffect } from 'react'
@@ -31,6 +32,7 @@ import {
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
     const [loginFail, setLoginFail] = React.useState(false)
+    const toast = useToast()
 
     const redirect = useNavigate();
 
@@ -42,11 +44,25 @@ import {
         {withCredentials: true})
         .then((response) => {
           dispatch(setCurrentUser(response.data.user))
+          toast({
+            title: 'Login Success! 🔥',
+            description: "Welcome back!",
+            status: 'success',
+            duration: 7000,
+            isClosable: true,
+          })
           redirect('/')
         })
         .catch((error) => {
           console.log(error)
           setLoginFail(true)
+          toast({
+            title: 'Logout Failed 😔',
+            description: "It looks like your password or email is wrong",
+            status: 'error',
+            duration: 7000,
+            isClosable: true,
+          })
         })
     }
 
@@ -76,13 +92,13 @@ import {
         <Box
           py={{ base: '0', sm: '8' }}
           px={{ base: '4', sm: '10' }}
-          bg={{ base: 'transparent', sm: 'bg-surface' }}
-          boxShadow={{ base: 'none', sm: 'md' }}
-          borderRadius={{ base: 'none', sm: 'xl' }}
+          borderRadius={'2xl'}
+          borderColor={useColorModeValue('gray.200', 'gray.700')}
+          borderWidth={'5px'}
         >
 
           <Stack spacing="6">
-            <Stack spacing="5">
+            <Stack spacing="5" fontFamily={'Poppins'}>
               <FormControl>
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <Input id="email" type="email" onChange={
@@ -96,7 +112,7 @@ import {
             <HStack justify="space-between">
             </HStack>
             <Stack spacing="6">
-              <Button variant="primary" type='submit' onClick={login} background={useColorModeValue('gray.100', 'gray.600')}>Sign in</Button>
+              <Button fontFamily={'Poppins'} variant="primary" type='submit' onClick={login} background={useColorModeValue('gray.200', 'gray.600')} rounded={'xl'}>Sign in</Button>
             </Stack>
           </Stack>
         </Box>

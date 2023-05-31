@@ -39,7 +39,7 @@ router.post(
 )
 
 router.get(
-  '/view:id',
+  '/view/:id',
   asyncHandler(async (req, res) => {
     const bookId = req.params.id
     const book = await BookModel.findById(bookId)
@@ -47,7 +47,8 @@ router.get(
     if (!book) {
       res.status(404).json({ error: 'Book not found' })
     }
-    res.status(201).json(book)})
+    res.status(201).json(book)
+  })
 )
 
 
@@ -63,7 +64,8 @@ router.post(
     }
 
     const bookDeleted = await targetBook.deleteOne()
-    res.status(201).json(bookDeleted)})
+    res.status(201).json(bookDeleted)
+  })
 )
 
 router.get(
