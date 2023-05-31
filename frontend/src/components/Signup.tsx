@@ -12,7 +12,8 @@ import {
   Center,
   Text,
   Link,
-  useColorModeValue
+  useColorModeValue,
+  useToast
 } from '@chakra-ui/react'
 import { PasswordField, ConfirmPasswordField } from './PasswordField'
 import { Link as ReactLink, useNavigate } from 'react-router-dom'
@@ -27,6 +28,7 @@ export const Signup = () => {
   const [username, setUsername] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [zipCode, setZipCode] = React.useState('')
+  const toast = useToast()
 
   const redirect = useNavigate();
 
@@ -35,18 +37,32 @@ export const Signup = () => {
     {firstName, lastName, email, password, zip_code: zipCode, username})
     .then((response) => {
       redirect('/login')
+      toast({
+        title: 'Registration Success! 🔥',
+        description: "Welcome aboard!",
+        status: 'success',
+        duration: 7000,
+        isClosable: true,
+      })
     })
     .catch((error) => {
       console.log(error)
+      toast({
+        title: 'Registration Failed! 😔',
+        description: "Try filling in all fields.",
+        status: 'error',
+        duration: 7000,
+        isClosable: true,
+      })
     })
   }
 
   return (
-    <Container maxW="lg" py={{ base: '12', md: '24' }} px={{ base: '0', sm: '8' }}>
+    <Container maxW="lg" py={{ base: '12', md: '24' }} px={{ base: '0', sm: '8' }} fontFamily={'Poppins'} >
       <Stack spacing="4">
         <Stack spacing="6">
           <Center></Center>
-          <Stack spacing={{ base: '2', md: '3' }} textAlign="center">
+          <Stack spacing={{ base: '2', md: '3' }} textAlign="center" >
             <Heading size={{ base: 'lg', md: 'lg' }}><span className='theme-header'>Sign Up</span></Heading>
             <HStack spacing="1" justify="center">
               <Button variant="link" colorScheme="blue" className='theme-header'>
@@ -65,11 +81,11 @@ export const Signup = () => {
         <Box
           py={{ base: '4', sm: '8' }}
           px={{ base: '4', sm: '10' }}
-          bg={{ base: 'transparent', sm: 'bg-surface' }}
-          boxShadow={{ base: 'none', sm: 'md' }}
-          borderRadius={{ base: 'none', sm: 'xl' }}
+          borderRadius={'2xl'}
+          borderColor={useColorModeValue('gray.200', 'gray.700')}
+          borderWidth={'5px'}
         >
-          <Stack spacing="6">
+          <Stack spacing="6" >
             <Stack spacing="5">
               <FormControl>
                 <FormLabel htmlFor="First Name">First Name</FormLabel>
@@ -116,11 +132,10 @@ export const Signup = () => {
             </HStack>
             <Stack spacing="6">
               <Button variant="primary" type='submit'
-                background={useColorModeValue('gray.100', 'gray.600')}
+                background={useColorModeValue('gray.200', 'gray.600')}
+                rounded={'xl'}
                 onClick={signup}>Sign Up</Button>
               <HStack>
-                <Divider />
-                <Divider />
               </HStack>
             </Stack>
           </Stack>
