@@ -2,8 +2,12 @@ import React from 'react'
 import ThemedHeader from '../components/ThemedHeader'
 import { AbsoluteCenter, Image, VStack, Box, Text } from '@chakra-ui/react'
 import BooBo_logo from '../assets/BooBo_logo.png'
+import DocTitle from '../components/DocTitle'
 
 const Restricted = () => {
+
+  DocTitle('Restriced Page | Boobo')
+
   return (
     <Box h={'80vh'}>
       <AbsoluteCenter>

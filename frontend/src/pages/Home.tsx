@@ -74,7 +74,7 @@ const Home = () => {
     setPage(page + 1);
     setTimeout(() => setLoader(false), 1000);
   };
-  DocTitle("Boobo Home Page")
+  DocTitle("Home Page | Boobo")
   return (
     <>
     <Center>

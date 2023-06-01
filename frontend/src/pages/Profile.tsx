@@ -59,7 +59,7 @@ const Profile = () => {
             .catch(() => setConfirmCheckouts([]))
     }, [])
 
-    DocTitle("Boobo Your Profile Page")
+    DocTitle("Your Profile Page | Boobo")
     return (
         <Center>
             {user && user._id && 
