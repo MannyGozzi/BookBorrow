@@ -53,14 +53,14 @@ const Profile = () => {
         <Center>
             {userId &&
                 <Box w={{ lg: '85%', md: '90%', sm: '100%' }}>
-
                     <ProfileInfo userid={userId ?? ''} isLocalUser={isLocalUser} />
                     {reduxBooks.length > 0 && <ThemedHeader text={'Books'} />}
-                    <Tabs isFitted variant='enclosed'>
+                    <Tabs isFitted variant='enclosed' h={'100vh'}>
                         <TabList mb='1em'>
                             <Tab>Books</Tab>
-                            {isLocalUser && <Tab>Currently Borrowing</Tab>}
-                            {isLocalUser &&<Tab>Borrow Requests</Tab>}
+                            {isLocalUser && <Tab>Currently Borrowed</Tab>}
+                            {isLocalUser && <Tab>Borrow Requests</Tab>}
+                            {isLocalUser && <Tab>Checkouts</Tab>}
                         </TabList>
                         <TabPanels>
                             <TabPanel>
@@ -71,22 +71,29 @@ const Profile = () => {
                                     ))}
                                 </Box>
                             </TabPanel>
-                            {currentlyBorrowing.length > 0 && <TabPanel>
-                            
+                            {isLocalUser && <TabPanel>
                                 <Box className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 gap-7 pb-16'>
                                     {currentlyBorrowing?.map((checkout: any, index: any) => (
                                         <BookCheckout key={index} {...checkout} />
                                     ))}
                                 </Box>
                             </TabPanel>}
-                            {confirmCheckouts.length > 0 &&<TabPanel>
-                                    <Box className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 gap-7 pb-16'>
-                                        {confirmCheckouts?.map((checkout: any, index: any) => (
-                                            <BookConfirmCheckout key={index} {...checkout} />
-                                        ))}
-                                    </Box>
+                            {isLocalUser && <TabPanel>
+                                <Box className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 gap-7 pb-16'>
+                                    {confirmCheckouts?.map((checkout: any, index: any) => (
+                                        <BookConfirmCheckout key={index} {...checkout} />
+                                    ))}
+                                </Box>
+                            </TabPanel>}
+                            {isLocalUser && <TabPanel>
+                                <Box className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 gap-7 pb-16'>
+                                    {currentlyBorrowed?.map((checkout: any, index: any) => (
+                                        <BookBorrowed key={index} {...checkout} />
+                                    ))}
+                                </Box>
                             </TabPanel>}
                         </TabPanels>
+
                     </Tabs>
                 </Box>}
             {!userId && <Restricted />}
