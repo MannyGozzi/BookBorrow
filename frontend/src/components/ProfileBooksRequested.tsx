@@ -1,18 +1,5 @@
 import {
-    Box,
-    Button,
-    Checkbox,
     Container,
-    Divider,
-    FormControl,
-    FormLabel,
-    Heading,
-    HStack,
-    Input,
-    Stack,
-    Text,
-    Image, 
-    Center
   } from '@chakra-ui/react'
   
   export default function ProfileInfo() {
