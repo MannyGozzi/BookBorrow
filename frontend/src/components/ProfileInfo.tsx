@@ -27,6 +27,7 @@ export default function ProfileInfo({userId, isLocalUser} : {userId: string, isL
   const [currentUser, setUser] = useState<IUser>();
   const dispatch = useDispatch()
   const [averageRating, setAverageRating] = useState<number>(0);
+  const [numRatings, setNumRatings] = useState<number>(0);
 
   useEffect(() => {
     axios.get(`http://localhost:3000/users/${userId}`)
@@ -54,13 +55,15 @@ export default function ProfileInfo({userId, isLocalUser} : {userId: string, isL
     }
 
     let totalRating = 0;
-
-    for (let i = 0; i < reviews.length; i++) {
+    let i = 0
+    for (i; i < reviews.length; i++) {
       totalRating += reviews[i].rating;
     }
 
+    const totalReviews = i;
     const average = totalRating / reviews.length;
     setAverageRating(average);
+    setNumRatings(totalReviews)
   }
   
   return (
@@ -84,7 +87,10 @@ export default function ProfileInfo({userId, isLocalUser} : {userId: string, isL
                 </Menu>
               </HStack>
               <Spacer />
-              <StarRating rating={averageRating}/>
+              <VStack spacing="5px" align="flex-end">
+                <StarRating rating={averageRating}/>
+                <Text fontSize="xs">(Number of Ratings: {numRatings})</Text>
+              </VStack>
             </HStack>
           </Box>
           <Box width="100%">
