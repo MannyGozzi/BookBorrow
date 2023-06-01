@@ -46,15 +46,17 @@ function BookConfirmCheckout({ _id, book, checkout_date, due_date, return_date, 
 
   const checkout = (approved: boolean) => {
     console.log('duedate', dueDate.current)
-    if (!dueDate.current) {return toast({
-      title: 'Error',
-      description: "Please select a due date!",
-      status: 'error',
-      duration: 7000,
-      isClosable: true,
-    })}
+    if (!dueDate.current && approved) {
+      return toast({
+        title: 'Error',
+        description: "Please select a due date!",
+        status: 'error',
+        duration: 7000,
+        isClosable: true,
+      })
+    }
     axios.post(`http://localhost:3000/checkout/confirm/${_id}`,
-      {approved, due_date: dueDate.current},
+      { approved, due_date: dueDate.current },
       { withCredentials: true })
       .then(response => {
         if (approved) toast({
@@ -81,7 +83,8 @@ function BookConfirmCheckout({ _id, book, checkout_date, due_date, return_date, 
           status: 'error',
           duration: 7000,
           isClosable: true,
-        })})
+        })
+      })
   }
 
   useEffect(() => {
@@ -101,98 +104,98 @@ function BookConfirmCheckout({ _id, book, checkout_date, due_date, return_date, 
         rounded={'xl'}
         p={3}
         overflow={'hidden'}>
-          <Box
-            h={'200px'}
-            bg={'gray.100'}
-            mt={-6}
-            mx={-6}
-            mb={6}
-            pos={'relative'}>
-            <Image
-              src={bookData?.cover_image}
-              boxSize={'full'}
-              objectFit='cover'
-              alt='Book Image' />
-            <HStack mt={0} position={'absolute'} top={6} left={6} rounded={'full'} 
-              background={useColorModeValue('white', 'gray.700')} padding={2} alignItems={'center'}>
-            </HStack>
-          </Box>
-          <Flex flexDir={'column'} h={'53%'} justifyContent={'space-between'}>
-            <Box>
-              <Heading
-                color={useColorModeValue('gray.600', 'white')}
-                fontSize={'xl'}
+        <Box
+          h={'200px'}
+          bg={'gray.100'}
+          mt={-6}
+          mx={-6}
+          mb={6}
+          pos={'relative'}>
+          <Image
+            src={bookData?.cover_image}
+            boxSize={'full'}
+            objectFit='cover'
+            alt='Book Image' />
+          <HStack mt={0} position={'absolute'} top={6} left={6} rounded={'full'}
+            background={useColorModeValue('white', 'gray.700')} padding={2} alignItems={'center'}>
+          </HStack>
+        </Box>
+        <Flex flexDir={'column'} h={'53%'} justifyContent={'space-between'}>
+          <Box>
+            <Heading
+              color={useColorModeValue('gray.600', 'white')}
+              fontSize={'xl'}
+              fontFamily={'Poppins'}
+              mt={0}
+              mb={2}>
+              {bookData?.title}
+            </Heading>
+            <HStack className='content-center' mb={2}>
+              <Text
+                color={'red.300'}
+                textTransform={'uppercase'}
+                fontWeight={800}
                 fontFamily={'Poppins'}
-                mt={0}
-                mb={2}>
-                {bookData?.title}
-              </Heading>
-              <HStack className='content-center' mb={2}>
-                <Text
-                  color={'red.300'}
-                  textTransform={'uppercase'}
-                  fontWeight={800}
-                  fontFamily={'Poppins'}
-                  fontSize={'sm'}>
-                  {bookData?.author}
-                </Text>
-                <Text
-                  textTransform={'uppercase'}
-                  fontWeight={400}
-                  fontSize={'xs'}
-                  letterSpacing={1.1}
-                  key={bookData?.isbn}>
-                  | {bookData?.isbn}
-                </Text>
-              </HStack>
-              <HStack>
-                <Avatar size={'sm'} />
-                <Text
-                  color={'red.300'}
-                  textTransform={'uppercase'}
-                  fontWeight={800}
-                  fontFamily={'Poppins'}
-                  fontSize={'sm'}>
-                  {'@' + lenderData?.user.username}
-                </Text>
-              </HStack>
-              <FormControl mt={4}>
-              <Input rounded={'xl'} type='DATE' placeholder={Date().toString()} onChange={(event) => dueDate.current = event.target.valueAsDate}/>
-              </FormControl>
-            </Box>
-            <HStack gap={3} background={useColorModeValue('gray.100', 'gray.600')} rounded={'2xl'} p={2} px={3} overflow={'hidden'} justifyContent={'space-between'}>
-                <Button 
-                  rounded={'2xl'}
-                  variant={'solid'}
-                  background={useColorModeValue('gray.50', 'gray.600')}
-                  fontFamily={'Poppins'}
-                  size={'md'}
-                  w={'100%'}
-                  color={'green.300'}
-                  onClick={()=>checkout(true)}
-                  isDisabled={checkedOut}>
-                  <HStack justifyContent={'space-between'} w={'100%'}>
-                    <Text>Confirm</Text>
-                    <CheckCircleIcon/>
-                  </HStack>
-                </Button>
-                <Button 
-                  rounded={'2xl'}
-                  variant={'solid'}
-                  background={useColorModeValue('gray.50', 'gray.600')}
-                  fontFamily={'Poppins'}
-                  size={'md'}
-                  w={'100%'}
-                  color={'red.300'}
-                  onClick={()=>checkout(false)}
-                  isDisabled={checkedOut}>
-                  <HStack justifyContent={'space-between'} w={'100%'}>
-                    <Text>Decline</Text>
-                    <CheckCircleIcon/>
-                  </HStack>
-                </Button>
+                fontSize={'sm'}>
+                {bookData?.author}
+              </Text>
+              <Text
+                textTransform={'uppercase'}
+                fontWeight={400}
+                fontSize={'xs'}
+                letterSpacing={1.1}
+                key={bookData?.isbn}>
+                | {bookData?.isbn}
+              </Text>
             </HStack>
-          </Flex>
+            <HStack>
+              <Avatar size={'sm'} />
+              <Text
+                color={'red.300'}
+                textTransform={'uppercase'}
+                fontWeight={800}
+                fontFamily={'Poppins'}
+                fontSize={'sm'}>
+                {'@' + lenderData?.user.username}
+              </Text>
+            </HStack>
+            <FormControl mt={4}>
+              <Input rounded={'xl'} type='DATE' placeholder={Date().toString()} onChange={(event) => dueDate.current = event.target.valueAsDate} />
+            </FormControl>
+          </Box>
+          <HStack gap={3} background={useColorModeValue('gray.100', 'gray.600')} rounded={'2xl'} p={2} px={3} overflow={'hidden'} justifyContent={'space-between'}>
+            <Button
+              rounded={'2xl'}
+              variant={'solid'}
+              background={useColorModeValue('gray.50', 'gray.600')}
+              fontFamily={'Poppins'}
+              size={'md'}
+              w={'100%'}
+              color={'green.300'}
+              onClick={() => checkout(true)}
+              isDisabled={checkedOut}>
+              <HStack justifyContent={'space-between'} w={'100%'}>
+                <Text>Confirm</Text>
+                <CheckCircleIcon />
+              </HStack>
+            </Button>
+            <Button
+              rounded={'2xl'}
+              variant={'solid'}
+              background={useColorModeValue('gray.50', 'gray.600')}
+              fontFamily={'Poppins'}
+              size={'md'}
+              w={'100%'}
+              color={'red.300'}
+              onClick={() => checkout(false)}
+              isDisabled={checkedOut}>
+              <HStack justifyContent={'space-between'} w={'100%'}>
+                <Text>Decline</Text>
+                <CheckCircleIcon />
+              </HStack>
+            </Button>
+          </HStack>
+        </Flex>
 
       </Box>
     </Center>
