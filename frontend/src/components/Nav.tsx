@@ -70,7 +70,7 @@ export default function Nav() {
             toast({
                 title: 'Logout Success! 🔥',
                 description: "We hope to see you soon",
-                status: 'success',
+                status: 'info',
                 duration: 7000,
                 isClosable: true,
               })

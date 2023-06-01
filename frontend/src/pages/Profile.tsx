@@ -21,25 +21,26 @@ const Profile = () => {
     const [currentlyBorrowed, setCurrentlyBorrowed] = useState<ICheckout[]>([])
     const dispatch = useDispatch()
     const reduxBooks = useSelector((state: any) => state.books)
-    const userId = new URLSearchParams(window.location.search).get('userid');
-
+    let userId = new URLSearchParams(window.location.search).get('userid');
+    const isLocalUser = !userId
+    if (!userId) userId = user?._id
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/users/${userId ? userId : user._id}`)
+        axios.get(`http://localhost:3000/users/${userId}`)
         .then(res => {
             dispatch(setBooks(res.data.books))
         })
         .catch(err => console.log(err.message))
 
-        if (!userId && user._id) axios.get(`http://localhost:3000/checkout/by/${user._id}`, {withCredentials: true})
+        if (isLocalUser) axios.get(`http://localhost:3000/checkout/by/${userId}`, {withCredentials: true})
             .then(res => {
                 // a book is checked out once the due_date is set by the owner
                 setCurrentlyBorrowing(res.data.filter((checkout: any) => !checkout.returned && checkout.approved))
             })
             .catch(() => setCurrentlyBorrowing([]))
         
-        if (user && user._id && (userId === user._id || !userId)) 
-            axios.get(`http://localhost:3000/checkout/from/${user._id}`, {withCredentials: true})
+        if (isLocalUser) 
+            axios.get(`http://localhost:3000/checkout/from/${userId}`, {withCredentials: true})
             .then(res => {
                 // a book is checked out once the due_date is set by the owner
                 setConfirmCheckouts(res.data.filter((checkout: any) => !checkout.approved))
@@ -50,9 +51,9 @@ const Profile = () => {
 
     return (
         <Center>
-            {user && user._id && 
+            {userId && 
             <Box w={{lg: '85%', md: '90%', sm: '100%'}}>
-                <ProfileInfo userId={userId ? userId : user._id} isLocalUser={!userId}/> 
+                <ProfileInfo userid={userId?? ''} isLocalUser={isLocalUser}/> 
                 {reduxBooks.length > 0 && <ThemedHeader text={'Books'}/>}
                 <Box className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 gap-7 pb-16'>
                     {reduxBooks?.map((book: any, index: any) => (
@@ -86,7 +87,7 @@ const Profile = () => {
                     </Box>
                 </>}
             </Box>}
-            {!user && <Restricted />}
+            {!userId && <Restricted />}
          </Center>
     )
 }

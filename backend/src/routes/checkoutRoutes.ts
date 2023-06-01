@@ -80,11 +80,11 @@ router.post(
       res.status(404).json({ error: 'Checkout not found' })
     }
     if (!approved) {
-      CheckoutModel.deleteOne({ _id: req.params.checkoutId })
-      res.status(201).json(targetCheckout)
+      CheckoutModel.deleteOne({ _id: req.params.checkoutId }).exec()
+      res.status(201).json({message: 'Checkout declined!'})
       return
     }
-    if (targetCheckout.due_date) {
+    if (targetCheckout.approved) {
       res.status(400).json({ error: 'Checkout is already confirmed' })
       return
     }
