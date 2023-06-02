@@ -3,21 +3,18 @@ import {
   Center,
   Heading,
   Text,
-  Avatar,
   useColorModeValue,
   Image,
   HStack,
-  Button,
   Flex,
-  Link,
   useToast
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { ICheckout, IBook } from '../types';
-import { CalendarIcon, CheckCircleIcon } from '@chakra-ui/icons';
+import { CalendarIcon } from '@chakra-ui/icons';
 
-function BookCheckout({ _id, book, checkout_date, due_date, return_date, returned, user }: ICheckout) {
+function BookBorrowed({ _id, book, checkout_date, due_date, return_date, returned, user }: ICheckout) {
   const [bookData, setBookData] = useState<IBook | null>(null)
   const toast = useToast()
 
@@ -62,7 +59,7 @@ function BookCheckout({ _id, book, checkout_date, due_date, return_date, returne
     <Center >
       <Box
         maxW={'445px'}
-        h={'450px'}
+        h={'400px'}
         w={'full'}
         bg={useColorModeValue('white', 'gray.700')}
         boxShadow={'xl'}
@@ -121,23 +118,8 @@ function BookCheckout({ _id, book, checkout_date, due_date, return_date, returne
                 {bookData?.description?.slice(0, 85) + (bookData?.description && bookData.description.length > 85 ? '...' : '')}
               </Text>
               {due_date && <Text fontFamily={'Poppins'} ><CalendarIcon mx={2} />  Due | {new Date(due_date).toDateString()}</Text>}
+              {!due_date && <Text fontFamily={'Poppins'} ><CalendarIcon mx={2} />  Pending Request</Text>}
             </Box>
-            <HStack gap={3} background={useColorModeValue('gray.100', 'gray.600')} rounded={'2xl'} p={2} px={3} overflow={'hidden'} justifyContent={'space-between'}>
-                <Button 
-                  rounded={'2xl'}
-                  variant={'solid'}
-                  background={useColorModeValue('gray.100', 'gray.600')}
-                  fontFamily={'Poppins'}
-                  size={'md'}
-                  w={'100%'}
-                  color={'red.300'}
-                  onClick={returnBook}>
-                  <HStack justifyContent={'space-between'} w={'100%'}>
-                    <Text>Return Book</Text>
-                    <CheckCircleIcon />
-                  </HStack>
-                </Button>
-            </HStack>
           </Flex>
 
       </Box>
@@ -145,4 +127,4 @@ function BookCheckout({ _id, book, checkout_date, due_date, return_date, returne
   );
 }
 
-export default BookCheckout;
+export default BookBorrowed;

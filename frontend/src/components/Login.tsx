@@ -31,6 +31,7 @@ import {
   export const Login = () =>  {
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
+    const [loginFail, setLoginFail] = React.useState(false)
     const toast = useToast()
 
     const redirect = useNavigate();
@@ -64,7 +65,7 @@ import {
             })
           } else {
           toast({
-            title: 'Logout Failed 😔',
+            title: 'Login Failed 😔',
             description: "It looks like your password or email is wrong",
             status: 'error',
             duration: 7000,

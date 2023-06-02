@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { verifyJWT } from '../middlewares/auth'
 import UserModel from '../models/User'
 import fileUpload from 'express-fileupload'
+import CheckoutModel from '../models/Checkout'
 import { lookup } from 'geoip-lite'
 import axios from 'axios'
 
@@ -20,9 +21,10 @@ router.post(
     if (!user) {
       res.status(404).json({ error: 'User not found' })
     }
-
-    const geo = lookup(user.zip_code)
-
+    // NOTE GEO IP DOES NOT WORK WITH ZIP CODE AS IT WAS
+    const clientIp = req.ip === '127.0.0.1' || req.ip === '::1' ? '129.65.145.15' : req.ip
+    const response = await axios.get(`https://ipapi.co/${clientIp}/json/`)
+    const { latitude: lat, longitude: lon } = response.data
     const book = new BookModel({
       _id: uuidv4(),
       title,
@@ -36,7 +38,7 @@ router.post(
       lender: req.userId,
       location: {
         type: 'Point',
-        coordinates: [geo.ll[1], geo.ll[0]]
+        coordinates: [lon, lat]
       }
     })
 
@@ -69,7 +71,10 @@ router.post(
       res.status(404).json({ error: 'Book not found' })
     }
 
+    await CheckoutModel.deleteMany({book: _id})
+
     const bookDeleted = await targetBook.deleteOne()
+    
     res.status(201).json(bookDeleted)
   })
 )
@@ -138,11 +143,11 @@ router.get(
 
     const result = await BookModel.aggregate(pipeline)
 
-    const books = result[0].books
+    const books = result[0]?.books
 
     res.json({
-      pages: result[0].pages,
-      currentPage: result[0].currentPage,
+      pages: result[0]?.pages,
+      currentPage: result[0]?.currentPage,
       books
     })
   })

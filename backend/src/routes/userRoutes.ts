@@ -22,8 +22,7 @@ router.get(
 
       res.json({ user: user.toJSON(), books, reviews })
     } else {
-      res.status(404)
-      throw new Error('User not found')
+      res.status(404).json({ msg: 'User not found' })
     }
   })
 )

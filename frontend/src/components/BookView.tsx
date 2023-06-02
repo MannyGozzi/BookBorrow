@@ -81,7 +81,7 @@ function BookView({ _id, lender, title, author, isbn, description, cover_image, 
               background={useColorModeValue('white', 'gray.700')} padding={2} alignItems={'center'}>
               {!available && <WarningIcon boxSize={5} color={'red.500'}/>}
               <StarRating rating={rating} />
-              <Text fontWeight={'bold'} fontSize={'sm'} m={0}>{distance?.toFixed(1)} mi.</Text>
+              {distance && <Text fontWeight={'bold'} fontSize={'sm'} m={0}>{distance?.toFixed(1)} mi.</Text>}
             </HStack>
           </Box>
           <Flex flexDir={'column'} h={'53%'} justifyContent={'space-between'}>
@@ -114,27 +114,28 @@ function BookView({ _id, lender, title, author, isbn, description, cover_image, 
               </HStack>
 
               <Text
-                color={'gray.500'}
+                color={useColorModeValue('gray.700', 'gray.100')}
                 fontFamily={'body'}
                 mb={4}>
                 {description}
               </Text>
             </Box>
             <Link as={ReactLink} to={`/profile?userid=${lender}`}>
-            <HStack gap={3} background={useColorModeValue('gray.100', 'gray.600')} rounded={'2xl'} p={2} px={3} overflow={'hidden'} justifyContent={'space-between'}>
                 <Button 
-                  rounded={'2xl'}
+                  w={'100%'}
+                  padding={6}
+                  gap={3} rounded={'2xl'} px={3} 
+                  overflow={'hidden'} justifyContent={'space-between'}
                   variant={'solid'}
                   background={useColorModeValue('gray.100', 'gray.600')}
+                  color={useColorModeValue('gray.800', 'gray.100')}
                   fontFamily={'Poppins'}
-                  color={'gray.900'}
                   size={'md'}>
                   <HStack>
                     <Avatar size={'sm'} mr={1} />
                     <Text fontWeight={'700'} fontSize={'sm'} fontFamily={'Poppins'}>{'@' + lenderName?.slice(0, 20) + (lenderName.length > 20 ? '...' : '')}</Text>
                   </HStack>
                 </Button>
-            </HStack>
             </Link>
           </Flex>
 
