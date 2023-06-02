@@ -42,7 +42,6 @@ const Profile = () => {
                 setCurrentlyBorrowing(res.data.filter((checkout: any) => !checkout.returned && checkout.approved))
             })
             .catch(() => setCurrentlyBorrowing([]))
-
         
         if (isLocalUser)
             axios.get(`http://localhost:3000/checkout/from/${userId}`, { withCredentials: true })
