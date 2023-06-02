@@ -19,6 +19,7 @@ import { useDispatch } from 'react-redux'
 import { IUser } from '../types';
 import { setBooks } from '../actions/bookActions';
 import { IReview } from '../types';
+import ReviewUpload from './ReviewUpload';
 
 export default function ProfileInfo({userid, isLocalUser} : {userid: string, isLocalUser: boolean}) {
   const [currentUser, setUser] = useState<IUser>();
@@ -93,6 +94,7 @@ export default function ProfileInfo({userid, isLocalUser} : {userid: string, isL
               <Text fontSize="md">Email: {currentUser?.email}</Text>
               <Spacer />
               {isLocalUser && <BookUpload/>}
+              {!isLocalUser && <ReviewUpload/>}
             </HStack>
           </Box>
         </VStack>
