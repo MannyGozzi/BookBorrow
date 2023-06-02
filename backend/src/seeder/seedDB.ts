@@ -73,7 +73,7 @@ async function seedDatabase() {
     {
       _id: '1',
       user: users[0]._id,
-      book: books[0]._id,
+      book: books[14]._id,
       lender: users[1]._id,
       approved: true,
       checkout_date: new Date(),
@@ -82,8 +82,8 @@ async function seedDatabase() {
     {
       _id: '2',
       user: users[1]._id,
-      book: books[1]._id,
-      lender: users[0]._id,
+      book: books[5]._id,
+      lender: users[1]._id,
       approved: true,
       checkout_date: new Date(),
       due_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // Due in 1 week
@@ -91,15 +91,15 @@ async function seedDatabase() {
     {
       _id: '3',
       user: users[2]._id,
-      book: books[2]._id,
-      lender: users[0]._id,
+      book: books[4]._id,
+      lender: users[1]._id,
       checkout_date: new Date(),
     },
     {
       _id: '4',
       user: users[0]._id,
       book: books[3]._id,
-      lender: users[1]._id,
+      lender: users[2]._id,
       checkout_date: new Date(),
     }
   ]

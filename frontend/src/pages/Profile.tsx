@@ -39,14 +39,22 @@ const Profile = () => {
             })
             .catch(() => setCurrentlyBorrowing([]))
 
+        
         if (isLocalUser)
             axios.get(`http://localhost:3000/checkout/from/${userId}`, { withCredentials: true })
                 .then(res => {
                     // a book is checked out once the due_date is set by the owner
                     setConfirmCheckouts(res.data.filter((checkout: any) => !checkout.approved))
-                    setCurrentlyBorrowed(res.data.filter((checkout: any) => checkout.approved && !checkout.returned))
                 })
                 .catch(() => setConfirmCheckouts([]))
+
+        if (isLocalUser)
+            axios.get(`http://localhost:3000/checkout/by/${userId}`, { withCredentials: true })
+                .then(res => {
+                    // a book is checked out once the due_date is set by the owner
+                    setCurrentlyBorrowed(res.data.filter((checkout: any) => !checkout.returned))
+                })
+                .catch(() => setCurrentlyBorrowed([]))
     }, [])
 
     return (

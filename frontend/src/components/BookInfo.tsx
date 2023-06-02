@@ -36,7 +36,7 @@ export default function BookInfo({_id, cover_image, title, author, description, 
       .then(response => {
         toast({
           title: 'Checkout Success!',
-          description: "You've successfully checked out a book, congrats! 🔥",
+          description: "You've successfully requested a book, congrats! 🔥",
           status: 'success',
           duration: 7000,
           isClosable: true,
