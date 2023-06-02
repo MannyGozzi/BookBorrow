@@ -3,19 +3,16 @@ import {
   Center,
   Heading,
   Text,
-  Avatar,
   useColorModeValue,
   Image,
   HStack,
-  Button,
   Flex,
-  Link,
   useToast
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { ICheckout, IBook } from '../types';
-import { CalendarIcon, CheckCircleIcon } from '@chakra-ui/icons';
+import { CalendarIcon } from '@chakra-ui/icons';
 
 function BookBorrowed({ _id, book, checkout_date, due_date, return_date, returned, user }: ICheckout) {
   const [bookData, setBookData] = useState<IBook | null>(null)
@@ -121,6 +118,7 @@ function BookBorrowed({ _id, book, checkout_date, due_date, return_date, returne
                 {bookData?.description?.slice(0, 85) + (bookData?.description && bookData.description.length > 85 ? '...' : '')}
               </Text>
               {due_date && <Text fontFamily={'Poppins'} ><CalendarIcon mx={2} />  Due | {new Date(due_date).toDateString()}</Text>}
+              {!due_date && <Text fontFamily={'Poppins'} ><CalendarIcon mx={2} />  Pending Request</Text>}
             </Box>
           </Flex>
 
