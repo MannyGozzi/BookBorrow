@@ -13,9 +13,13 @@ import BookCheckout from '../components/BookCheckout'
 import BookConfirmCheckout from '../components/BookConfirmCheckout'
 import BookView from '../components/BookView'
 import BookBorrowed from '../components/BookBorrowed'
+import DocTitle from '../components/DocTitle'
+import { IUser } from '../types.d'
+// import { setCurrentUser } from '../actions/userActions'
 
 const Profile = () => {
     const user = useSelector((state: any) => state.user)
+    // const [currentUser, setUser] = useState<IUser>();
     const [currentlyBorrowing, setCurrentlyBorrowing] = useState<IBook[]>([])
     const [confirmCheckouts, setConfirmCheckouts] = useState<ICheckout[]>([])
     const [currentlyBorrowed, setCurrentlyBorrowed] = useState<ICheckout[]>([])
@@ -57,6 +61,7 @@ const Profile = () => {
                 .catch(() => setCurrentlyBorrowed([]))
     }, [])
 
+    DocTitle("Your Profile Page | Boobo")
     return (
         <Center>
             {userId &&

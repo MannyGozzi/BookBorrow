@@ -9,7 +9,7 @@ import Footer from "../components/Footer";
 import { addBook, setBooks } from '../actions/bookActions'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
-
+import DocTitle from '../components/DocTitle'
 
 const Home = () => {
   const [page, setPage] = useState(1);
@@ -74,7 +74,7 @@ const Home = () => {
     setPage(page + 1);
     setTimeout(() => setLoader(false), 1000);
   };
-
+  DocTitle("Home Page | Boobo")
   return (
     <>
     <Center>

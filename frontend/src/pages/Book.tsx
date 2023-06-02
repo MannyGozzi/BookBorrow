@@ -5,6 +5,7 @@ import BookInfo from '../components/BookInfo'
 import axios from 'axios'
 import { useEffect, useState} from 'react'
 import { useSelector } from 'react-redux'
+import DocTitle from '../components/DocTitle'
 
 const Profile = () => {
     const bookId =  new URLSearchParams(window.location.search).get('id');
@@ -29,6 +30,7 @@ const Profile = () => {
         checkAvailable()
     }, [])
 
+    DocTitle('Book Page | Boobo')
     return (
         <Center>
             <Box w={{lg: '85%', md: '90%', sm: '100%'}}>
