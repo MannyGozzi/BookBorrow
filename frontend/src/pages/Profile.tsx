@@ -70,8 +70,11 @@ const Profile = () => {
                     <Tabs isFitted variant='enclosed' h={'100vh'}>
                         <TabList mb='1em'>
                             <Tab>Books</Tab>
+                            {/* User's profile */}
                             {isLocalUser && <Tab>Currently Borrowed</Tab>}
                             {isLocalUser && <Tab>Borrow Requests</Tab>}
+                            {isLocalUser && <Tab>Checkouts</Tab>}
+                            {/* Other profiles */}
                             {isLocalUser && <Tab>Checkouts</Tab>}
                         </TabList>
                         <TabPanels>
