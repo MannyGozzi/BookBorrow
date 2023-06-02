@@ -25,24 +25,6 @@ const Profile = () => {
     const [currentlyBorrowed, setCurrentlyBorrowed] = useState<ICheckout[]>([])
     const dispatch = useDispatch()
     const reduxBooks = useSelector((state: any) => state.books)
-<<<<<<< HEAD
-    const userId = new URLSearchParams(window.location.search).get('userid');
-
-    
-    useEffect(() => {
-        // axios.get(`http://localhost:3000/users/${userId}`)
-        // .then(res => {
-        //     dispatch(setCurrentUser(res.data.user))
-        //     setUser(res.data.user)
-        // })
-        // .catch(err => console.log(err.message))
-
-        axios.get(`http://localhost:3000/users/${userId ? userId : user._id}`)
-        .then(res => {
-            dispatch(setBooks(res.data.books))
-        })
-        .catch(err => console.log(err.message))
-=======
     let userId = new URLSearchParams(window.location.search).get('userid');
     const isLocalUser = !userId
     if (!userId) userId = user?._id
@@ -53,7 +35,6 @@ const Profile = () => {
                 dispatch(setBooks(res.data.books))
             })
             .catch(err => console.log(err.message))
->>>>>>> f116c3ea0447dea8ae5e9dcb6a933fde47b4be96
 
         if (isLocalUser) axios.get(`http://localhost:3000/checkout/by/${userId}`, { withCredentials: true })
             .then(res => {
@@ -61,7 +42,6 @@ const Profile = () => {
                 setCurrentlyBorrowing(res.data.filter((checkout: any) => !checkout.returned && checkout.approved))
             })
             .catch(() => setCurrentlyBorrowing([]))
-
         
         if (isLocalUser)
             axios.get(`http://localhost:3000/checkout/from/${userId}`, { withCredentials: true })
@@ -80,7 +60,7 @@ const Profile = () => {
                 .catch(() => setCurrentlyBorrowed([]))
     }, [])
 
-    DocTitle("Boobo Your Profile Page")
+    DocTitle("Your Profile Page | Boobo")
     return (
         <Center>
             {userId &&

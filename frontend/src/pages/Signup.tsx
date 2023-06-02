@@ -4,7 +4,7 @@ import {Signup as SignupComp} from '../components/Signup'
 import DocTitle from '../components/DocTitle'
 
 const Signup = () => {
-    DocTitle("Boobo Signup Page")
+    DocTitle("Signup Page | Boobo")
     return (
         <section>
             <SignupComp />

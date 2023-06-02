@@ -5,7 +5,7 @@ import { Center } from '@chakra-ui/react'
 import DocTitle from '../components/DocTitle'
 
 const Login = () => {
-  DocTitle("Boobo Login Page")
+  DocTitle("Login Page | Boobo")
   return (
     <section className='flex justify-center items-center'>
       <LoginComp />

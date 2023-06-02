@@ -5,7 +5,7 @@ import BooBo_logo from '../assets/BooBo_logo.png'
 import DocTitle from '../components/DocTitle'
 
 const FourOFour = () => {
-  DocTitle("Boobo 404 Page")
+  DocTitle("404 Page | Boobo")
   return (
     <Box h={'80vh'}>
       <AbsoluteCenter>

@@ -30,6 +30,7 @@ const Profile = () => {
         checkAvailable()
     }, [])
 
+    DocTitle('Book Page | Boobo')
     return (
         <Center>
             <Box w={{lg: '85%', md: '90%', sm: '100%'}}>
