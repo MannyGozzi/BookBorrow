@@ -81,7 +81,7 @@ router.post('/logout', verifyJWT, (req: Request, res: Response) => {
 })
 
 router.post('/register', async (req, res) => {
-  const { email, password, zip_code, username, firstName, lastName } = req.body
+  const { email, password, confPassword, zip_code, username, firstName, lastName } = req.body
 
   // Validate email
   const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
@@ -93,9 +93,17 @@ router.post('/register', async (req, res) => {
     return res.status(400).json({ msg: 'Username must be > 3 characters long' })
   }
 
-  if (password.length < 6) {
+  if (password.length < 7) {
     return res.status(400).json({ msg: 'Password must be > 6 characters long' })
   }
+
+  if (password !== confPassword) {
+    return res.status(400).json({ msg: 'Password must be correctly confirmed' })
+  } 
+
+  // if (zip_code < ) {
+  //   return res.status(400).json({ msg: 'Password must be correctly confirmed' })
+  // }
 
   const [existingUsername, existingEmail] = await Promise.all([
     UserModel.findOne({ username }),

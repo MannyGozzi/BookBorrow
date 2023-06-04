@@ -27,6 +27,7 @@ export const Signup = () => {
   const [email, setEmail] = React.useState('')
   const [username, setUsername] = React.useState('')
   const [password, setPassword] = React.useState('')
+  const [confPassword, setConfPassword] = React.useState('')
   const [zipCode, setZipCode] = React.useState('')
   const toast = useToast()
 
@@ -34,7 +35,7 @@ export const Signup = () => {
 
   const signup = async () => {
     await axios.post('http://localhost:3000/users/register',
-    {firstName, lastName, email, password, zip_code: zipCode, username})
+    {firstName, lastName, email, password, confPassword, zip_code: zipCode, username})
     .then((response) => {
       redirect('/login')
       toast({
@@ -125,11 +126,18 @@ export const Signup = () => {
                     setUsername(e.currentTarget.value)
                   }} />
               </FormControl>
-              <PasswordField onChange={
-                (e: React.FormEvent<HTMLInputElement>) => {
-                  setPassword(e.currentTarget.value)
-                }} />
-              <ConfirmPasswordField />
+              <FormControl>
+                <PasswordField onChange={
+                  (e: React.FormEvent<HTMLInputElement>) => {
+                    setPassword(e.currentTarget.value)
+                  }} />
+              </FormControl>
+              <FormControl>
+                <PasswordField onChange={
+                  (e: React.FormEvent<HTMLInputElement>) => {
+                    setConfPassword(e.currentTarget.value)
+                  }} />
+              </FormControl>
               <FormControl>
                 <FormLabel htmlFor="ZipCode">Zip Code</FormLabel>
                 <Input id="ZipCode" type="text" onChange={
