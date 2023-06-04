@@ -59,7 +59,7 @@ export const Signup = () => {
       } else {
         toast({
           title: 'Registration Failed! 😔',
-          description: "Try filling in all fields.",
+          description: "Error creating user.",
           status: 'error',
           duration: 7000,
           isClosable: true,
