@@ -94,7 +94,7 @@ export default function ProfileInfo({userid, isLocalUser} : {userid: string, isL
               <Text fontSize="md">Email: {currentUser?.email}</Text>
               <Spacer />
               {isLocalUser && <BookUpload/>}
-              {!isLocalUser && <ReviewUpload/>}
+              {!isLocalUser && <ReviewUpload reviewLenderID={userid}/>}
             </HStack>
           </Box>
         </VStack>

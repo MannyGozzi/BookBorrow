@@ -69,10 +69,10 @@ const Profile = () => {
                     {reduxBooks.length > 0 && <ThemedHeader text={'Books'} />}
                     <Tabs isFitted variant='enclosed' h={'100vh'}>
                         <TabList mb='1em'>
-                            <Tab>Books</Tab>
-                            {isLocalUser && <Tab>Currently Borrowed</Tab>}
-                            {isLocalUser && <Tab>Borrow Requests</Tab>}
-                            {isLocalUser && <Tab>Checkouts</Tab>}
+                            <Tab>Books ({reduxBooks.length})</Tab>
+                            {isLocalUser && <Tab>Currently Borrowed ({currentlyBorrowing.length})</Tab>}
+                            {isLocalUser && <Tab>Borrow Requests ({confirmCheckouts.length})</Tab>}
+                            {isLocalUser && <Tab>Checkouts ({currentlyBorrowed.length})</Tab>}
                         </TabList>
                         <TabPanels>
                             <TabPanel>
