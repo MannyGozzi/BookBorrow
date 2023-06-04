@@ -75,7 +75,7 @@ const Profile = () => {
                             {isLocalUser && <Tab>Borrow Requests</Tab>}
                             {isLocalUser && <Tab>Checkouts</Tab>}
                             {/* Other profiles */}
-                            {isLocalUser && <Tab>Checkouts</Tab>}
+                            {!isLocalUser && <Tab>Checkouts</Tab>}
                         </TabList>
                         <TabPanels>
                             <TabPanel>
@@ -105,6 +105,11 @@ const Profile = () => {
                                     {currentlyBorrowed?.map((checkout: any, index: any) => (
                                         <BookBorrowed key={index} {...checkout} />
                                     ))}
+                                </Box>
+                            </TabPanel>}
+                            {!isLocalUser && <TabPanel>
+                                <Box className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 gap-7 pb-16'>
+                                  Review
                                 </Box>
                             </TabPanel>}
                         </TabPanels>
