@@ -74,8 +74,9 @@ const Profile = () => {
                             {isLocalUser && <Tab>Currently Borrowed</Tab>}
                             {isLocalUser && <Tab>Borrow Requests</Tab>}
                             {isLocalUser && <Tab>Checkouts</Tab>}
+                            {isLocalUser && <Tab>Reviews</Tab>}
                             {/* Other profiles */}
-                            {!isLocalUser && <Tab>Checkouts</Tab>}
+                            {!isLocalUser && <Tab>Reviews</Tab>}
                         </TabList>
                         <TabPanels>
                             <TabPanel>
