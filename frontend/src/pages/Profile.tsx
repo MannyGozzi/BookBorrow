@@ -69,10 +69,13 @@ const Profile = () => {
                     {reduxBooks.length > 0 && <ThemedHeader text={'Books'} />}
                     <Tabs isFitted variant='enclosed' h={'100vh'}>
                         <TabList mb='1em'>
-                            <Tab>Books ({reduxBooks.length})</Tab>
-                            {isLocalUser && <Tab>Currently Borrowed ({currentlyBorrowing.length})</Tab>}
-                            {isLocalUser && <Tab>Borrow Requests ({confirmCheckouts.length})</Tab>}
-                            {isLocalUser && <Tab>Checkouts ({currentlyBorrowed.length})</Tab>}
+                            <Tab>Books</Tab>
+                            {/* User's profile */}
+                            {isLocalUser && <Tab>Currently Borrowed</Tab>}
+                            {isLocalUser && <Tab>Borrow Requests</Tab>}
+                            {isLocalUser && <Tab>Checkouts</Tab>}
+                            {/* Other profiles */}
+                            {!isLocalUser && <Tab>Checkouts</Tab>}
                         </TabList>
                         <TabPanels>
                             <TabPanel>
@@ -102,6 +105,11 @@ const Profile = () => {
                                     {currentlyBorrowed?.map((checkout: any, index: any) => (
                                         <BookBorrowed key={index} {...checkout} />
                                     ))}
+                                </Box>
+                            </TabPanel>}
+                            {!isLocalUser && <TabPanel>
+                                <Box className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 gap-7 pb-16'>
+                                  Review
                                 </Box>
                             </TabPanel>}
                         </TabPanels>
