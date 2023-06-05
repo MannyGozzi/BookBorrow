@@ -84,25 +84,25 @@ router.post('/register', async (req, res) => {
   const { email, password, confPassword, zip_code, username, firstName, lastName } = req.body
 
   if (firstName === '' || lastName === '') {
-    return res.status(400).json({ msg: 'Try filling in all fields.' })
+    return res.status(400).json({ msg: 'Try filling in all fields' })
   }
   
   // Validate email
   const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
   if (!emailRegex.test(email)) {
-    return res.status(400).json({ msg: 'Email not valid.' })
+    return res.status(400).json({ msg: 'Email not valid' })
   }
 
   if (username.length < 4) {
-    return res.status(400).json({ msg: 'Username must be > 3 characters long.' })
+    return res.status(400).json({ msg: 'Username must be > 3 characters long' })
   }
 
   if (password.length < 7) {
-    return res.status(400).json({ msg: 'Password must be > 6 characters long.' })
+    return res.status(400).json({ msg: 'Password must be > 6 characters long' })
   }
 
   if (password !== confPassword) {
-    return res.status(400).json({ msg: 'Password must be correctly confirmed.' })
+    return res.status(400).json({ msg: 'Password must be correctly confirmed' })
   } 
 
   // Validate zip code
@@ -121,7 +121,7 @@ router.post('/register', async (req, res) => {
   };
 
   if (!isAlphaNumeric(zip_code) || zip_code === '') {
-    return res.status(400).json({ msg: 'Zip code is not valid.' })
+    return res.status(400).json({ msg: 'Zip code is not valid' })
   }
 
   const [existingUsername, existingEmail] = await Promise.all([
@@ -130,11 +130,11 @@ router.post('/register', async (req, res) => {
   ])
 
   if (existingUsername) {
-    return res.status(400).json({ msg: 'Username already taken.' })
+    return res.status(400).json({ msg: 'Username already taken' })
   }
 
   if (existingEmail) {
-    return res.status(400).json({ msg: 'Email already taken.' })
+    return res.status(400).json({ msg: 'Email already taken' })
   }
 
   const encryptedPassword = await hash(password, 10)
@@ -158,7 +158,7 @@ router.post('/register', async (req, res) => {
       .cookie('jwt', jwtToken.token, { httpOnly: true, secure: false })
       .json({ user: user.toJSON(), msg: 'User created successfully!' })
   } catch (e) {
-    return res.status(400).json({ msg: 'Error creating user.' })
+    return res.status(400).json({ msg: 'Error creating user' })
   }
 })
 

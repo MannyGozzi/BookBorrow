@@ -8,19 +8,42 @@ import fileUpload from 'express-fileupload'
 import CheckoutModel from '../models/Checkout'
 import { lookup } from 'geoip-lite'
 import axios from 'axios'
+import { issueJWT } from 'helpers/JWT'
 
 const router = express.Router()
 
-router.post(
-  '/',
-  [verifyJWT, fileUpload()],
-  asyncHandler(async (req, res) => {
+router.post('/', async (req, res) => {
     const { title, author, isbn, publication_date, genre, cover_image, description } = req.body
     const user = await UserModel.findById(req.userId)
 
     if (!user) {
-      res.status(404).json({ error: 'User not found' })
+      return res.status(404).json({ msg: 'User not found' })
     }
+
+    if (title === '') {
+      return res.status(404).json({ msg: 'Title required' })
+    }
+
+    if (author === '') {
+      return res.status(404).json({ msg: 'Author required' })
+    }
+
+    if (isbn !== 10 || isbn !== 13) {
+      return res.status(404).json({ msg: 'ISBN must be 10 or 13 digits long' })
+    }
+
+    if (publication_date == null) {
+      return res.status(404).json({ msg: 'Publication date required' })
+    }
+    
+    if (genre !== '') {
+      return res.status(404).json({ msg: 'Genre required' })
+    }
+    
+    if (description === '') {
+      return res.status(404).json({ msg: 'Description required' })
+    }
+
     // NOTE GEO IP DOES NOT WORK WITH ZIP CODE AS IT WAS
     const clientIp = req.ip === '127.0.0.1' || req.ip === '::1' ? '129.65.145.15' : req.ip
     const response = await axios.get(`https://ipapi.co/${clientIp}/json/`)
@@ -42,9 +65,20 @@ router.post(
       }
     })
 
-    const createdBook = await book.save()
-    res.status(201).json(createdBook)
-  })
+    try {
+      await book.save()
+  
+      const jwtToken = issueJWT(book)
+  
+      return res
+        .status(201)
+        .cookie('jwt', jwtToken.token, { httpOnly: true, secure: false })
+        .json({ book: book.toJSON(), msg: 'Your book has been uploaded!' })
+    } catch (e) {
+      return res.status(400).json({ msg: 'Error creating user' })
+    }
+    // res.status(201).json(createdBook)
+  }
 )
 
 router.get(
