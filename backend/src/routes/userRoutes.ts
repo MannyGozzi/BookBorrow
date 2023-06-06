@@ -59,11 +59,11 @@ router.post('/login', async (req, res) => {
   const user = await User.findOne({ email: req.body.email })
 
   if (!user) {
-    return res.status(401).send({ user, msg: 'Email/Password Invalid' })
+    return res.status(401).send({ msg: 'Email/Password Invalid' })
   }
 
   if (!(await user.isValidPassword(req.body.password))) {
-    return res.status(401).send({ user, msg: 'Email/Password Invalid' })
+    return res.status(401).send({ msg: 'Email/Password Invalid' })
   }
 
   const jwtToken = issueJWT(user)
