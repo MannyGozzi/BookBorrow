@@ -54,6 +54,15 @@ export default function BookInfo({_id, cover_image, title, author, description, 
         })})
   }
 
+  const getCheckoutInfo = async () => {
+    axios.get(`http://localhost:3000/checkout/by/${user._id}`,
+      { withCredentials: true })
+      .then(response => {
+        setCheckoutInfo(response.data.filter((checkout: ICheckout) => checkout.book === _id)[0])
+      })
+      .catch(error => console.error(error))
+  }
+
   const getLenderName = async () => {
     axios.get(`http://localhost:3000/users/${lender}`,
       { withCredentials: true })
@@ -65,10 +74,13 @@ export default function BookInfo({_id, cover_image, title, author, description, 
 
   useEffect(() => {
     getLenderName()
+    getCheckoutInfo()
   }, [])
 
   const btnColor = useColorModeValue('gray.50', 'gray.600')
-
+  const checkedOut = !!checkoutInfo?.due_date
+  const isPending = !!checkoutInfo && !checkedOut
+  const shouldDisable = isPending || checkedOut
   return (
     <Center m={4}>
       <Flex align="center" >
@@ -87,15 +99,16 @@ export default function BookInfo({_id, cover_image, title, author, description, 
             <Text fontSize="xl" fontFamily={'Poppins'}>Written by {author}</Text>
             <Text fontSize="md" fontFamily={'Poppins'}>{description}</Text>
             <HStack justifyContent={'space-between'} w={'100%'}>
-              <Link as={ReactLink} to={`/profile?id=${lender}`}>
+              <Link href={`/profile?id=${lender}`}>
               <HStack>
                 <Avatar size={'md'} mr={3}/>
                 <Text fontSize="md"><span className='theme-header'>{lenderName.slice(0, 12) + (lenderName.length > 20 ? '...' : '')}</span></Text>
               </HStack>
               </Link>
-                <Button size="lg" rounded={'2xl'} bg={requestAvailable? btnColor : 'red.300'} onClick={checkout} isDisabled={!requestAvailable.current}>
-                {available ? 'Request Checkout'
-                : 'Due Date:' + !checkoutInfo?.due_date?.toString() ? 'Pending' : checkoutInfo?.due_date?.toString()}
+                <Button size="lg" rounded={'2xl'} bg={requestAvailable? btnColor : 'red.300'} onClick={checkout} isDisabled={shouldDisable}>
+                {checkedOut && 'Due: ' + checkoutInfo?.due_date?.toString().slice(0, 10)}
+                {!checkedOut && isPending &&  'Pending'}
+                {!checkedOut && !isPending && 'Request Checkout'}
                 </Button>
             </HStack>
           </Stack>

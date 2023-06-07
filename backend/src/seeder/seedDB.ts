@@ -74,25 +74,24 @@ async function seedDatabase() {
       _id: '1',
       user: users[0]._id,
       book: books[14]._id,
-      lender: users[1]._id,
-      approved: true,
+      lender: users[2]._id,
+      approved: false,
       checkout_date: new Date(),
-      due_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // Due in 1 week
     },
     {
       _id: '2',
       user: users[1]._id,
       book: books[5]._id,
       lender: users[1]._id,
-      approved: true,
+      approved: false,
       checkout_date: new Date(),
-      due_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // Due in 1 week
     },
     {
       _id: '3',
       user: users[2]._id,
       book: books[4]._id,
       lender: users[1]._id,
+      approved: false,
       checkout_date: new Date(),
     },
     {
@@ -100,6 +99,7 @@ async function seedDatabase() {
       user: users[0]._id,
       book: books[3]._id,
       lender: users[2]._id,
+      approved: false,
       checkout_date: new Date(),
     }
   ]
@@ -123,7 +123,63 @@ async function seedDatabase() {
       rating: 5,
       comment: 'Fantastic lender!',
       date_created: new Date()
-    }
+    },
+    {
+      _id: '3',
+      reviewer: users[2]._id,
+      reviewed_lender: users[1]._id,
+      rating: 3,
+      comment: 'Good experience!',
+      date_created: new Date()
+    },
+    {
+      _id: '4',
+      reviewer: users[0]._id,
+      reviewed_lender: users[2]._id,
+      rating: 2,
+      comment: 'Bad experience!',
+      date_created: new Date()
+    },
+    {
+      _id: '5',
+      reviewer: users[1]._id,
+      reviewed_lender: users[2]._id,
+      rating: 3,
+      comment: 'Mediocre experience!',
+      date_created: new Date()
+    },
+    {
+      _id: '6',
+      reviewer: users[2]._id,
+      reviewed_lender: users[0]._id,
+      rating: 5,
+      comment: 'Amazing experience!',
+      date_created: new Date()
+    },
+    {
+      _id: '7',
+      reviewer: users[0]._id,
+      reviewed_lender: users[1]._id,
+      rating: 4,
+      comment: 'Pleasant. The book was in good condition!',
+      date_created: new Date()
+    },
+    {
+      _id: '8',
+      reviewer: users[1]._id,
+      reviewed_lender: users[2]._id,
+      rating: 5,
+      comment: 'Pages were ripped out but I didnt wanna read it anyways!',
+      date_created: new Date()
+    },
+    {
+      _id: '9',
+      reviewer: users[2]._id,
+      reviewed_lender: users[2]._id,
+      rating: 4,
+      comment: 'The book was in good condition!',
+      date_created: new Date()
+    },
   ]
 
   await ReviewModel.create(reviews)

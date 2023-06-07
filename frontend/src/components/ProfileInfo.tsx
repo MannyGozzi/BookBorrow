@@ -19,9 +19,10 @@ import { useDispatch } from 'react-redux'
 import { IUser } from '../types';
 import { setBooks } from '../actions/bookActions';
 import { IReview } from '../types';
+import ReviewUpload from './ReviewUpload';
 
 export default function ProfileInfo({userid, isLocalUser} : {userid: string, isLocalUser: boolean}) {
-  const [currentUser, setUser] = useState<IUser>();
+  const [currentUser, setCurrentUser] = useState<IUser>();
   const dispatch = useDispatch()
   const [averageRating, setAverageRating] = useState<number>(0);
   const [numRatings, setNumRatings] = useState<number>(0);
@@ -29,8 +30,8 @@ export default function ProfileInfo({userid, isLocalUser} : {userid: string, isL
   useEffect(() => {
     axios.get(`http://localhost:3000/users/${userid}`)
     .then(res => {
-        setUser(res.data.user)
-        calculateAverageRating(res.data.user.reviews);
+        setCurrentUser(res.data.user)
+        getRating();
     })
     .catch(err => console.log(err.message))
 
@@ -43,24 +44,22 @@ export default function ProfileInfo({userid, isLocalUser} : {userid: string, isL
       axios.get(`http://localhost:3000/checkout/from/${userid}`, {withCredentials: true})
 }, [dispatch, userid])
 
-  const calculateAverageRating = (reviews: IReview[]) => {
-    if (!reviews) return
-    if (reviews.length === 0) {
-      setAverageRating(0);
-      return;
-    }
-
-    let totalRating = 0;
-    let i = 0
-    for (i; i < reviews.length; i++) {
-      totalRating += reviews[i].rating;
-    }
-
-    const totalReviews = i;
-    const average = totalRating / reviews.length;
-    setAverageRating(average);
-    setNumRatings(totalReviews)
-  }
+  const getRating = async () => {
+    axios
+      .get(`http://localhost:3000/reviews/${userid}`, { withCredentials: true })
+      .then(response => {
+        let avgRating = 0;
+        let numReviews = 0;
+        if (response.data && response.data.length > 0) {
+          avgRating = response.data.reduce((acc: number, review: any) => acc + review.rating, 0);
+          numReviews = response.data.length;
+          avgRating /= numReviews;
+        }
+        setAverageRating(avgRating);
+        setNumRatings(numReviews);
+      })
+      .catch(error => console.error(error));
+  };
   
   return (
     <Center m={4}>
@@ -84,7 +83,7 @@ export default function ProfileInfo({userid, isLocalUser} : {userid: string, isL
               <Spacer />
               <VStack spacing="5px" align="flex-end">
                 <StarRating rating={averageRating}/>
-                <Text fontSize="xs">(Number of Ratings: {numRatings})</Text>
+                <Text fontSize="xs">(Number of Reviews: {numRatings})</Text>
               </VStack>
             </HStack>
           </Box>
@@ -93,6 +92,7 @@ export default function ProfileInfo({userid, isLocalUser} : {userid: string, isL
               <Text fontSize="md">Email: {currentUser?.email}</Text>
               <Spacer />
               {isLocalUser && <BookUpload/>}
+              {!isLocalUser && <ReviewUpload reviewLenderID={userid}/>}
             </HStack>
           </Box>
         </VStack>

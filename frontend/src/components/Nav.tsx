@@ -143,7 +143,7 @@ export default function Nav() {
                                     />
                                 </MenuButton>
                                 <MenuList rounded={'2xl'}>
-                                    <Link as={ReactLink} to='/profile'>
+                                    <Link href='/profile'>
                                         <MenuItem padding={4}>My Profile</MenuItem>
                                     </Link>
                                     <MenuItem padding={4} onClick={logout}>Logout</MenuItem>
