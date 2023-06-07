@@ -49,6 +49,8 @@ import {
     };
     
     const submit = async () => {
+      const today = new Date();
+      const date_created = today.toISOString().slice(0,10);
 
       if (rating === 0) {
         console.error('Please provide a rating');
@@ -74,11 +76,18 @@ import {
         return;
       }
 
-      axios.post('http://localhost:3000/reviews',
-        { userId: user._id , reviewLenderID, rating, comment}, 
+      axios.post(`http://localhost:3000/reviews/${user._id}`,
+        {reviewed_lender: reviewLenderID, rating, comment, date_created}, 
         { withCredentials: true })
         .then(response => {
-          dispatch(addReview(response.data))
+          dispatch(addReview(response.data.review))
+          toast({
+            title: 'Review Posted!',
+            description: "Thank you for your review!",
+            status: 'success',
+            duration: 7000,
+            isClosable: true,
+          })
         })
         .catch(error => console.error(error))
       onClose()

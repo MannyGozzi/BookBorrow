@@ -31,7 +31,7 @@ export default function ProfileInfo({userid, isLocalUser} : {userid: string, isL
     axios.get(`http://localhost:3000/users/${userid}`)
     .then(res => {
         setUser(res.data.user)
-        calculateAverageRating(res.data.user.reviews);
+        calculateAverageRating();
     })
     .catch(err => console.log(err.message))
 
@@ -44,23 +44,48 @@ export default function ProfileInfo({userid, isLocalUser} : {userid: string, isL
       axios.get(`http://localhost:3000/checkout/from/${userid}`, {withCredentials: true})
 }, [dispatch, userid])
 
-  const calculateAverageRating = (reviews: IReview[]) => {
-    if (!reviews) return
-    if (reviews.length === 0) {
-      setAverageRating(0);
-      return;
-    }
+//   const getRating = async () => {
+//   axios.get(`http://localhost:3000/reviews/${_id}`,
+//     { withCredentials: true })
+//     .then(response => {
+//       let avgRating = 0
+//       if (response.data) {
+//         avgRating = response.data.reduce((acc: number, review: any) => acc + review.rating, 0)
+//         avgRating /= Math.max(response.data.length, 1)
+//       }
+//       setRating(avgRating)
+//     })
+//     .catch(error => console.error(error))
+// }
+  // const calculateAverageRating = (reviews: IReview[]) => {
+  const calculateAverageRating = async () => {
+    axios.get(`http://localhost:3000/reviews/${currentUser?._id}`,
+    { withCredentials: true })
+    .then(response => {
+      let avgRating = 0
+      if (response.data) {
+        avgRating = response.data.reduce((acc: number, review: any) => acc + review.rating, 0)
+        avgRating /= Math.max(response.data.length, 1)
+      }
+      setAverageRating(avgRating)
+    })
+    .catch(error => console.error(error))
+    // if (!reviews) return
+    // if (reviews.length === 0) {
+    //   setAverageRating(0);
+    //   return;
+    // }
 
-    let totalRating = 0;
-    let i = 0
-    for (i; i < reviews.length; i++) {
-      totalRating += reviews[i].rating;
-    }
+    // let totalRating = 0;
+    // let i = 0
+    // for (i; i < reviews.length; i++) {
+    //   totalRating += reviews[i].rating;
+    // }
 
-    const totalReviews = i;
-    const average = totalRating / reviews.length;
-    setAverageRating(average);
-    setNumRatings(totalReviews)
+    // const totalReviews = i;
+    // const average = totalRating / reviews.length;
+    // setAverageRating(average);
+    // setNumRatings(totalReviews)
   }
   
   return (

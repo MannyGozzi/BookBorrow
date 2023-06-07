@@ -15,6 +15,7 @@ import BookView from '../components/BookView'
 import BookBorrowed from '../components/BookBorrowed'
 import DocTitle from '../components/DocTitle'
 import { IUser } from '../types.d'
+import { setReviews } from '../actions/reviewActions'
 // import { setCurrentUser } from '../actions/userActions'
 
 const Profile = () => {
@@ -33,6 +34,7 @@ const Profile = () => {
         axios.get(`http://localhost:3000/users/${userId}`)
             .then(res => {
                 dispatch(setBooks(res.data.books))
+                dispatch(setReviews(res.data.reviews))
             })
             .catch(err => console.log(err.message))
 
