@@ -22,7 +22,7 @@ import { IReview } from '../types';
 import ReviewUpload from './ReviewUpload';
 
 export default function ProfileInfo({userid, isLocalUser} : {userid: string, isLocalUser: boolean}) {
-  const [currentUser, setUser] = useState<IUser>();
+  const [currentUser, setCurrentUser] = useState<IUser>();
   const dispatch = useDispatch()
   const [averageRating, setAverageRating] = useState<number>(0);
   const [numRatings, setNumRatings] = useState<number>(0);
@@ -30,7 +30,7 @@ export default function ProfileInfo({userid, isLocalUser} : {userid: string, isL
   useEffect(() => {
     axios.get(`http://localhost:3000/users/${userid}`)
     .then(res => {
-        setUser(res.data.user)
+        setCurrentUser(res.data.user)
         getRating();
     })
     .catch(err => console.log(err.message))
@@ -50,10 +50,10 @@ export default function ProfileInfo({userid, isLocalUser} : {userid: string, isL
       .then(response => {
         let avgRating = 0;
         let numReviews = 0;
-        if (response.data) {
+        if (response.data && response.data.length > 0) {
           avgRating = response.data.reduce((acc: number, review: any) => acc + review.rating, 0);
           numReviews = response.data.length;
-          avgRating /= Math.max(numReviews, 1);
+          avgRating /= numReviews;
         }
         setAverageRating(avgRating);
         setNumRatings(numReviews);
