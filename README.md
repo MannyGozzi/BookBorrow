@@ -3,7 +3,6 @@ To run, first install docker and Visual Studio Code. Add the docker plugin to vi
 DATABASE CONFIGURATION IN DOCKER
 
     Using the docker plugin, right click on the docker-compose.yml file and perform a "Compose Up".
-    Then in the docker tab, right click on your container and click attach shell.
     Optionally download "MongoDB Compass" and connect with the string inside .env.example
 
 INSTALL DEPENDENCIES

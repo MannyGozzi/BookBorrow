@@ -106,7 +106,7 @@ router.get(
       {
         $addFields: {
           distance: {
-            $divide: ['$distance', 1609.34] // Convert distance from meters to miles (1 meter = 0.000621371 miles)
+            $divide: ['$distance', 1609.34] // (1 mile = 1609.34 meters)
           }
         }
       },
