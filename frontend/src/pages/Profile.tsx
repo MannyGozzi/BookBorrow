@@ -16,16 +16,18 @@ import BookBorrowed from '../components/BookBorrowed'
 import DocTitle from '../components/DocTitle'
 import { IUser } from '../types.d'
 import { setReviews } from '../actions/reviewActions'
+import Review from '../components/Review'
 // import { setCurrentUser } from '../actions/userActions'
 
 const Profile = () => {
     const user = useSelector((state: any) => state.user)
-    // const [currentUser, setUser] = useState<IUser>();
+    const [userReviews, setUserReviews] = useState([]);
     const [currentlyBorrowing, setCurrentlyBorrowing] = useState<IBook[]>([])
     const [confirmCheckouts, setConfirmCheckouts] = useState<ICheckout[]>([])
     const [currentlyBorrowed, setCurrentlyBorrowed] = useState<ICheckout[]>([])
     const dispatch = useDispatch()
     const reduxBooks = useSelector((state: any) => state.books)
+    // const reduxReviews = useSelector((state: any) => state.reviews);
     let userId = new URLSearchParams(window.location.search).get('userid');
     const isLocalUser = !userId
     if (!userId) userId = user?._id
@@ -34,10 +36,18 @@ const Profile = () => {
         axios.get(`http://localhost:3000/users/${userId}`)
             .then(res => {
                 dispatch(setBooks(res.data.books))
-                dispatch(setReviews(res.data.reviews))
+                // dispatch(setReviews(res.data.reviews))
+                // setUserReviews(res.data.reviews)
+
             })
             .catch(err => console.log(err.message))
-
+        
+        axios.get(`http://localhost:3000/reviews/${userId}`)
+            .then(res => {
+                dispatch(setReviews(res.data.reviews))
+                setUserReviews(res.data.reviews)
+            })
+            
         if (isLocalUser) axios.get(`http://localhost:3000/checkout/by/${userId}`, { withCredentials: true })
             .then(res => {
                 // a book is checked out once the due_date is set by the owner
@@ -76,9 +86,10 @@ const Profile = () => {
                             {isLocalUser && <Tab>Currently Borrowed</Tab>}
                             {isLocalUser && <Tab>Borrow Requests</Tab>}
                             {isLocalUser && <Tab>Checkouts</Tab>}
-                            {isLocalUser && <Tab>Reviews</Tab>}
+                            <Tab>Reviews</Tab>
+                            {/* {isLocalUser && <Tab>Reviews</Tab>} */}
                             {/* Other profiles */}
-                            {!isLocalUser && <Tab>Reviews</Tab>}
+                            {/* {!isLocalUser && <Tab>Reviews</Tab>} */}
                         </TabList>
                         <TabPanels>
                             <TabPanel>
@@ -110,9 +121,19 @@ const Profile = () => {
                                     ))}
                                 </Box>
                             </TabPanel>}
-                            {!isLocalUser && <TabPanel>
+                            {<TabPanel>
                                 <Box className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 gap-7 pb-16'>
-                                  Review
+                                    {userReviews?.map((review: any, index: any) => (
+                                        <Review
+                                        key={index}
+                                        _id={review._id}
+                                        reviewer={review.reviewer}
+                                        reviewed={review.reviewed}
+                                        rating={review.rating}
+                                        comment={review.comment}
+                                        date_created={review.date_created}
+                                      />
+                                    ))}
                                 </Box>
                             </TabPanel>}
                         </TabPanels>
