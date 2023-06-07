@@ -14,7 +14,7 @@ import BookConfirmCheckout from '../components/BookConfirmCheckout'
 import BookView from '../components/BookView'
 import BookBorrowed from '../components/BookBorrowed'
 import DocTitle from '../components/DocTitle'
-import { IUser } from '../types.d'
+import Notif from '../components/Notif'
 import { setReviews } from '../actions/reviewActions'
 import Review from '../components/Review'
 // import { setCurrentUser } from '../actions/userActions'
@@ -40,14 +40,8 @@ const Profile = () => {
                 // setUserReviews(res.data.reviews)
 
             })
-            .catch(err => console.log(err.message))
-        
-        axios.get(`http://localhost:3000/reviews/${userId}`)
-            .then(res => {
-                dispatch(setReviews(res.data.reviews))
-                setUserReviews(res.data.reviews)
-            })
-            
+            .catch(err => console.log(err.message)) 
+
         if (isLocalUser) axios.get(`http://localhost:3000/checkout/by/${userId}`, { withCredentials: true })
             .then(res => {
                 // a book is checked out once the due_date is set by the owner
@@ -81,15 +75,10 @@ const Profile = () => {
                     {reduxBooks.length > 0 && <ThemedHeader text={'Books'} />}
                     <Tabs isFitted variant='enclosed' h={'100vh'}>
                         <TabList mb='1em'>
-                            <Tab>Books</Tab>
-                            {/* User's profile */}
-                            {isLocalUser && <Tab>Currently Borrowed</Tab>}
-                            {isLocalUser && <Tab>Borrow Requests</Tab>}
-                            {isLocalUser && <Tab>Checkouts</Tab>}
-                            <Tab>Reviews</Tab>
-                            {/* {isLocalUser && <Tab>Reviews</Tab>} */}
-                            {/* Other profiles */}
-                            {/* {!isLocalUser && <Tab>Reviews</Tab>} */}
+                            <Tab><Notif count={reduxBooks.length}/>Books</Tab>
+                            {isLocalUser && <Tab><Notif count={currentlyBorrowing.length}/>Currently Borrowed</Tab>}
+                            {isLocalUser && <Tab><Notif count={confirmCheckouts.length}/>Borrow Requests</Tab>}
+                            {isLocalUser && <Tab><Notif count={currentlyBorrowed.length}/>Checkouts</Tab>}
                         </TabList>
                         <TabPanels>
                             <TabPanel>
@@ -137,7 +126,6 @@ const Profile = () => {
                                 </Box>
                             </TabPanel>}
                         </TabPanels>
-
                     </Tabs>
                 </Box>}
             {!userId && <Restricted />}

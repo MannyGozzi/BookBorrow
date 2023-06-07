@@ -12,26 +12,19 @@ import {
     Center,
     Link,
     useColorModeValue,
-    Alert,
-    AlertIcon,
     useToast
   } from '@chakra-ui/react'
   import { PasswordField } from './PasswordField'
-  import React, { useEffect } from 'react'
+  import React from 'react'
   import axios from 'axios'
   import {Link as ReactLink, useNavigate} from 'react-router-dom'
   import { useDispatch } from 'react-redux'
   import { setCurrentUser } from '../actions/userActions'
 
-  interface LoginCredentials {
-    email: string,
-    password: string
-  }
   
   export const Login = () =>  {
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
-    const [loginFail, setLoginFail] = React.useState(false)
     const toast = useToast()
 
     const redirect = useNavigate();

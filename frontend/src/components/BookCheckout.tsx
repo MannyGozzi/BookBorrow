@@ -76,11 +76,13 @@ function BookCheckout({ _id, book, checkout_date, due_date, return_date, returne
             mx={-6}
             mb={6}
             pos={'relative'}>
+            <Link href={`/book?id=${bookData?._id}`}>
             <Image
               src={bookData?.cover_image}
               boxSize={'full'}
               objectFit='cover'
               alt='Book Image' />
+            </Link>
             <HStack mt={0} position={'absolute'} top={6} left={6} rounded={'full'} 
               background={useColorModeValue('white', 'gray.700')} padding={2} alignItems={'center'}>
             </HStack>
