@@ -1,6 +1,6 @@
 import React from 'react'
 import UserBook from '../components/UserBook'
-import { IBook, ICheckout } from '../types.d'
+import { IBook, ICheckout, IReview } from '../types.d'
 import ThemedHeader from '../components/ThemedHeader'
 import { Box, Center, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react'
 import ProfileInfo from '../components/ProfileInfo'
@@ -17,17 +17,17 @@ import DocTitle from '../components/DocTitle'
 import Notif from '../components/Notif'
 import { setReviews } from '../actions/reviewActions'
 import Review from '../components/Review'
-// import { setCurrentUser } from '../actions/userActions'
 
 const Profile = () => {
     const user = useSelector((state: any) => state.user)
-    const [userReviews, setUserReviews] = useState([]);
+    const [userReviews, setUserReviews] = useState<IReview[]>([]);
     const [currentlyBorrowing, setCurrentlyBorrowing] = useState<IBook[]>([])
     const [confirmCheckouts, setConfirmCheckouts] = useState<ICheckout[]>([])
     const [currentlyBorrowed, setCurrentlyBorrowed] = useState<ICheckout[]>([])
     const dispatch = useDispatch()
     const reduxBooks = useSelector((state: any) => state.books)
-    // const reduxReviews = useSelector((state: any) => state.reviews);
+    // const reduxReviews = useSelector((state: any) => state.reviews)
+    const [numRatings, setNumRatings] = useState<number>(0);
     let userId = new URLSearchParams(window.location.search).get('userid');
     const isLocalUser = !userId
     if (!userId) userId = user?._id
@@ -36,9 +36,15 @@ const Profile = () => {
         axios.get(`http://localhost:3000/users/${userId}`)
             .then(res => {
                 dispatch(setBooks(res.data.books))
-                // dispatch(setReviews(res.data.reviews))
-                // setUserReviews(res.data.reviews)
 
+            })
+            .catch(err => console.log(err.message)) 
+        
+        axios.get(`http://localhost:3000/reviews/${userId}`)
+            .then(res => {
+                dispatch(setReviews(res.data.reviews))
+                setUserReviews(res.data.reviews)
+                // setNumRatings(res.data.reviews.length)
             })
             .catch(err => console.log(err.message)) 
 
@@ -79,6 +85,7 @@ const Profile = () => {
                             {isLocalUser && <Tab><Notif count={currentlyBorrowing.length}/>Currently Borrowed</Tab>}
                             {isLocalUser && <Tab><Notif count={confirmCheckouts.length}/>Borrow Requests</Tab>}
                             {isLocalUser && <Tab><Notif count={currentlyBorrowed.length}/>Checkouts</Tab>}
+                            <Tab><Notif count={userReviews.length}/>Reviews</Tab>
                         </TabList>
                         <TabPanels>
                             <TabPanel>
@@ -110,21 +117,13 @@ const Profile = () => {
                                     ))}
                                 </Box>
                             </TabPanel>}
-                            {<TabPanel>
-                                <Box className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 gap-7 pb-16'>
-                                    {userReviews?.map((review: any, index: any) => (
-                                        <Review
-                                        key={index}
-                                        _id={review._id}
-                                        reviewer={review.reviewer}
-                                        reviewed={review.reviewed}
-                                        rating={review.rating}
-                                        comment={review.comment}
-                                        date_created={review.date_created}
-                                      />
+                                <TabPanel>
+                                    <Box className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 gap-7 pb-16'>
+                                    {userReviews.map((review: any, index: any) => (
+                                        <Review key={index} {...review}/>
                                     ))}
-                                </Box>
-                            </TabPanel>}
+                                    </Box>
+                                </TabPanel>
                         </TabPanels>
                     </Tabs>
                 </Box>}
