@@ -1,6 +1,6 @@
 import React from 'react'
 import UserBook from '../components/UserBook'
-import { IBook, ICheckout } from '../types.d'
+import { IBook, ICheckout, IReview } from '../types.d'
 import ThemedHeader from '../components/ThemedHeader'
 import { Box, Center, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react'
 import ProfileInfo from '../components/ProfileInfo'
@@ -16,16 +16,18 @@ import BookBorrowed from '../components/BookBorrowed'
 import DocTitle from '../components/DocTitle'
 import Notif from '../components/Notif'
 import { setReviews } from '../actions/reviewActions'
-// import { setCurrentUser } from '../actions/userActions'
+import Review from '../components/Review'
 
 const Profile = () => {
     const user = useSelector((state: any) => state.user)
-    // const [currentUser, setUser] = useState<IUser>();
+    const [userReviews, setUserReviews] = useState<IReview[]>([]);
     const [currentlyBorrowing, setCurrentlyBorrowing] = useState<IBook[]>([])
     const [confirmCheckouts, setConfirmCheckouts] = useState<ICheckout[]>([])
     const [currentlyBorrowed, setCurrentlyBorrowed] = useState<ICheckout[]>([])
     const dispatch = useDispatch()
     const reduxBooks = useSelector((state: any) => state.books)
+    // const reduxReviews = useSelector((state: any) => state.reviews)
+    const [numRatings, setNumRatings] = useState<number>(0);
     let userId = new URLSearchParams(window.location.search).get('userid');
     const isLocalUser = !userId
     if (!userId) userId = user?._id
@@ -34,7 +36,16 @@ const Profile = () => {
         axios.get(`http://localhost:3000/users/${userId}`)
             .then(res => {
                 dispatch(setBooks(res.data.books))
-                dispatch(setReviews(res.data.reviews))
+
+            })
+            .catch(err => console.log(err.message)) 
+        
+        axios.get(`http://localhost:3000/reviews/${userId}`)
+            .then(res => {
+                dispatch(setReviews(res.data))
+                setUserReviews(res.data)
+                // console.log(res.data)
+                // setNumRatings(res.data.reviews.length)
             })
             .catch(err => console.log(err.message)) 
 
@@ -75,6 +86,7 @@ const Profile = () => {
                             {isLocalUser && <Tab><Notif count={currentlyBorrowing.length}/>Currently Borrowed</Tab>}
                             {isLocalUser && <Tab><Notif count={confirmCheckouts.length}/>Borrow Requests</Tab>}
                             {isLocalUser && <Tab><Notif count={currentlyBorrowed.length}/>Checkouts</Tab>}
+                            <Tab><Notif count={userReviews.length}/>Reviews</Tab>
                         </TabList>
                         <TabPanels>
                             <TabPanel>
@@ -106,11 +118,14 @@ const Profile = () => {
                                     ))}
                                 </Box>
                             </TabPanel>}
-                            {!isLocalUser && <TabPanel>
-                                <Box className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 gap-7 pb-16'>
-                                  Review
-                                </Box>
-                            </TabPanel>}
+                                <TabPanel>
+                                {/* <Box display="flex" flexDirection="column" alignItems="center"> */}
+                                    <Box className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 gap-7 pb-16'>
+                                    {userReviews.map((review: any, index: any) => (
+                                        <Review key={index} {...review}/>
+                                    ))}
+                                    </Box>
+                                </TabPanel>
                         </TabPanels>
                     </Tabs>
                 </Box>}
