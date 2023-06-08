@@ -14,7 +14,8 @@ import BookConfirmCheckout from '../components/BookConfirmCheckout'
 import BookView from '../components/BookView'
 import BookBorrowed from '../components/BookBorrowed'
 import DocTitle from '../components/DocTitle'
-import { IUser } from '../types.d'
+import Notif from '../components/Notif'
+import { setReviews } from '../actions/reviewActions'
 // import { setCurrentUser } from '../actions/userActions'
 
 const Profile = () => {
@@ -33,8 +34,9 @@ const Profile = () => {
         axios.get(`http://localhost:3000/users/${userId}`)
             .then(res => {
                 dispatch(setBooks(res.data.books))
+                dispatch(setReviews(res.data.reviews))
             })
-            .catch(err => console.log(err.message))
+            .catch(err => console.log(err.message)) 
 
         if (isLocalUser) axios.get(`http://localhost:3000/checkout/by/${userId}`, { withCredentials: true })
             .then(res => {
@@ -42,7 +44,6 @@ const Profile = () => {
                 setCurrentlyBorrowing(res.data.filter((checkout: any) => !checkout.returned && checkout.approved))
             })
             .catch(() => setCurrentlyBorrowing([]))
-
         
         if (isLocalUser)
             axios.get(`http://localhost:3000/checkout/from/${userId}`, { withCredentials: true })
@@ -70,10 +71,10 @@ const Profile = () => {
                     {reduxBooks.length > 0 && <ThemedHeader text={'Books'} />}
                     <Tabs isFitted variant='enclosed' h={'100vh'}>
                         <TabList mb='1em'>
-                            <Tab>Books</Tab>
-                            {isLocalUser && <Tab>Currently Borrowed</Tab>}
-                            {isLocalUser && <Tab>Borrow Requests</Tab>}
-                            {isLocalUser && <Tab>Checkouts</Tab>}
+                            <Tab><Notif count={reduxBooks.length}/>Books</Tab>
+                            {isLocalUser && <Tab><Notif count={currentlyBorrowing.length}/>Currently Borrowed</Tab>}
+                            {isLocalUser && <Tab><Notif count={confirmCheckouts.length}/>Borrow Requests</Tab>}
+                            {isLocalUser && <Tab><Notif count={currentlyBorrowed.length}/>Checkouts</Tab>}
                         </TabList>
                         <TabPanels>
                             <TabPanel>
@@ -105,8 +106,12 @@ const Profile = () => {
                                     ))}
                                 </Box>
                             </TabPanel>}
+                            {!isLocalUser && <TabPanel>
+                                <Box className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 gap-7 pb-16'>
+                                  Review
+                                </Box>
+                            </TabPanel>}
                         </TabPanels>
-
                     </Tabs>
                 </Box>}
             {!userId && <Restricted />}

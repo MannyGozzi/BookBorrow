@@ -24,7 +24,7 @@ function BookView({ _id, lender, title, author, isbn, description, cover_image, 
   const [lenderName, setLenderName] = useState('...')
 
   const getRating = async () => {
-    axios.get(`http://localhost:3000/reviews/${_id}`,
+    axios.get(`http://localhost:3000/reviews/${lender}`,
       { withCredentials: true })
       .then(response => {
         let avgRating = 0
