@@ -4,13 +4,10 @@ import {
     Heading,
     Text,
     useColorModeValue,
-    Image,
     HStack,
     Flex,
-    useToast,
-    Icon
   } from '@chakra-ui/react';
-  import { FaStar, FaStarHalfAlt} from 'react-icons/fa';
+  import { FaStar} from 'react-icons/fa';
   import axios from 'axios';
   import { useEffect, useState } from 'react';
   import { IReview } from '../types';
@@ -29,7 +26,7 @@ import {
           setCurrentUser(res.data.user)
       })
       .catch(err => console.log(err.message))
-    }, [dispatch, _id])
+    }, [dispatch, _id, reviewer])
 
     return (
         <Center>
@@ -63,7 +60,7 @@ import {
                 <Text color={'gray.500'} fontFamily={'body'} mb={4}>
                   {comment}
                 </Text>
-                      </Box>
+                </Box>
                 <Box >
                 <Text fontFamily={'Poppins'}>
                   <CalendarIcon mx={2} /> {new Date(date_created).toDateString()}
