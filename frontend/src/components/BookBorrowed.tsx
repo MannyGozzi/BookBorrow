@@ -6,8 +6,7 @@ import {
   useColorModeValue,
   Image,
   HStack,
-  Flex,
-  useToast
+  Flex
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -16,7 +15,6 @@ import { CalendarIcon } from '@chakra-ui/icons';
 
 function BookBorrowed({ _id, book, checkout_date, due_date, return_date, returned, user }: ICheckout) {
   const [bookData, setBookData] = useState<IBook | null>(null)
-  const toast = useToast()
 
   const getBookProps = async () => {
     axios.get(`http://localhost:3000/books/view/${book}`,
@@ -27,28 +25,6 @@ function BookBorrowed({ _id, book, checkout_date, due_date, return_date, returne
       .catch(error => console.error(error))
   }
 
-  const returnBook = () => {
-    axios.post(`http://localhost:3000/checkout/return/${_id}`,
-      {},
-      { withCredentials: true })
-      .then(response => {
-        toast({
-          title: 'Return Success!',
-          description: "You've successfully returned a book, congrats! 🔥",
-          status: 'success',
-          duration: 7000,
-          isClosable: true,
-        })
-      })
-      .catch(error => {
-        toast({
-          title: 'Return Failed',
-          description: "Something went wrong 😔",
-          status: 'error',
-          duration: 7000,
-          isClosable: true,
-      })})
-  }
 
   useEffect(() => {
     getBookProps()
@@ -117,8 +93,9 @@ function BookBorrowed({ _id, book, checkout_date, due_date, return_date, returne
                 mb={4}>
                 {bookData?.description?.slice(0, 85) + (bookData?.description && bookData.description.length > 85 ? '...' : '')}
               </Text>
-              {due_date && <Text fontFamily={'Poppins'} ><CalendarIcon mx={2} />  Due | {new Date(due_date).toDateString()}</Text>}
-              {!due_date && <Text fontFamily={'Poppins'} ><CalendarIcon mx={2} />  Pending Request</Text>}
+              {!return_date && due_date && <Text fontFamily={'Poppins'} ><CalendarIcon mx={2} />  Due | {new Date(due_date).toDateString()}</Text>}
+              {!return_date && !due_date && <Text fontFamily={'Poppins'} ><CalendarIcon mx={2} />  Pending Request</Text>}
+              {return_date && <Text fontFamily={'Poppins'} ><CalendarIcon mx={2} />  Returned | {new Date(return_date).toDateString()}</Text>}
             </Box>
           </Flex>
 

@@ -13,21 +13,14 @@ const Profile = () => {
     const user = useSelector((state: any) => state.user)
     const [available, setAvailable] = useState<boolean>(true)
 
-    const checkAvailable = async () => {
-        if (user && user._id) await axios.get(`http://localhost:3000/checkout/by/${user._id}`, {withCredentials: true})
-            .then(res => {
-                return setAvailable((res.data.filter((checkout: ICheckout) => checkout.book === bookId).length === 0))
-            })
-            .catch(() => setAvailable(false))
-        }
-
     useEffect(() => {
         axios.get(`http://localhost:3000/books/view/${bookId}`)
         .then(res => {
             setBook(res.data)
+            setAvailable(res.data.available)
+            console.log(res.data)
         })
         .catch(err => console.log(err.message))
-        checkAvailable()
     }, [])
 
     DocTitle('Book Page | Boobo')
