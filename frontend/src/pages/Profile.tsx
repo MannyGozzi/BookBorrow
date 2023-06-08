@@ -42,8 +42,9 @@ const Profile = () => {
         
         axios.get(`http://localhost:3000/reviews/${userId}`)
             .then(res => {
-                dispatch(setReviews(res.data.reviews))
-                setUserReviews(res.data.reviews)
+                dispatch(setReviews(res.data))
+                setUserReviews(res.data)
+                // console.log(res.data)
                 // setNumRatings(res.data.reviews.length)
             })
             .catch(err => console.log(err.message)) 
@@ -118,6 +119,7 @@ const Profile = () => {
                                 </Box>
                             </TabPanel>}
                                 <TabPanel>
+                                {/* <Box display="flex" flexDirection="column" alignItems="center"> */}
                                     <Box className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 gap-7 pb-16'>
                                     {userReviews.map((review: any, index: any) => (
                                         <Review key={index} {...review}/>
