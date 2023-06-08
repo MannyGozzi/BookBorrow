@@ -57,6 +57,7 @@ router.post(
     })
 
     const createdBook = await book.save()
+    BookModel.ensureIndexes()
     res.status(201).json(createdBook)
   })
 )

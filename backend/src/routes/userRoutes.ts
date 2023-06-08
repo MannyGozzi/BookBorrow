@@ -68,16 +68,14 @@ router.post('/login', async (req, res) => {
 
   const jwtToken = issueJWT(user)
   return res
-    .cookie('jwt', jwtToken.token, { httpOnly: true, secure: false, sameSite: 'lax' })
+    .cookie('jwt', jwtToken.token, { httpOnly: true, secure: true, sameSite: 'none' })
     .json({ user, msg: 'Logged in Successfully' })
 })
 
-router.post('/logout', verifyJWT, (req: Request, res: Response) => {
-  if (!req.userId) {
-    return res.status(400).send({ msg: 'Cannot logout if you are not logged in' })
-  }
-
-  return res.clearCookie('jwt').json({ msg: 'Logged out Successfully' })
+router.post('/logout', (req: Request, res: Response) => {
+  return res
+    .clearCookie('jwt', { httpOnly: true, secure: true, sameSite: 'none' })
+    .json({ msg: 'Logged out Successfully' })
 })
 
 router.post('/register', async (req, res) => {
@@ -154,7 +152,7 @@ router.post('/register', async (req, res) => {
 
     return res
       .status(201)
-      .cookie('jwt', jwtToken.token, { httpOnly: true, secure: false })
+      .cookie('jwt', jwtToken.token, { httpOnly: true, secure: true, sameSite: 'none' })
       .json({ user: user.toJSON(), msg: 'User created successfully!' })
   } catch (e) {
     return res.status(400).json({ msg: 'Error creating user' })

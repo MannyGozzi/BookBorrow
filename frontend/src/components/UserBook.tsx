@@ -9,6 +9,7 @@ import {
   Button,
   Flex,
   Link,
+  useToast,
 } from '@chakra-ui/react';
 import { NavLink as ReactLink } from 'react-router-dom';
 import { IBook } from '../types.d';
@@ -21,6 +22,7 @@ import { useCallback } from 'react';
 // Take in book type and convert to BookViewType instead???
 function UserBook({ _id, lender, title, author, isbn, description, cover_image }: IBook) {
   const dispatch = useDispatch()
+  const toast = useToast()
 
   const deleteBook = useCallback(() => {
     axios.post(`http://localhost:3000/books/delete`,
@@ -28,6 +30,13 @@ function UserBook({ _id, lender, title, author, isbn, description, cover_image }
       { withCredentials: true })
       .then(response => {
         dispatch(removeBook(_id))
+        toast({
+          title: 'Delete Success!',
+          description: "You've successfully deleted a book! 🔥",
+          status: 'success',
+          duration: 7000,
+          isClosable: true,
+        })
       })
       .catch(error => console.error(error))
   }, [])
