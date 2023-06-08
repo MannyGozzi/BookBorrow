@@ -81,8 +81,12 @@ router.post('/logout', verifyJWT, (req: Request, res: Response) => {
 })
 
 router.post('/register', async (req, res) => {
-  const { email, password, zip_code, username, firstName, lastName } = req.body
+  const { email, password, confPassword, zip_code, username, firstName, lastName } = req.body
 
+  if (firstName === '' || lastName === '') {
+    return res.status(400).json({ msg: 'Try filling in all fields' })
+  }
+  
   // Validate email
   const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
   if (!emailRegex.test(email)) {
@@ -93,8 +97,31 @@ router.post('/register', async (req, res) => {
     return res.status(400).json({ msg: 'Username must be > 3 characters long' })
   }
 
-  if (password.length < 6) {
+  if (password.length < 7) {
     return res.status(400).json({ msg: 'Password must be > 6 characters long' })
+  }
+
+  if (password !== confPassword) {
+    return res.status(400).json({ msg: 'Password must be correctly confirmed' })
+  } 
+
+  // Validate zip code
+  function isAlphaNumeric(str) {
+    var code, i, len;
+  
+    for (i = 0, len = str.length; i < len; i++) {
+      code = str.charCodeAt(i);
+      if (!(code > 47 && code < 58) && // numeric (0-9)
+          !(code > 64 && code < 91) && // upper alpha (A-Z)
+          !(code > 96 && code < 123)) { // lower alpha (a-z)
+        return false;
+      }
+    }
+    return true;
+  };
+
+  if (!isAlphaNumeric(zip_code) || zip_code === '') {
+    return res.status(400).json({ msg: 'Zip code is not valid' })
   }
 
   const [existingUsername, existingEmail] = await Promise.all([
@@ -129,7 +156,7 @@ router.post('/register', async (req, res) => {
     return res
       .status(201)
       .cookie('jwt', jwtToken.token, { httpOnly: true, secure: false })
-      .json({ user: user.toJSON(), msg: 'User created successfully' })
+      .json({ user: user.toJSON(), msg: 'User created successfully!' })
   } catch (e) {
     return res.status(400).json({ msg: 'Error creating user' })
   }

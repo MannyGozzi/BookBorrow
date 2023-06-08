@@ -8,6 +8,7 @@ import fileUpload from 'express-fileupload'
 import CheckoutModel from '../models/Checkout'
 import { lookup } from 'geoip-lite'
 import axios from 'axios'
+import { issueJWT } from 'helpers/JWT'
 
 const router = express.Router()
 
@@ -21,6 +22,31 @@ router.post(
     if (!user) {
       res.status(404).json({ error: 'User not found' })
     }
+
+    else if (title == '') {
+      res.status(400).json({ msg: 'Title required' })
+    }
+
+    else if (author == '') {
+      res.status(400).json({ msg: 'Author required' })
+    }
+
+    else if (isbn.length != 10 && isbn.length != 13) {
+      res.status(400).json({ msg: 'ISBN must be 10 or 13 digits long' })
+    }
+
+    else if (publication_date == null) {
+      res.status(400).json({ msg: 'Publication date required' })
+    }
+    
+    else if (genre == '') {
+      res.status(400).json({ msg: 'Genre required' })
+    }
+    
+    else if (description == '') {
+      res.status(400).json({ msg: 'Description required' })
+    }
+
     // NOTE GEO IP DOES NOT WORK WITH ZIP CODE AS IT WAS
     const clientIp = req.ip === '127.0.0.1' || req.ip === '::1' ? '129.65.145.15' : req.ip
     const response = await axios.get(`https://ipapi.co/${clientIp}/json/`)
@@ -44,8 +70,7 @@ router.post(
 
     const createdBook = await book.save()
     res.status(201).json(createdBook)
-  })
-)
+  }))
 
 router.get(
   '/view/:id',

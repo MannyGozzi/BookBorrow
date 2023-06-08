@@ -6,7 +6,7 @@ const bookSchema = new Schema<IBook>({
   _id: { type: String, default: uuidv4() },
   title: { type: String, required: true },
   author: { type: String, required: true },
-  isbn: { type: String, unique: true },
+  isbn: { type: String, unique: false },
   publication_date: { type: Date },
   genre: { type: String },
   cover_image: {

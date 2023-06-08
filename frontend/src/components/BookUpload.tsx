@@ -13,7 +13,8 @@ import {
   ModalCloseButton,
   Select,
   useDisclosure,
-  Box
+  Box,
+  useToast
 } from '@chakra-ui/react'
 import React, { useState } from 'react'
 // import { search } from '@chewhx/google-books'
@@ -37,6 +38,7 @@ const BookUpload = () => {
   const finalRef = React.useRef(null)
   const user = useSelector((state: any) => state.user)
   const dispatch = useDispatch()
+  const toast = useToast()
   
   // useEffect(() => {
   //   const delayDebounceFn = setTimeout(() => {
@@ -57,9 +59,34 @@ const BookUpload = () => {
       { withCredentials: true })
       .then(response => {
         dispatch(addBook(response.data))
+        toast({
+          title: 'Upload Success! 🔥',
+          description: "Your book has been uploaded!",
+          status: 'success',
+          duration: 7000,
+          isClosable: true,
+        })
+        onClose()
       })
-      .catch(error => console.error(error))
-    onClose()
+      .catch(error => {
+        console.error(error)
+        if (error.response?.data?.msg) {
+          toast({
+            title: 'Upload Failed! 😔',
+            description: error.response?.data?.msg,
+            status: 'error',
+            duration: 7000,
+            isClosable: true,
+          })
+        } else {
+          toast({
+            title: 'Upload Failed! 😔',
+            description: "Error uploading book.",
+            status: 'error',
+            duration: 7000,
+            isClosable: true,
+          })
+        }})
   }
 
   return (
