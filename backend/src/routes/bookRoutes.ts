@@ -23,32 +23,28 @@ router.post(
       res.status(404).json({ error: 'User not found' })
     }
 
-    if (!user) {
-      res.status(404).json({ msg: 'User not found' })
+    else if (title == '') {
+      res.status(400).json({ msg: 'Title required' })
     }
 
-    if (title === '') {
-      res.status(404).json({ msg: 'Title required' })
+    else if (author == '') {
+      res.status(400).json({ msg: 'Author required' })
     }
 
-    if (author === '') {
-      res.status(404).json({ msg: 'Author required' })
+    else if (isbn.length != 10 && isbn.length != 13) {
+      res.status(400).json({ msg: 'ISBN must be 10 or 13 digits long' })
     }
 
-    if (isbn !== 10 || isbn !== 13) {
-      res.status(404).json({ msg: 'ISBN must be 10 or 13 digits long' })
-    }
-
-    if (publication_date == null) {
-      res.status(404).json({ msg: 'Publication date required' })
+    else if (publication_date == null) {
+      res.status(400).json({ msg: 'Publication date required' })
     }
     
-    if (genre !== '') {
-      res.status(404).json({ msg: 'Genre required' })
+    else if (genre == '') {
+      res.status(400).json({ msg: 'Genre required' })
     }
     
-    if (description === '') {
-      res.status(404).json({ msg: 'Description required' })
+    else if (description == '') {
+      res.status(400).json({ msg: 'Description required' })
     }
 
     // NOTE GEO IP DOES NOT WORK WITH ZIP CODE AS IT WAS
@@ -71,6 +67,9 @@ router.post(
         coordinates: [lon, lat]
       }
     })
+
+    const createdBook = await book.save()
+    res.status(201).json(createdBook)
   }))
 
 router.get(

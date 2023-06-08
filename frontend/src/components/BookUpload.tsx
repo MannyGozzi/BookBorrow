@@ -68,8 +68,8 @@ const BookUpload = () => {
         })
         onClose()
       })
-      .catch((error) => {
-        console.log(error)
+      .catch(error => {
+        console.error(error)
         if (error.response?.data?.msg) {
           toast({
             title: 'Upload Failed! 😔',
@@ -86,8 +86,7 @@ const BookUpload = () => {
             duration: 7000,
             isClosable: true,
           })
-        }
-      })
+        }})
   }
 
   return (
