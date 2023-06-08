@@ -15,17 +15,17 @@ import {
   useToast
 } from '@chakra-ui/react'
 // import StarRating from './RatingStars'
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { IBook, ICheckout } from '../types';
 import { useSelector } from 'react-redux';
 
-export default function BookInfo({_id, cover_image, title, author, description, lender, available} : IBook) {
+export default function BookInfo({ _id, cover_image, title, author, description, lender, available }: IBook) {
   const user = useSelector((state: any) => state.user)
   const [lenderName, setLenderName] = useState('...')
   const [checkoutInfo, setCheckoutInfo] = useState<ICheckout | null>()
+  const [bookInfo, setBookInfo] = useState<IBook | null>(null)
   const toast = useToast()
-  const requestAvailable = useRef(available)
 
   const checkout = () => {
     const info = { userId: user, lender, bookId: _id }
@@ -40,24 +40,41 @@ export default function BookInfo({_id, cover_image, title, author, description, 
           duration: 7000,
           isClosable: true,
         })
-        requestAvailable.current = false
-        setCheckoutInfo(response.data.filter((checkout: ICheckout) => checkout.book === _id && !checkout.return_date)[0])
-      })
-      .catch(error => {
+        if (response.data?.book === _id && !response.data?.return_date) setCheckoutInfo(response.data)
+        else setCheckoutInfo(null)
+        console.log(response.data)
+        getLenderName()
+        getCheckoutInfo()
+        getBookInfo()
+        shouldDisable = true
+      }).catch(error => {
+        console.log(error)
         toast({
           title: 'Checkout Failed',
           description: "Book is already checked out or requested by you 😔",
           status: 'error',
           duration: 7000,
           isClosable: true,
-        })})
+        })
+      }
+      )
   }
 
   const getCheckoutInfo = async () => {
     axios.get(`http://localhost:3000/checkout/by/${user._id}`,
       { withCredentials: true })
       .then(response => {
-        setCheckoutInfo(response.data.filter((checkout: ICheckout) => checkout.book === _id && !checkout.return_date)[0])
+        setCheckoutInfo(response.data.filter((checkoutItem: ICheckout) => checkoutItem.book === _id && !checkoutItem.return_date)[0])
+      })
+      .catch(error => console.error(error))
+  }
+
+  const getBookInfo = async () => {
+    axios.get(`http://localhost:3000/books/view/${_id}`,
+      { withCredentials: true })
+      .then(response => {
+        setBookInfo(response.data)
+        console.log('book info', response.data)
       })
       .catch(error => console.error(error))
   }
@@ -74,25 +91,29 @@ export default function BookInfo({_id, cover_image, title, author, description, 
   useEffect(() => {
     getLenderName()
     getCheckoutInfo()
+    getBookInfo()
     console.log('checkoutInfo', checkoutInfo)
     console.log('available', available)
-  }, [requestAvailable.current])
+  }, [])
 
   const btnColor = useColorModeValue('gray.50', 'gray.600')
-  const checkedOut = !requestAvailable.current
-  const isPending = !!checkoutInfo && !checkedOut
-  const shouldDisable = isPending || checkedOut || !requestAvailable.current
+  const isAvailable = bookInfo?.available
+  const checkedOutByMe = checkoutInfo?.user === user?._id
+  const isPending = isAvailable && checkedOutByMe
+  let shouldDisable = !isAvailable || isPending || checkedOutByMe || !user
   const dueDate = (checkoutInfo?.due_date?.toString()) ? 'Due: ' + checkoutInfo?.due_date?.toString().slice(0, 10) : 'Request Checkout'
-  console.log('checkedOut', checkedOut)
-  console.log('isPending', isPending)
   console.log('checkoutInfo', checkoutInfo)
+  console.log('isPending', isPending)
+  console.log('isAvailable', isAvailable)
+  console.log('checkedOutByMe', checkedOutByMe)
   console.log('shouldDisable', shouldDisable)
+
   return (
     <Center m={4}>
       <Flex align="center" >
         <VStack spacing='20px' >
           <Box marginTop="20px" w={'100%'}>
-            <Image src={cover_image} aspectRatio={'4/1'} fit={'cover'} rounded={'2xl'} minW={'100%'} w={'100%'} minH={'200px'} alt="Banner Image"/>
+            <Image src={cover_image} aspectRatio={'4/1'} fit={'cover'} rounded={'2xl'} minW={'100%'} w={'100%'} minH={'200px'} alt="Banner Image" />
           </Box>
           <Box width="100%">
             <HStack spacing="40px">
@@ -106,16 +127,16 @@ export default function BookInfo({_id, cover_image, title, author, description, 
             <Text fontSize="md" fontFamily={'Poppins'}>{description}</Text>
             <HStack justifyContent={'space-between'} w={'100%'}>
               <Link href={`/profile?id=${lender}`}>
-              <HStack>
-                <Avatar size={'md'} mr={3}/>
-                <Text fontSize="md"><span className='theme-header'>{lenderName.slice(0, 12) + (lenderName.length > 20 ? '...' : '')}</span></Text>
-              </HStack>
+                <HStack>
+                  <Avatar size={'md'} mr={3} />
+                  <Text fontSize="md"><span className='theme-header'>{lenderName.slice(0, 12) + (lenderName.length > 20 ? '...' : '')}</span></Text>
+                </HStack>
               </Link>
-                <Button size="lg" rounded={'2xl'} bg={requestAvailable? btnColor : 'red.300'} onClick={checkout} isDisabled={shouldDisable}>
-                {checkedOut && dueDate}
-                {!checkedOut && isPending && 'Pending'}
-                {!checkedOut && !isPending && 'Request Checkout'}
-                </Button>
+              <Button size="lg" rounded={'2xl'} bg={shouldDisable ? 'red.300' : btnColor} onClick={checkout} isDisabled={shouldDisable}>
+                {checkedOutByMe && dueDate}
+                {!checkedOutByMe && isPending && 'Pending'}
+                {!checkedOutByMe && !isPending && 'Request Checkout'}
+              </Button>
             </HStack>
           </Stack>
         </VStack>
