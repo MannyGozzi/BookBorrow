@@ -42,7 +42,6 @@ export default function BookInfo({ _id, cover_image, title, author, description,
         })
         if (response.data?.book === _id && !response.data?.return_date) setCheckoutInfo(response.data)
         else setCheckoutInfo(null)
-        console.log(response.data)
         getLenderName()
         getCheckoutInfo()
         getBookInfo()
@@ -74,7 +73,6 @@ export default function BookInfo({ _id, cover_image, title, author, description,
       { withCredentials: true })
       .then(response => {
         setBookInfo(response.data)
-        console.log('book info', response.data)
       })
       .catch(error => console.error(error))
   }
@@ -92,8 +90,6 @@ export default function BookInfo({ _id, cover_image, title, author, description,
     getLenderName()
     getCheckoutInfo()
     getBookInfo()
-    console.log('checkoutInfo', checkoutInfo)
-    console.log('available', available)
   }, [])
 
   const btnColor = useColorModeValue('gray.50', 'gray.600')
@@ -102,11 +98,6 @@ export default function BookInfo({ _id, cover_image, title, author, description,
   const isPending = isAvailable && checkedOutByMe
   let shouldDisable = !isAvailable || isPending || checkedOutByMe || !user
   const dueDate = (checkoutInfo?.due_date?.toString()) ? 'Due: ' + checkoutInfo?.due_date?.toString().slice(0, 10) : 'Request Checkout'
-  console.log('checkoutInfo', checkoutInfo)
-  console.log('isPending', isPending)
-  console.log('isAvailable', isAvailable)
-  console.log('checkedOutByMe', checkedOutByMe)
-  console.log('shouldDisable', shouldDisable)
 
   return (
     <Center m={4}>
