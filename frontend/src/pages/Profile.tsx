@@ -21,13 +21,12 @@ import Review from '../components/Review'
 const Profile = () => {
     const user = useSelector((state: any) => state.user)
     const [userReviews, setUserReviews] = useState<IReview[]>([]);
-    const [currentlyBorrowing, setCurrentlyBorrowing] = useState<IBook[]>([])
+    const [currentCheckouts, setCurrentCheckouts] = useState<IBook[]>([])
     const [confirmCheckouts, setConfirmCheckouts] = useState<ICheckout[]>([])
-    const [currentlyBorrowed, setCurrentlyBorrowed] = useState<ICheckout[]>([])
+    const [currentlyBorrowing, setCurrentlyBorrowing] = useState<ICheckout[]>([])
     const dispatch = useDispatch()
     const reduxBooks = useSelector((state: any) => state.books)
     // const reduxReviews = useSelector((state: any) => state.reviews)
-    const [numRatings, setNumRatings] = useState<number>(0);
     let userId = new URLSearchParams(window.location.search).get('userid');
     const isLocalUser = !userId
     if (!userId) userId = user?._id
@@ -52,9 +51,9 @@ const Profile = () => {
         if (isLocalUser) axios.get(`http://localhost:3000/checkout/by/${userId}`, { withCredentials: true })
             .then(res => {
                 // a book is checked out once the due_date is set by the owner
-                setCurrentlyBorrowing(res.data.filter((checkout: any) => !checkout.returned && checkout.approved))
+                setCurrentCheckouts(res.data.filter((checkout: any) => !checkout.returned && checkout.approved))
             })
-            .catch(() => setCurrentlyBorrowing([]))
+            .catch(() => setCurrentCheckouts([]))
         
         if (isLocalUser)
             axios.get(`http://localhost:3000/checkout/from/${userId}`, { withCredentials: true })
@@ -68,9 +67,9 @@ const Profile = () => {
             axios.get(`http://localhost:3000/checkout/by/${userId}`, { withCredentials: true })
                 .then(res => {
                     // a book is checked out once the due_date is set by the owner
-                    setCurrentlyBorrowed(res.data.filter((checkout: any) => !checkout.returned))
+                    setCurrentlyBorrowing(res.data)
                 })
-                .catch(() => setCurrentlyBorrowed([]))
+                .catch(() => setCurrentlyBorrowing([]))
     }, [])
 
     DocTitle("Your Profile Page | Boobo")
@@ -83,9 +82,9 @@ const Profile = () => {
                     <Tabs isFitted variant='enclosed' h={'100vh'}>
                         <TabList mb='1em'>
                             <Tab><Notif count={reduxBooks.length}/>Books</Tab>
-                            {isLocalUser && <Tab><Notif count={currentlyBorrowing.length}/>Currently Borrowed</Tab>}
-                            {isLocalUser && <Tab><Notif count={confirmCheckouts.length}/>Borrow Requests</Tab>}
-                            {isLocalUser && <Tab><Notif count={currentlyBorrowed.length}/>Checkouts</Tab>}
+                            {isLocalUser && <Tab><Notif count={currentCheckouts.length}/>Borrowing</Tab>}
+                            {isLocalUser && <Tab><Notif count={confirmCheckouts.length}/>Requests</Tab>}
+                            {isLocalUser && <Tab><Notif count={currentlyBorrowing.length}/>Checkouts</Tab>}
                             <Tab><Notif count={userReviews.length}/>Reviews</Tab>
                         </TabList>
                         <TabPanels>
@@ -99,7 +98,7 @@ const Profile = () => {
                             </TabPanel>
                             {isLocalUser && <TabPanel>
                                 <Box className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 gap-7 pb-16'>
-                                    {currentlyBorrowing?.map((checkout: any, index: any) => (
+                                    {currentCheckouts?.map((checkout: any, index: any) => (
                                         <BookCheckout key={index} {...checkout} />
                                     ))}
                                 </Box>
@@ -113,7 +112,7 @@ const Profile = () => {
                             </TabPanel>}
                             {isLocalUser && <TabPanel>
                                 <Box className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 gap-7 pb-16'>
-                                    {currentlyBorrowed?.map((checkout: any, index: any) => (
+                                    {currentlyBorrowing?.map((checkout: any, index: any) => (
                                         <BookBorrowed key={index} {...checkout} />
                                     ))}
                                 </Box>

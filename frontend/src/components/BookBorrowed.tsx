@@ -117,8 +117,9 @@ function BookBorrowed({ _id, book, checkout_date, due_date, return_date, returne
                 mb={4}>
                 {bookData?.description?.slice(0, 85) + (bookData?.description && bookData.description.length > 85 ? '...' : '')}
               </Text>
-              {due_date && <Text fontFamily={'Poppins'} ><CalendarIcon mx={2} />  Due | {new Date(due_date).toDateString()}</Text>}
-              {!due_date && <Text fontFamily={'Poppins'} ><CalendarIcon mx={2} />  Pending Request</Text>}
+              {!return_date && due_date && <Text fontFamily={'Poppins'} ><CalendarIcon mx={2} />  Due | {new Date(due_date).toDateString()}</Text>}
+              {!return_date && !due_date && <Text fontFamily={'Poppins'} ><CalendarIcon mx={2} />  Pending Request</Text>}
+              {return_date && <Text fontFamily={'Poppins'} ><CalendarIcon mx={2} />  Returned | {new Date(return_date).toDateString()}</Text>}
             </Box>
           </Flex>
 

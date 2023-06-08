@@ -32,7 +32,7 @@ import {
         <Center>
           <Box
             maxW={'445px'}
-            h={'400px'}
+            h={'200px'}
             w={'full'}
             bg={useColorModeValue('white', 'gray.700')}
             boxShadow={'xl'}

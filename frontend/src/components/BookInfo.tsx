@@ -18,7 +18,6 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { IBook, ICheckout } from '../types';
-import { NavLink as ReactLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 export default function BookInfo({_id, cover_image, title, author, description, lender, available} : IBook) {
@@ -42,7 +41,7 @@ export default function BookInfo({_id, cover_image, title, author, description, 
           isClosable: true,
         })
         requestAvailable.current = false
-        setCheckoutInfo(response.data)
+        setCheckoutInfo(response.data.filter((checkout: ICheckout) => checkout.book === _id && !checkout.return_date)[0])
       })
       .catch(error => {
         toast({
@@ -58,7 +57,7 @@ export default function BookInfo({_id, cover_image, title, author, description, 
     axios.get(`http://localhost:3000/checkout/by/${user._id}`,
       { withCredentials: true })
       .then(response => {
-        setCheckoutInfo(response.data.filter((checkout: ICheckout) => checkout.book === _id)[0])
+        setCheckoutInfo(response.data.filter((checkout: ICheckout) => checkout.book === _id && !checkout.return_date)[0])
       })
       .catch(error => console.error(error))
   }
@@ -75,12 +74,19 @@ export default function BookInfo({_id, cover_image, title, author, description, 
   useEffect(() => {
     getLenderName()
     getCheckoutInfo()
-  }, [])
+    console.log('checkoutInfo', checkoutInfo)
+    console.log('available', available)
+  }, [requestAvailable.current])
 
   const btnColor = useColorModeValue('gray.50', 'gray.600')
-  const checkedOut = !!checkoutInfo?.due_date
+  const checkedOut = !requestAvailable.current
   const isPending = !!checkoutInfo && !checkedOut
-  const shouldDisable = isPending || checkedOut
+  const shouldDisable = isPending || checkedOut || !requestAvailable.current
+  const dueDate = (checkoutInfo?.due_date?.toString()) ? 'Due: ' + checkoutInfo?.due_date?.toString().slice(0, 10) : 'Request Checkout'
+  console.log('checkedOut', checkedOut)
+  console.log('isPending', isPending)
+  console.log('checkoutInfo', checkoutInfo)
+  console.log('shouldDisable', shouldDisable)
   return (
     <Center m={4}>
       <Flex align="center" >
@@ -106,8 +112,8 @@ export default function BookInfo({_id, cover_image, title, author, description, 
               </HStack>
               </Link>
                 <Button size="lg" rounded={'2xl'} bg={requestAvailable? btnColor : 'red.300'} onClick={checkout} isDisabled={shouldDisable}>
-                {checkedOut && 'Due: ' + checkoutInfo?.due_date?.toString().slice(0, 10)}
-                {!checkedOut && isPending &&  'Pending'}
+                {checkedOut && dueDate}
+                {!checkedOut && isPending && 'Pending'}
                 {!checkedOut && !isPending && 'Request Checkout'}
                 </Button>
             </HStack>

@@ -39,7 +39,7 @@ router.post(
     const { userId, lender } = req.body
     const checkout_date = new Date()
 
-    const alreadyCheckedOut = await CheckoutModel.findOne({ user: userId._id, book: req.params.bookId })
+    const alreadyCheckedOut = !!(await CheckoutModel.findOne({ user: userId._id, book: req.params.bookId }))?.return_date
     if (alreadyCheckedOut) {
       res.status(400).json({ error: 'Book is already checked out' })
     }
