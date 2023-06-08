@@ -76,7 +76,7 @@ async function seedDatabase() {
       book: books[14]._id,
       lender: users[2]._id,
       approved: false,
-      checkout_date: new Date(),
+      checkout_date: new Date()
     },
     {
       _id: '2',
@@ -84,7 +84,7 @@ async function seedDatabase() {
       book: books[5]._id,
       lender: users[1]._id,
       approved: false,
-      checkout_date: new Date(),
+      checkout_date: new Date()
     },
     {
       _id: '3',
@@ -92,7 +92,7 @@ async function seedDatabase() {
       book: books[4]._id,
       lender: users[1]._id,
       approved: false,
-      checkout_date: new Date(),
+      checkout_date: new Date()
     },
     {
       _id: '4',
@@ -100,7 +100,7 @@ async function seedDatabase() {
       book: books[3]._id,
       lender: users[2]._id,
       approved: false,
-      checkout_date: new Date(),
+      checkout_date: new Date()
     }
   ]
 
@@ -179,7 +179,7 @@ async function seedDatabase() {
       rating: 4,
       comment: 'The book was in good condition!',
       date_created: new Date()
-    },
+    }
   ]
 
   await ReviewModel.create(reviews)

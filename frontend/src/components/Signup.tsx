@@ -35,7 +35,7 @@ export const Signup = () => {
 
   const signup = async () => {
     await axios.post('http://localhost:3000/users/register',
-    {firstName, lastName, email, password, confPassword, zip_code: zipCode, username})
+    {firstName, lastName, email, password, zip_code: zipCode, username})
     .then((response) => {
       redirect('/login')
       toast({

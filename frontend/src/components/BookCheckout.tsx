@@ -19,6 +19,7 @@ import { CalendarIcon, CheckCircleIcon } from '@chakra-ui/icons';
 
 function BookCheckout({ _id, book, checkout_date, due_date, return_date, returned, user }: ICheckout) {
   const [bookData, setBookData] = useState<IBook | null>(null)
+  const [canBeReturned, setCanBeReturned] = useState<boolean>(true)
   const toast = useToast()
 
   const getBookProps = async () => {
@@ -35,6 +36,7 @@ function BookCheckout({ _id, book, checkout_date, due_date, return_date, returne
       {},
       { withCredentials: true })
       .then(response => {
+        setCanBeReturned(false)
         toast({
           title: 'Return Success!',
           description: "You've successfully returned a book, congrats! 🔥",
@@ -128,6 +130,7 @@ function BookCheckout({ _id, book, checkout_date, due_date, return_date, returne
                 <Button 
                   rounded={'2xl'}
                   variant={'solid'}
+                  isDisabled={!canBeReturned}
                   background={useColorModeValue('gray.100', 'gray.600')}
                   fontFamily={'Poppins'}
                   size={'md'}
