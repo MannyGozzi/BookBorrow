@@ -21,29 +21,17 @@ router.post(
 
     if (!user) {
       res.status(404).json({ error: 'User not found' })
-    }
-
-    else if (title == '') {
+    } else if (title == '') {
       res.status(400).json({ msg: 'Title required' })
-    }
-
-    else if (author == '') {
+    } else if (author == '') {
       res.status(400).json({ msg: 'Author required' })
-    }
-
-    else if (isbn.length != 10 && isbn.length != 13) {
+    } else if (isbn.length != 10 && isbn.length != 13) {
       res.status(400).json({ msg: 'ISBN must be 10 or 13 digits long' })
-    }
-
-    else if (publication_date == null) {
+    } else if (publication_date == null) {
       res.status(400).json({ msg: 'Publication date required' })
-    }
-    
-    else if (genre == '') {
+    } else if (genre == '') {
       res.status(400).json({ msg: 'Genre required' })
-    }
-    
-    else if (description == '') {
+    } else if (description == '') {
       res.status(400).json({ msg: 'Description required' })
     }
 
@@ -70,7 +58,8 @@ router.post(
 
     const createdBook = await book.save()
     res.status(201).json(createdBook)
-  }))
+  })
+)
 
 router.get(
   '/view/:id',
@@ -96,10 +85,10 @@ router.post(
       res.status(404).json({ error: 'Book not found' })
     }
 
-    await CheckoutModel.deleteMany({book: _id})
+    await CheckoutModel.deleteMany({ book: _id })
 
     const bookDeleted = await targetBook.deleteOne()
-    
+
     res.status(201).json(bookDeleted)
   })
 )

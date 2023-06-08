@@ -51,8 +51,8 @@ interface ICheckout extends Document {
   user: String
   lender: String
   book: String
-  checkout_date: Date,
-  approved: boolean,
+  checkout_date: Date
+  approved: boolean
   due_date?: Date | null
   return_date?: Date | null
   returned: boolean

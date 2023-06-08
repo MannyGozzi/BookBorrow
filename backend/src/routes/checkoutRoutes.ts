@@ -23,7 +23,7 @@ router.get(
 router.get(
   '/from/:lenderId',
   asyncHandler(async (req, res) => {
-    const checkouts = await CheckoutModel.find({lender: req.params.lenderId})
+    const checkouts = await CheckoutModel.find({ lender: req.params.lenderId })
 
     if (!checkouts) {
       res.status(404).json({ error: 'No checkouts found' })
@@ -39,7 +39,10 @@ router.post(
     const { userId, lender } = req.body
     const checkout_date = new Date()
 
-    const alreadyCheckedOut = await CheckoutModel.findOne({ user: userId._id, book: req.params.bookId })
+    const alreadyCheckedOut = await CheckoutModel.findOne({
+      user: userId._id,
+      book: req.params.bookId
+    })
     if (alreadyCheckedOut) {
       res.status(400).json({ error: 'Book is already checked out' })
     }
@@ -73,7 +76,7 @@ router.post(
   '/confirm/:checkoutId',
   verifyJWT,
   asyncHandler(async (req, res) => {
-    const {approved, due_date} = req.body
+    const { approved, due_date } = req.body
 
     const targetCheckout = await CheckoutModel.findById(req.params.checkoutId)
     if (!targetCheckout) {
@@ -81,7 +84,7 @@ router.post(
     }
     if (!approved) {
       CheckoutModel.deleteOne({ _id: req.params.checkoutId }).exec()
-      res.status(201).json({message: 'Checkout declined!'})
+      res.status(201).json({ message: 'Checkout declined!' })
       return
     }
     if (targetCheckout.approved) {
@@ -121,7 +124,6 @@ router.post(
 
     targetCheckout.returned = true
     targetCheckout.return_date = new Date()
-
 
     const targetBook = await BookModel.findById(targetCheckout.book)
     targetBook.available = true
