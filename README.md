@@ -1,5 +1,7 @@
 To run, first install docker and Visual Studio Code. Add the docker plugin to visual studio code.
 
+**Please make sure you use Chrome to test. We have some issues with Firefox and Safari**
+
 DATABASE CONFIGURATION IN DOCKER
 
     Using the docker plugin, right click on the docker-compose.yml file and perform a "Compose Up".
@@ -22,6 +24,8 @@ DATABSE CREDENTIALS CONFIGURATION AND RUNNING
 
     Seed the database:
     `npm run seed`
+
+    NOTE: If you run seed again in the future, you will need to fully restart the backend.
 
     Start the backend:
     `npm run start`
