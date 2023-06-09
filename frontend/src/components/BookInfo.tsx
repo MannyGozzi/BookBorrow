@@ -96,9 +96,9 @@ export default function BookInfo({ _id, cover_image, title, author, description,
   const isAvailable = bookInfo?.available
   const checkedOutByMe = checkoutInfo?.user === user?._id
   const isPending = isAvailable && checkedOutByMe
-  let shouldDisable = !isAvailable || isPending || checkedOutByMe || !user
+  const isOwner = user?._id === lender
+  let shouldDisable = !isAvailable || isPending || checkedOutByMe || !user || isOwner
   const dueDate = (checkoutInfo?.due_date?.toString()) ? 'Due: ' + checkoutInfo?.due_date?.toString().slice(0, 10) : 'Request Checkout'
-
   return (
     <Center m={4}>
       <Flex align="center" >
@@ -124,9 +124,10 @@ export default function BookInfo({ _id, cover_image, title, author, description,
                 </HStack>
               </Link>
               <Button size="lg" rounded={'2xl'} bg={shouldDisable ? 'red.300' : btnColor} onClick={checkout} isDisabled={shouldDisable}>
-                {checkedOutByMe && dueDate}
-                {!checkedOutByMe && isPending && 'Pending'}
-                {!checkedOutByMe && !isPending && 'Request Checkout'}
+                {!isOwner && checkedOutByMe && dueDate}
+                {!isOwner && !checkedOutByMe && isPending && 'Pending'}
+                {!isOwner && !checkedOutByMe && !isPending && 'Request Checkout'}
+                {isOwner && 'You Own This Book'}
               </Button>
             </HStack>
           </Stack>
