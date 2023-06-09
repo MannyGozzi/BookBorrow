@@ -81,7 +81,7 @@ function BookView({ _id, lender, title, author, isbn, description, cover_image, 
               background={useColorModeValue('white', 'gray.700')} padding={2} alignItems={'center'}>
               {!available && <WarningIcon boxSize={5} color={'red.500'}/>}
               <StarRating rating={rating} />
-              {<Text fontWeight={'bold'} fontSize={'sm'} m={0}>{distance > 0 ? distance.toFixed(1) : "<1"} mi.</Text>}
+              <Text fontWeight={'bold'} fontSize={'sm'} m={0}>{distance > 0 ? distance.toFixed(1) : "<1"} mi.</Text>
             </HStack>
           </Box>
           <Flex flexDir={'column'} h={'53%'} justifyContent={'space-between'}>
