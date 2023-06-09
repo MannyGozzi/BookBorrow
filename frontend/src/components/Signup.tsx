@@ -133,7 +133,7 @@ export const Signup = () => {
                   }} />
               </FormControl>
               <FormControl>
-                <PasswordField onChange={
+                <PasswordField isConfirm={true} onChange={
                   (e: React.FormEvent<HTMLInputElement>) => {
                     setConfPassword(e.currentTarget.value)
                   }} />

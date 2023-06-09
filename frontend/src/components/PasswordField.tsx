@@ -11,8 +11,12 @@ import {
   } from '@chakra-ui/react'
   import { forwardRef, useRef } from 'react'
   import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
+
+  interface props extends InputProps {
+    isConfirm?: boolean;
+  }
   
-  export const PasswordField = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
+  export const PasswordField = forwardRef<HTMLInputElement, props>((props, ref) => {
     const { isOpen, onToggle } = useDisclosure()
     const inputRef = useRef<HTMLInputElement>(null)
   
@@ -26,7 +30,7 @@ import {
   
     return (
       <FormControl>
-        <FormLabel htmlFor="password">Password</FormLabel>
+        <FormLabel htmlFor="password">{props.isConfirm ? "Confirm Password" : "Password"}</FormLabel>
         <InputGroup>
           <InputRightElement>
             <IconButton
