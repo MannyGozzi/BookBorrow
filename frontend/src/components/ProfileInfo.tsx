@@ -66,7 +66,7 @@ export default function ProfileInfo({userid, isLocalUser} : {userid: string, isL
       <Flex align="center">
         <VStack spacing='20px'>
           <Box marginTop="20px">
-            <Image src="https://img.freepik.com/free-photo/beautiful-outdoor-view-ocean-beach_74190-6853.jpg?w=2000" aspectRatio={'4/1'} fit={'cover'} rounded={'2xl'} w={'100%'} alt="Banner Image"/>
+            <Image src="https://images.pexels.com/photos/911738/pexels-photo-911738.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" aspectRatio={'4/1'} fit={'cover'} rounded={'2xl'} w={'100%'} alt="Banner Image"/>
           </Box>
           <Box width="100%">
             <HStack spacing="40px">

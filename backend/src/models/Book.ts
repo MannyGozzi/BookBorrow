@@ -12,7 +12,7 @@ const bookSchema = new Schema<IBook>({
   cover_image: {
     type: String,
     default:
-      'https://media.istockphoto.com/id/1292243602/vector/book-vector-icon-isolated-closed-book-notebook-with-orange-cover-flat-colored-illustration.jpg?s=170667a&w=0&k=20&c=dLB7CeqXUIw0bofaJ83F33dKVECyM7UUHKM0jdYUR2E='
+      'https://images.pexels.com/photos/911738/pexels-photo-911738.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
   },
   description: { type: String },
   lender: { type: String, ref: 'User', required: true },

@@ -18,7 +18,6 @@ const Profile = () => {
         .then(res => {
             setBook(res.data)
             setAvailable(res.data.available)
-            console.log(res.data)
         })
         .catch(err => console.log(err.message))
     }, [])
