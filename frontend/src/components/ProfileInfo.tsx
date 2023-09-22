@@ -18,7 +18,6 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux'
 import { IUser } from '../types';
 import { setBooks } from '../actions/bookActions';
-import { IReview } from '../types';
 import ReviewUpload from './ReviewUpload';
 
 export default function ProfileInfo({userid, isLocalUser} : {userid: string, isLocalUser: boolean}) {
@@ -26,23 +25,6 @@ export default function ProfileInfo({userid, isLocalUser} : {userid: string, isL
   const dispatch = useDispatch()
   const [averageRating, setAverageRating] = useState<number>(0);
   const [numRatings, setNumRatings] = useState<number>(0);
-
-  useEffect(() => {
-    axios.get(`http://localhost:3000/users/${userid}`)
-    .then(res => {
-        setCurrentUser(res.data.user)
-        getRating();
-    })
-    .catch(err => console.log(err.message))
-
-      axios.get(`http://localhost:3000/users/${userid}`)
-      .then(res => {
-          dispatch(setBooks(res.data.books))
-      })
-      .catch(err => console.log(err.message))
-
-      axios.get(`http://localhost:3000/checkout/from/${userid}`, {withCredentials: true})
-}, [dispatch, userid])
 
   const getRating = async () => {
     axios
@@ -60,6 +42,24 @@ export default function ProfileInfo({userid, isLocalUser} : {userid: string, isL
       })
       .catch(error => console.error(error));
   };
+
+  useEffect(() => {
+    axios.get(`http://localhost:3000/users/${userid}`)
+    .then(res => {
+        setCurrentUser(res.data.user)
+        getRating();
+    })
+    .catch(err => console.log(err.message))
+
+      axios.get(`http://localhost:3000/users/${userid}`)
+      .then(res => {
+          dispatch(setBooks(res.data.books))
+      })
+      .catch(err => console.log(err.message))
+
+      axios.get(`http://localhost:3000/checkout/from/${userid}`, {withCredentials: true})
+      // eslint-disable-next-line
+}, [dispatch, userid])
   
   return (
     <Center m={4}>

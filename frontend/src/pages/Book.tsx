@@ -1,16 +1,13 @@
-import React, { useCallback, useMemo } from 'react'
-import { IBook, ICheckout } from '../types'
+import { IBook } from '../types'
 import { Box, Center } from '@chakra-ui/react'
 import BookInfo from '../components/BookInfo'
 import axios from 'axios'
 import { useEffect, useState} from 'react'
-import { useSelector } from 'react-redux'
 import DocTitle from '../components/DocTitle'
 
 const Profile = () => {
     const bookId =  new URLSearchParams(window.location.search).get('id');
     const [book, setBook] = useState<IBook | null>()
-    const user = useSelector((state: any) => state.user)
     const [available, setAvailable] = useState<boolean>(true)
 
     useEffect(() => {
@@ -20,7 +17,7 @@ const Profile = () => {
             setAvailable(res.data.available)
         })
         .catch(err => console.log(err.message))
-    }, [])
+    }, [bookId])
 
     DocTitle('Book Page | Boobo')
     return (

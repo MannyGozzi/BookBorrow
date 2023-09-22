@@ -92,6 +92,7 @@ export default function BookInfo({ _id, cover_image, title, author, description,
     getLenderName()
     getCheckoutInfo()
     getBookInfo()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const isAvailable = bookInfo?.available
@@ -100,13 +101,6 @@ export default function BookInfo({ _id, cover_image, title, author, description,
   const isOwner = user?._id === lender
   let shouldDisable = !isAvailable || isPending || checkedOutByMe || !user || isOwner
   const dueDate = (checkoutInfo?.due_date?.toString()) ? 'Due: ' + checkoutInfo?.due_date?.toString().slice(0, 10) : 'Request Checkout'
-  console.log('isAvailable', isAvailable)
-  console.log('checkedOutByMe', checkedOutByMe)
-  console.log('isPending', isPending)
-  console.log('isOwner', isOwner)
-  console.log('shouldDisable', shouldDisable)
-  
-
 
   return (
     <Center m={4}>
